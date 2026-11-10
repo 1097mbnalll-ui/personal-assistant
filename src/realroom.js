@@ -1,6 +1,6 @@
 /* ===== Realistic WWII-style interior: glue between the game and the RR renderer (separate canvas) ===== */
 const RRI={active:false,ok:null,R:null,cv:null,sc:null,scrDirty:true,tier:0,fr:[],last:0,sz:'',scrCv:null,px:null,err:null};
-RRI.mcol={def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]};
+RRI.mcol={hq:[.36,.27,.14],def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]};
 RRI.init=function(){if(RRI.ok!==null)return RRI.ok;
  try{const cv=document.createElement('canvas');cv.id='rr';cv.setAttribute('aria-hidden','true');cv.style.cssText='position:absolute;left:0;top:0;width:100%;height:100%;display:none;pointer-events:none';
   $('v3').insertBefore(cv,$('labs'));RRI.cv=cv;

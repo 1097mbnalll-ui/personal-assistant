@@ -222,8 +222,8 @@ function update3D(){
  /* camera focus on turn */
  const key=G?(G.phase+'|'+G.qi+'|'+G.round):'none';
  if(key!==V.lastKey){V.lastKey=key;
-  const act=actorNow();if(act!=null)V.me=act;
-  if(act!=null&&V.mode!=='world'&&V.int&&V.int.pi!==act){if(V.mode==='tower')backFromTower();exitBuilding();return}
+  const act=actorNow();if(act!=null&&!G.players[act].ai)V.me=act;
+  if(act!=null&&!G.players[act].ai&&V.mode!=='world'&&V.int&&V.int.pi!==act){if(V.mode==='tower')backFromTower();exitBuilding();return}
   if(V.kmode&&G)kFocus();
   else if(G&&['market','cards','move','attack'].includes(G.phase)&&P()&&P().palace!=null){const rg=V.reg[P().palace];focus3D(rg.px,rg.pz+10,560,0)}
   else focus3D(0,20,V.cv.clientWidth<600?980:1060,0)}
@@ -236,21 +236,21 @@ function kFocus(){const p=G.players[V.me];V.kb=kBounds(p.k);focus3D(V.kb.cx,V.kb
 function enterK(on){
  if(on&&!G)on=false;
  V.kmode=on;
- if(on){const a=actorNow();if(a!=null)V.me=a;kFocus()}
+ if(on){const a=actorNow();if(a!=null&&!G.players[a].ai)V.me=a;kFocus()}
  else{V.kb=null;focus3D(0,20,V.cv.clientWidth<600?980:1060,0,.9)}
  $('kBtn').textContent=on?'اطلع للخريطة الكاملة':'ادخل مملكتك';$('kBtn').classList.toggle('sel',on);
  renderKingdom()}
 function renderKingdom(){
  const el=$('kcard');if(!el)return;
  if(!V.kmode||!G){el.style.display='none';return}
- const a=actorNow();if(a!=null)V.me=a;
+ let a=actorNow();if(a!=null&&G.players[a].ai)a=null;if(a!=null)V.me=a;
  const pi=V.me,p=G.players[pi],o=owned(pi).sort((x,y)=>(isPalace(y)-isPalace(x))||(R[y].size>R[x].size?1:-1));
  const troops=o.reduce((s,i)=>s+G.reg[i].troops,0);
- let h='<h3>داخل مملكتك</h3><div class="row" style="margin-bottom:8px">'+G.players.map((q,qi)=>`<button data-p="${qi}" class="${qi===pi?'sel':''}" ${a!=null&&qi!==a?'disabled':''} style="min-height:34px;padding:2px 10px"><span class="sw" style="background:${K[q.k].fill}"></span>${K[q.k].short}</button>`).join('')+'</div>';
+ let h='<h3>داخل مملكتك</h3><div class="row" style="margin-bottom:8px">'+G.players.map((q,qi)=>`<button data-p="${qi}" class="${qi===pi?'sel':''}" ${q.ai||(a!=null&&qi!==a)?'disabled':''} style="min-height:34px;padding:2px 10px"><span class="sw" style="background:${K[q.k].fill}"></span>${K[q.k].short}</button>`).join('')+'</div>';
  h+=`<div style="font-weight:700;font-size:16px">${sw(p)}${p.name}${p.alive?'':' (خرجت)'}</div><div class="muted">${K[p.k].ab}</div>`;
  h+=`<div class="kstat"><span>الذهب: <b>${p.gold}</b></span><span>الجنود: <b>${troops}</b></span><span>المناطق: <b>${o.length}</b></span><span>الوزير: <b>${MIN_NAMES[p.minister]}</b> (+${p.minister})</span><span>المعسكرات: <b>${o.filter(i=>G.reg[i].camp).length}/2</b></span><span>النقاط الحالية: <b>${score(pi).total}</b></span></div>`;
- h+=`<div class="kstat"><span>صواريخ: <b>${p.mis.n}</b> عادي · <b>${p.mis.h}</b> ثقيل</span><span>الدفاع الجوي: <b>${p.def||'—'}</b></span><span>الاستخبارات: <b>${p.intel||'—'}</b></span><span>معاهدات: <b>${G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi)).map(x=>K[G.players[x.a===pi?x.b:x.a].k].short).join('، ')||'—'}</b></span></div>`;
- h+='<div class="muted" style="margin-bottom:4px">وزاراتك (ادخل المبنى وتمشّى فيه):</div><div class="row" style="margin-bottom:10px">'+['def','intel','foreign'].map(m=>`<button data-m="${m}" ${p.palace==null?'disabled':''}>${MNAMES[m]}</button>`).join('')+'</div>';
+ h+=`<div class="kstat"><span>صواريخ: <b>${p.mis.n}</b> عادي · <b>${p.mis.h}</b> ثقيل</span><span>الدفاع الجوي: <b>${p.def||'—'}</b></span><span>الاستقرار: <b>${p.s.stab}%</b></span><span>الجاهزية: <b>${READY[p.s.ready]}</b></span><span>الاستخبارات: <b>${p.intel||'—'}</b></span><span>معاهدات: <b>${G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi)).map(x=>K[G.players[x.a===pi?x.b:x.a].k].short).join('، ')||'—'}</b></span></div>`;
+ h+='<div class="muted" style="margin-bottom:4px">مؤسسات الدولة (ادخل المبنى وتمشّى فيه):</div><div class="row" style="margin-bottom:10px">'+['hq','def','intel','foreign'].map(m=>`<button data-m="${m}" ${p.palace==null?'disabled':''}>${MNAMES[m]}</button>`).join('')+'</div>';
  h+='<div class="muted" style="margin-bottom:4px">مناطقك (اضغط على منطقة عشان تقرّب لها):</div>';
  h+=o.map(i=>{const g=G.reg[i];return `<div class="krow" data-i="${i}"><span>${R[i].name} <span class="muted">${SZ[R[i].size].label}</span>${isPalace(i)?' <span class="badge">قصر</span>':''}${g.camp?' <span class="badge" style="background:#6B5434">معسكر</span>':''}</span><b>${g.troops}/${cap(i)}</b></div>`}).join('');
  el.style.display='block';el.innerHTML=h;

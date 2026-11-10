@@ -80,6 +80,37 @@ th{font-weight:700;color:#5A4A35}
 #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#2C2216;color:#F7F1E3;padding:10px 16px;border-radius:10px;z-index:20;display:none;max-width:90vw;font-size:14px;text-align:center}
 #tip3{position:absolute;right:10px;top:10px;background:rgba(40,30,18,.82);color:#F7F1E3;border-radius:8px;padding:4px 10px;font-size:13px;display:none;pointer-events:none}
 #hint3{position:absolute;left:10px;bottom:8px;font-size:12px;color:#fff;background:rgba(40,30,18,.55);padding:2px 8px;border-radius:6px;pointer-events:none}
+.box2.inst{max-width:800px;--bg:#F2E8D2;--fg:#2C2216;--mut:#6A5A44;--ln:#CDB98E;--acc:#3A2C1D;--pan:#FBF4E2;background:var(--bg);color:var(--fg)}
+.box2.i-def{--bg:#141A14;--fg:#D6E6CC;--mut:#93AA8D;--ln:#2E4030;--acc:#E0B040;--pan:#1B241B;border-color:#4A6A44}
+.box2.i-intel{--bg:#0B141D;--fg:#C6E2EE;--mut:#86A4B4;--ln:#1E3344;--acc:#4FC3DC;--pan:#101E2A;border-color:#2B4A5C}
+.box2.i-foreign{--bg:#FBF6EA;--fg:#2A1B1B;--mut:#75605A;--ln:#E0D0B8;--acc:#7A1F2B;--pan:#FFFFFF;border-color:#7A1F2B}
+.inst h2{color:var(--acc);border-bottom:2px solid var(--acc);padding-bottom:6px}
+.inst h3{margin:14px 0 6px;color:var(--acc);font-size:15px}
+.inst .muted{color:var(--mut)}.inst .warn{color:#D9604C}
+.inst button{background:var(--pan);color:var(--fg);border-color:var(--ln)}
+.inst button:hover:not(:disabled){background:var(--ln)}
+.inst button.sel{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+.inst button.primary{background:#8A3A2E;color:#FFF8EC;border-color:#5E241B}
+.inst th,.inst td{border-color:var(--ln)}.inst th{color:var(--mut)}
+.itabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.itabs button{min-height:36px;padding:4px 10px;font-weight:700}
+.istat{display:flex;gap:4px 16px;flex-wrap:wrap;font-size:13px;padding:6px 10px;background:var(--pan);border:1px solid var(--ln);border-radius:8px;margin-bottom:8px}
+.doc{background:var(--pan);border:1px solid var(--ln);border-inline-start:4px solid var(--acc);border-radius:6px;padding:7px 10px;margin:6px 0;font-size:13.5px;line-height:1.6}
+.cls{display:inline-block;font-size:11px;font-weight:700;border:1px solid var(--acc);color:var(--acc);border-radius:4px;padding:0 6px;margin-inline-end:8px}
+.adv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed var(--ln);font-size:13.5px}.adv button{flex:none;min-height:36px}
+.grow{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px 16px;margin:6px 0}
+.gauge{display:flex;align-items:center;gap:8px;font-size:13px}.gauge span{flex:0 0 auto;min-width:74px}.gauge i{flex:1;height:9px;background:var(--ln);border-radius:5px;overflow:hidden;display:block}.gauge i b{display:block;height:100%}.gauge em{font-style:normal;font-weight:700;min-width:44px;text-align:left}
+.btns3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tree{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.node{background:var(--pan);border:1.5px solid var(--ln);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:5px;font-size:13.5px}.node.done{border-color:#4E9A5B}.node.locked{opacity:.66}.node button{min-height:36px;font-size:13px}
+.tg{display:inline-block;font-size:11.5px;border-radius:4px;padding:1px 7px;font-weight:700;align-self:flex-start}.tg.ok{background:#3E8A4C;color:#fff}.tg.run{background:#C9A227;color:#221}.tg.lock{background:#7A4A44;color:#fff}
+.isel{min-height:36px;font-family:inherit;font-size:14px;border-radius:8px;border:1.5px solid var(--ln);background:var(--pan);color:var(--fg);margin:4px 0 8px;padding:2px 8px}
+svg.ops{width:100%;max-height:400px;background:#0A1016;border-radius:8px;border:1px solid var(--ln);display:block;margin:6px 0}
+.inst td b,.inst td:not(:first-child),.gauge em{unicode-bidi:plaintext}
+.oe{stroke:#3A4A58;stroke-width:1.5}.ot{fill:#fff;font-size:19px;font-weight:700;text-anchor:middle;dominant-baseline:central}.on{fill:#C9D6DE;font-size:15px;text-anchor:middle}
+.osup{fill:none;stroke:#5EC27A;stroke-width:3}.onosup{fill:none;stroke:#E0553F;stroke-width:3;stroke-dasharray:6 5}.opal{fill:none;stroke:#F0C64E;stroke-width:2.5}
+.orad{fill:rgba(94,194,122,.06);stroke:#5EC27A;stroke-width:1.5;stroke-dasharray:3 6}
+.otrk{fill:none;stroke-width:4;stroke-dasharray:10 6}.otrk.hit{stroke:#E0553F}.otrk.ok{stroke:#5EC27A}
+@media (max-width:600px){.btns3{grid-template-columns:1fr}.adv{flex-direction:column;align-items:stretch}}
 </style>
 </head>
 <body>
@@ -152,14 +183,15 @@ function log(t){G.log.unshift({r:G.round,t});}
 function alive(){return G.players.map((p,i)=>i).filter(i=>G.players[i].alive)}
 function setOwnerEmpty(i){const r=G.reg[i];if(r.troops<=0){r.troops=0;if(!isPalace(i)){r.owner=null;r.camp=false}}}
 
-function newGame(n,names){
+function newGame(n,names,ais){
  if(typeof V!=='undefined'&&V.kmode){V.kmode=false;V.kb=null;V.sel=-1;$('kBtn').textContent='ادخل مملكتك';$('kBtn').classList.remove('sel')}
  const ks=['m','p','d','f'].slice(0,n);
  G={round:1,maxRound:7,phase:'event',players:[],reg:R.map(()=>({owner:null,troops:0,camp:false,dmg:0})),pacts:[],aim:null,log:[],queue:[],qi:0,ev:null,sel:null,arrows:[],battles:[],warn:''};
  ks.forEach((k,pi)=>{
-  const p={k,name:names[pi]||K[k].name,gold:3,minister:1,campsBuilt:0,def:0,intel:0,mis:{n:0,h:0},launched:false,adUsed:0,report:null,palace:null,card:null,att:null,alive:true,palaceLost:false,attacked:false,buys:0,reserve:0,placing:null,inc:null};
+  const p={k,name:names[pi]||K[k].name,gold:3,minister:1,campsBuilt:0,def:0,intel:0,mis:{n:0,h:0},launched:false,adUsed:0,report:null,palace:null,card:null,att:null,alive:true,palaceLost:false,attacked:false,buys:0,reserve:0,placing:null,inc:null,s:simNew(),ai:!!(ais&&ais[pi])};
   R.forEach((r,i)=>{if(r.k===k){G.reg[i].owner=pi;G.reg[i].troops=(r.cap||r.size==='L')?3:2;if(r.cap)p.palace=i}});
   G.players.push(p)});
+ simInit();
  log('بدأت اللعبة بـ '+n+' ممالك.');
  startRound();
 }
@@ -168,6 +200,7 @@ function startRound(){
  G.aim=null;
  G.pacts.filter(x=>x.until===G.round-1).forEach(x=>log('انتهت معاهدة '+G.players[x.a].name+' و'+G.players[x.b].name));G.pacts=G.pacts.filter(x=>x.until>=G.round);
  G.arrows=[];G.battles=[];G.sel=null;G.warn='';
+ simRoundStart();
  G.ev=EVENTS[rnd(EVENTS.length)];G.phase='event';render();
 }
 function regLoss(i,n,ev){const r=G.reg[i];const min=(isPalace(i)||ev)?1:0;const l=Math.max(0,Math.min(n,r.troops-min));r.troops-=l;setOwnerEmpty(i);return l}
@@ -191,7 +224,7 @@ function applyEvent(){
 function price(kind,p){const disc=G.ev.id==='sale'?1:0;let v;
  if(kind==='troops')v=G.ev.id==='merc'?1:2;
  if(kind==='camp')v=5;if(kind==='silver')v=3;if(kind==='diamond')v=5;
- return Math.max(1,v-disc)}
+ return Math.max(1,v-disc)+(p&&p.s.infl>=15?1:0)}
 function setQueue(list){G.queue=list;G.qi=0}
 function startMarket(){G.phase='market';G.curtain=false;setQueue(alive());G.sel=null;render()}
 function placeTargets(pi){const p=G.players[pi];return owned(pi).filter(i=>(i===p.palace||G.reg[i].camp)&&G.reg[i].troops<cap(i))}
@@ -210,7 +243,7 @@ function endMarketTurn(){const pi=PI(),p=G.players[pi];G.aim=null;
  p.placing=null;G.warn='';next(startCards)}
 function next(after){G.qi++;G.sel=null;G.warn='';if(G.qi>=G.queue.length)after();else{render();if(G.curtain)showCurtain()}}
 function startCards(){G.phase='cards';setQueue(alive());G.curtain=true;render();showCurtain()}
-function showCurtain(){const p=P();$('ovT').textContent='دور '+p.name;$('ovP').textContent=G.phase==='cards'?'اختار كرتك بسرية. خلّ الباقين يبعدون عن الشاشة.':'جهّز هجومك بسرية. خلّ الباقين يبعدون عن الشاشة.';$('overlay').style.display='flex';$('ovB').focus()}
+function showCurtain(){const p=P();if(p.ai)return;$('ovT').textContent='دور '+p.name;$('ovP').textContent=G.phase==='cards'?'اختار كرتك بسرية. خلّ الباقين يبعدون عن الشاشة.':'جهّز هجومك بسرية. خلّ الباقين يبعدون عن الشاشة.';$('overlay').style.display='flex';$('ovB').focus()}
 function hideCurtain(){$('overlay').style.display='none'}
 function chooseCard(c){const p=P();p.card=c;hideCurtain();next(()=>{G.curtain=false;G.phase='reveal';log('الكروت: '+alive().map(pi=>G.players[pi].name+' «'+CARD[G.players[pi].card]+'»').join('، '));render()})}
 function startMove(){const m=alive().filter(pi=>G.players[pi].card==='move');if(!m.length)return startAttack();G.phase='move';setQueue(m);render()}
@@ -245,7 +278,7 @@ function palaceFell(di,by){const d=G.players[di];const lost=Math.floor(d.gold/2)
 function resolve(){
  G.phase='resolve';G.curtain=false;G.battles=[];G.arrows=[];
  const atk=alive().filter(pi=>G.players[pi].att);
- atk.forEach(pi=>{const a=G.players[pi].att;a.A=0;for(const j in a.from){const n=Math.min(a.from[j],movable(+j));a.from[j]=n;a.A+=n;G.reg[j].troops-=n;if(n>0)G.arrows.push([+j,a.target,pi])}});
+ atk.forEach(pi=>{const a=G.players[pi].att;a.A=0;for(const j in a.from){const n=Math.min(a.from[j],movable(+j));a.from[j]=n;a.A+=n;G.reg[j].troops-=n;if(n>0)G.arrows.push([+j,a.target,pi])}simCommit(pi,a)});
  atk.forEach(pi=>{for(const j in G.players[pi].att.from)setOwnerEmpty(+j)});
  const byT={};atk.forEach(pi=>{const t=G.players[pi].att.target;(byT[t]=byT[t]||[]).push(pi)});
  for(const t of shuffle(Object.keys(byT).map(Number))){
@@ -260,8 +293,9 @@ function resolve(){
   list.slice(1).forEach(pi=>{const a=G.players[pi].att;const l=Math.ceil(a.A/2);returnTroops(pi,a.from,a.A-l);const s=G.players[pi].name+' انسحبت من '+nm+' وخسرت '+l;G.battles.push(s);log(s)});
   const ai=list[0],ap=G.players[ai],a=ap.att;
   const Dr=reg.owner===ai?0:reg.troops;
-  const Ae=a.A+bonusMin(ap)+(R[t].size==='L'?1:0);
-  const De=Dr+(Dr>0&&R[t].size==='S'?1:0)+(Dr>0&&di!=null&&G.players[di].card==='peace'?1:0);
+  const am=atkMods(ai,t,a),dm=defMods(di,t,Dr);
+  const Ae=Math.max(0,a.A+sumM(am));
+  const De=Dr>0?Math.max(1,Dr+sumM(dm)):0;
   const f=fight(Ae,De);const aL=Math.min(a.A,f.al);const dL=Math.min(Dr,f.dl);
   const dn=di!=null?G.players[di].name:'محايد';
   let s;
@@ -277,18 +311,17 @@ function resolve(){
    if(di!=null&&G.players[di].palace===t&&G.reg[t].troops<=0){}
   }else{regLoss(t,dL);
    s=ap.name+' ('+Ae+') هجمت على '+nm+' ضد '+dn+' ('+De+'): انصد الهجوم، المهاجم خسر '+aL+' والمدافع '+dL}
-  G.battles.push(s);log(s)}
+  simBattleFx(ai,di,t,f.win,{r:G.round,ai,di,t,A:a.A,D:Dr,Ae,De,am,dm,res:f.win?'win':f.tie?'tie':'loss',aL,dL});
+  G.battles.push(s+' <span class="muted">['+am.concat(dm.map(x=>['مدافع: '+x[0],x[1]])).map(x=>x[0]+' '+(x[1]>0?'+':'')+x[1]).join('، ')+']</span>');log(s)}
  checkElim();if(!G.battles.length)G.battles.push('ما صار أي قتال هذي الجولة.');render()}
 function checkElim(){G.players.forEach((p,pi)=>{if(p.alive&&!owned(pi).length){p.alive=false;p.palace=null;log(p.name+' خرجت من اللعبة.')}
  if(p.alive&&(p.palace==null||G.reg[p.palace].owner!==pi)){const o=owned(pi).sort((a,b)=>G.reg[b].troops-G.reg[a].troops);if(o.length)p.palace=o[0]}})}
 function income(){
  const f=fewest();
- alive().forEach(pi=>{const p=G.players[pi],o=owned(pi);const L=o.filter(i=>R[i].size==='L'&&!G.reg[i].dmg).length,M=o.filter(i=>R[i].size==='M'&&!G.reg[i].dmg).length;
-  const inc={big:L,mid:Math.floor(M/2),mine:o.includes(MINE)?1:0,port:(p.k==='p'&&G.round%2===0)?1:0,peace:(p.card==='peace'&&!p.attacked)?1:0,under:(f.includes(pi)&&alive().length>1&&f.length<alive().length)?1:0};
-  inc.total=Object.values(inc).reduce((a,b)=>a+b,0);p.inc=inc;p.gold+=inc.total});
- log('الدخل: '+alive().map(pi=>G.players[pi].name+' +'+G.players[pi].inc.total).join('، '));
+ alive().forEach(pi=>{const p=G.players[pi];const inc=calcIncome(pi,f,true);p.inc=inc;p.gold+=inc.total;simSettle(pi)});
+ log('الدخل: '+alive().map(pi=>G.players[pi].name+' '+(G.players[pi].inc.total>=0?'+':'')+G.players[pi].inc.total).join('، '));
  G.phase='income';render()}
-function score(pi){const p=G.players[pi],o=owned(pi);const reg=o.reduce((s,i)=>s+(R[i].size==='L'?2:1),0);const gold=Math.floor(p.gold/3);const pal=p.alive&&!p.palaceLost?2:0;return{reg,gold,pal,total:reg+gold+pal}}
+function score(pi){const p=G.players[pi],o=owned(pi);const reg=o.reduce((s,i)=>s+(R[i].size==='L'?2:1),0);const gold=Math.floor(p.gold/3);const pal=p.alive&&!p.palaceLost?2:0;const nat=natScore(pi);return{reg,gold,pal,nat,total:reg+gold+pal+nat}}
 function endRound(){G.reg.forEach(r=>{if(r.dmg>0)r.dmg--});if(alive().length<=1||G.round>=G.maxRound){G.phase='end';render();return}G.round++;startRound()}
 
 /* ---------- ministries ---------- */
@@ -300,73 +333,52 @@ function others(pi){return alive().filter(q=>q!==pi)}
 function missileTargets(pi){return G.reg.map((r,i)=>i).filter(i=>{const o=G.reg[i].owner;return o!=null&&o!==pi&&G.players[o].alive&&!pactWith(pi,o)})}
 function refresh(){if(V.minOpen)showMinistry();render()}
 function toast(s){const t=$('toast');t.textContent=s;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',3800)}
-function dlg(title,html,btns){const d=$('dlg');$('dlgT').textContent=title;$('dlgB').innerHTML=html;const bb=$('dlgBtns');bb.innerHTML='';
+function dlg(title,html,btns,cls){const d=$('dlg');d.firstElementChild.className='box2'+(cls?' '+cls:'');$('dlgT').textContent=title;$('dlgB').innerHTML=html;const bb=$('dlgBtns');bb.innerHTML='';
  (btns||[{label:'إغلاق',fn:()=>closeDlg()}]).forEach(b=>{const x=document.createElement('button');x.textContent=b.label;if(b.primary)x.className='primary';x.onclick=b.fn;bb.appendChild(x)});d.style.display='flex'}
 function closeDlg(keep){$('dlg').style.display='none';if(!keep&&V.minOpen){V.minOpen=null;onMinClose()}}
-function defUp(pi){const p=G.players[pi],c=p.def===0?4:6;if(!canAct(pi)||p.def>=2||p.gold<c||!hasOp(p))return;p.gold-=c;p.def++;p.buys++;log(p.name+' طوّرت وزارة الدفاع للمستوى '+p.def);refresh()}
-function buyMis(pi,t){const p=G.players[pi],c=t==='h'?6:3;if(!canAct(pi)||p.gold<c||!hasOp(p)||(t==='h'&&p.def<1))return;p.gold-=c;p.mis[t]++;p.buys++;log(p.name+' اشترت صاروخ '+(t==='h'?'ثقيل':'عادي'));refresh()}
-function startAim(pi,t){const p=G.players[pi];if(!canAct(pi)||p.launched||!p.mis[t]||!hasOp(p)||!missileTargets(pi).length)return;closeDlg();G.aim={pi,t};G.warn='';onAimStart();render()}
+function misCost(p,t){return Math.max(1,(t==='h'?6:3)-(p.s.ind>=2?1:0)+(p.s.infl>=15?1:0))}
+function defUp(pi){const p=G.players[pi],c=p.def===0?4:6;if(!canAct(pi)||p.def>=2||p.gold<c||!hasOp(p))return;p.gold-=c;p.def++;p.buys++;log(p.name+' طوّرت الدفاع الجوي للمستوى '+p.def);simSignal(pi,'نشر بطاريات دفاع جوي');refresh()}
+function buyMis(pi,t){const p=G.players[pi],c=misCost(p,t);if(!canAct(pi)||p.gold<c||!hasOp(p)||!has(p,t==='h'?'heavy':'rocket'))return;p.gold-=c;p.mis[t]++;p.buys++;log(p.name+' أنتجت صاروخ '+(t==='h'?'ثقيل':'عادي'));simSignal(pi,'إنتاج صاروخ '+(t==='h'?'ثقيل':'عادي'));refresh()}
+function startAim(pi,t){const p=G.players[pi];if(!canAct(pi)||p.launched||!p.mis[t]||!hasOp(p)||p.s.fuel<1||!missileTargets(pi).length)return;closeDlg();G.aim={pi,t};G.warn='';onAimStart();render()}
 function cancelAim(){G.aim=null;G.warn='';render()}
 function aimClick(i){const a=G.aim;if(!missileTargets(a.pi).includes(i)){G.warn='اختر منطقة لمملكة معادية (مو حليفة ولا محايدة).';render();return}
  const o=G.players[G.reg[i].owner];
- dlg('تأكيد الإطلاق','<p>تطلق صاروخ <b>'+(a.t==='h'?'ثقيل':'عادي')+'</b> على <b>'+R[i].name+'</b> ('+o.name+'، فيها '+G.reg[i].troops+' جنود)؟</p>',[{label:'إلغاء',fn:()=>closeDlg()},{label:'أطلق',primary:true,fn:()=>{closeDlg();launch(a.pi,a.t,i)}}])}
-function launch(pi,t,i){const p=G.players[pi];if(!p.mis[t]||p.launched){G.aim=null;render();return}const di=G.reg[i].owner,d=G.players[di];G.aim=null;
- p.mis[t]--;p.launched=true;p.buys++;
- const ic=d.def-d.adUsed>0;if(ic)d.adUsed++;
+ dlg('تأكيد الإطلاق','<p>تطلق صاروخ <b>'+(a.t==='h'?'ثقيل':'عادي')+'</b> على <b>'+R[i].name+'</b> ('+o.name+'، فيها '+G.reg[i].troops+' جنود)؟</p><p class="muted">الإطلاق يستهلك وحدة وقود ويضر بعلاقاتك الدولية.</p>',[{label:'إلغاء',fn:()=>closeDlg()},{label:'أطلق',primary:true,fn:()=>{closeDlg();launch(a.pi,a.t,i)}}])}
+function launch(pi,t,i){const p=G.players[pi];if(!p.mis[t]||p.launched||p.s.fuel<1){G.aim=null;render();return}const di=G.reg[i].owner,d=G.players[di];G.aim=null;
+ p.mis[t]--;p.launched=true;p.buys++;p.s.fuel--;
+ const ew=simIntercept(pi,di,t,i),ic=ew.ic;
  log(p.name+' أطلقت صاروخ '+(t==='h'?'ثقيل':'عادي')+' على '+R[i].name);
  const apply=()=>{let s;
   if(ic)s='الدفاع الجوي لـ'+d.name+' اعترض صاروخ '+p.name+' قبل ما يوصل '+R[i].name;
-  else if(t==='n'){const l=regLoss(i,2);s='صاروخ '+p.name+' ضرب '+R[i].name+' ('+d.name+') وقتل '+l}
-  else{const l=regLoss(i,1);const hc=G.reg[i].camp;G.reg[i].camp=false;G.reg[i].dmg=2;s='صاروخ ثقيل من '+p.name+' دمّر مباني '+R[i].name+' ('+d.name+')'+(hc?' والمعسكر':'')+' وقتل '+l+'. المنطقة معطلة جولتين.'}
-  log(s);checkElim();render();toast(s)};
+  else if(t==='n'){const l=regLoss(i,2-ew.civ);s='صاروخ '+p.name+' ضرب '+R[i].name+' ('+d.name+') وقتل '+l}
+  else{const l=regLoss(i,1-ew.civ);const hc=G.reg[i].camp;G.reg[i].camp=false;G.reg[i].dmg=2;s='صاروخ ثقيل من '+p.name+' دمّر مباني '+R[i].name+' ('+d.name+')'+(hc?' والمعسكر':'')+' وقتل '+l+'. المنطقة معطلة جولتين.'}
+  s+=' — '+ew.txt;simStrikeFx(pi,di,ic);
+  log(s);checkElim();render();if(!p.ai||!d.ai)toast(s)};
  render();
  if(V3&&V.ok&&!V.instant)playMissile(pi,i,t,ic,apply);else apply()}
 function intelUp(pi){const p=G.players[pi],c=p.intel===0?3:5;if(!canAct(pi)||p.intel>=2||p.gold<c||!hasOp(p))return;p.gold-=c;p.intel++;p.buys++;log(p.name+' طوّرت الاستخبارات للمستوى '+p.intel);refresh()}
 function spyReport(pi,ti){const p=G.players[pi],t=G.players[ti];if(!canAct(pi)||p.gold<1||!hasOp(p)||!t)return;p.gold--;p.buys++;
- if(t.intel>p.intel){p.report={ti,fail:true,round:G.round};log('استخبارات '+t.name+' كشفت جاسوس '+p.name);toast('انكشف جاسوسك عند '+t.name)}
- else{p.report={ti,round:G.round,gold:t.gold,n:t.mis.n,h:t.mis.h,def:t.def,intel:t.intel,pacts:G.pacts.filter(x=>x.until>=G.round&&(x.a===ti||x.b===ti)).map(x=>G.players[x.a===ti?x.b:x.a].name)};log(p.name+' جمعت تقرير استخباري عن '+t.name)}
+ const caught=t.intel>p.intel||(has(t,'crypto')&&Math.random()<.35);
+ if(caught){(p.s.dos[ti]||(p.s.dos[ti]=[])).unshift({r:G.round,due:G.round,fail:true,ti,src:'hum',conf:0,it:[]});p.report={ti,fail:true,round:G.round};
+  t.s.ci.unshift({r:G.round,t:'ضُبطت خلية تجسس تابعة لـ'+p.name});relAdd(ti,pi,-10);log('استخبارات '+t.name+' كشفت جاسوس '+p.name);if(!p.ai)toast('انكشف جاسوسك عند '+t.name)}
+ else{const r=mkReport(pi,ti,has(p,'sigint')?'sig':'hum');log(p.name+' كلّفت استخباراتها بجمع معلومات عن '+t.name);if(!p.ai)toast(r.late?'العملاء في الميدان. التقرير يوصل الجولة الجاية.':'وصل التقرير (ثقة '+r.conf+'%)')}
  refresh()}
 function sabotage(pi,ti){const p=G.players[pi],t=G.players[ti];if(!canAct(pi)||p.intel<1||p.gold<2||!hasOp(p)||!t)return;p.gold-=2;p.buys++;
- const ok=p.intel>t.intel||(p.intel===t.intel&&Math.random()<.5);
- if(ok){const s=Math.min(3,t.gold);t.gold-=s;p.gold+=s;log('عملية تخريب من '+p.name+' سرقت '+s+' ذهب من '+t.name);toast('نجحت العملية: سرقت '+s+' ذهب')}
- else{log('فشلت عملية تخريب '+p.name+' ضد '+t.name+' وانكشفت');toast('فشلت العملية وانكشفت')}
+ const ti2=t.intel+(has(t,'crypto')?1:0);const ok=p.intel>ti2||(p.intel===ti2&&Math.random()<.5);
+ if(ok){const s=Math.min(3,t.gold);t.gold-=s;p.gold+=s;log('عملية تخريب من '+p.name+' سرقت '+s+' ذهب من '+t.name);if(!p.ai)toast('نجحت العملية: سرقت '+s+' ذهب')}
+ else{t.s.ci.unshift({r:G.round,t:'أُحبطت عملية تخريب من '+p.name});relAdd(ti,pi,-15);log('فشلت عملية تخريب '+p.name+' ضد '+t.name+' وانكشفت');if(!p.ai)toast('فشلت العملية وانكشفت')}
  refresh()}
+function signPact(pi,ti){const p=G.players[pi],t=G.players[ti];G.pacts.push({a:pi,b:ti,until:G.round+2});relAdd(pi,ti,20);relAdd(ti,pi,20);log('معاهدة عدم اعتداء بين '+p.name+' و'+t.name+' حتى الجولة '+(G.round+2));cable(ti,'وُقّعت معاهدة عدم اعتداء مع '+p.name+'.');cable(pi,'وُقّعت معاهدة عدم اعتداء مع '+t.name+'.')}
 function proposePact(pi,ti){const p=G.players[pi],t=G.players[ti];if(!canAct(pi)||!hasOp(p)||!t||pactWith(pi,ti))return;
- dlg('اقتراح معاهدة',`<p>${sw(p)}${p.name} تقترح على ${sw(t)}<b>${t.name}</b> معاهدة عدم اعتداء لمدة 3 جولات: لا هجوم ولا صواريخ بينكم.</p><p class="muted">سلّم الجهاز لـ ${t.name} عشان يقرر.</p>`,
- [{label:t.name+' يرفض',fn:()=>{p.buys++;log(t.name+' رفضت معاهدة '+p.name);closeDlg(true);refresh()}},{label:t.name+' يوافق',primary:true,fn:()=>{p.buys++;G.pacts.push({a:pi,b:ti,until:G.round+2});log('معاهدة عدم اعتداء بين '+p.name+' و'+t.name+' حتى الجولة '+(G.round+2));closeDlg(true);refresh()}}])}
-function sendAid(pi,ti,n){const p=G.players[pi],t=G.players[ti];n=Math.min(+n||0,p.gold,5);if(!canAct(pi)||!hasOp(p)||!t||n<1)return;p.gold-=n;t.gold+=n;p.buys++;log(p.name+' أرسلت '+n+' ذهب مساعدات لـ'+t.name);refresh()}
-function breakPact(pi,ti){const p=G.players[pi];if(!canAct(pi)||!hasOp(p)||!pactWith(pi,ti))return;G.pacts=G.pacts.filter(x=>!((x.a===pi&&x.b===ti)||(x.a===ti&&x.b===pi)));const pen=Math.min(2,p.gold);p.gold-=pen;p.buys++;log(p.name+' نقضت معاهدتها مع '+G.players[ti].name+' وخسرت '+pen+' ذهب');refresh()}
-function openMinistry(m,pi,sitting){V.minOpen=m;V.minFor=pi;V.minSit=!!sitting;showMinistry()}
-function showMinistry(){const m=V.minOpen,pi=V.minFor,p=G.players[pi];const act=canAct(pi)&&hasOp(p);
- const note=canAct(pi)?(hasOp(p)?`<p class="muted">عملياتك: ${p.buys}/${OPS} · ذهبك: <b>${p.gold}</b></p>`:'<p class="warn">خلصت عملياتك لهذا الدور.</p>'):'<p class="warn">تقدر تشتغل هنا في دورك بمرحلة الإدارة فقط. تقدر تطّلع على المعلومات الحين.</p>';
- const opts=others(pi).map(q=>`<option value="${q}">${G.players[q].name}</option>`).join('');
- const dis=c=>c?'':'disabled';let h='';
- if(m==='def'){const tg=missileTargets(pi).length;
-  h=`<div class="kstat"><span>صواريخ عادية: <b>${p.mis.n}</b></span><span>صواريخ ثقيلة: <b>${p.mis.h}</b></span><span>الدفاع الجوي: <b>${p.def?'مستوى '+p.def:'غير مفعّل'}</b></span><span>إطلاق هذا الدور: <b>${p.launched?'تم':'متاح'}</b></span></div>${note}
-  <div class="btns">
-  <button onclick="buyMis(${pi},'n')" ${dis(act&&p.gold>=3)}>شراء صاروخ عادي<br><span class="muted">3 ذهب · يقتل جنديين</span></button>
-  <button onclick="buyMis(${pi},'h')" ${dis(act&&p.gold>=6&&p.def>=1)}>شراء صاروخ ثقيل<br><span class="muted">6 ذهب · ${p.def>=1?'يدمر المباني':'يحتاج مستوى 1'}</span></button>
-  <button onclick="defUp(${pi})" ${dis(act&&p.def<2&&p.gold>=(p.def?6:4))}>${p.def>=2?'الدفاع بأعلى مستوى':'تطوير الدفاع للمستوى '+(p.def+1)}<br><span class="muted">${p.def>=2?'—':(p.def?6:4)+' ذهب · يعترض '+(p.def+1)+' صاروخ/جولة'}</span></button>
-  <span></span>
-  <button class="primary" onclick="startAim(${pi},'n')" ${dis(act&&p.mis.n>0&&!p.launched&&tg)}>أطلق صاروخ عادي</button>
-  <button class="primary" onclick="startAim(${pi},'h')" ${dis(act&&p.mis.h>0&&!p.launched&&tg)}>أطلق صاروخ ثقيل</button></div>`}
- if(m==='intel'){const r=p.report;
-  h=`<div class="kstat"><span>مستوى الاستخبارات: <b>${p.intel}</b></span><span>ذهبك: <b>${p.gold}</b></span></div>${note}
-  <label for="mT">الهدف:</label> <select id="mT" style="min-height:36px;font-family:inherit;border-radius:8px;margin:4px 0 8px">${opts}</select>
-  <div class="btns">
-  <button onclick="spyReport(${pi},+$('mT').value)" ${dis(act&&p.gold>=1)}>تقرير استخباري<br><span class="muted">1 ذهب · يكشف ذهبه وصواريخه ودفاعه</span></button>
-  <button onclick="sabotage(${pi},+$('mT').value)" ${dis(act&&p.gold>=2&&p.intel>=1)}>عملية تخريب<br><span class="muted">2 ذهب · ${p.intel>=1?'تسرق 3 ذهب':'يحتاج مستوى 1'}</span></button>
-  <button onclick="intelUp(${pi})" ${dis(act&&p.intel<2&&p.gold>=(p.intel?5:3))}>${p.intel>=2?'أعلى مستوى':'تطوير للمستوى '+(p.intel+1)}<br><span class="muted">${p.intel>=2?'—':(p.intel?5:3)+' ذهب'}</span></button></div>
-  ${r?`<div class="evt" style="margin-top:10px"><b style="font-size:17px">آخر تقرير (ج${r.round})</b><div>${r.fail?'انكشف جاسوسك عند '+G.players[r.ti].name:G.players[r.ti].name+': ذهب '+r.gold+' · صواريخ عادية '+r.n+' · ثقيلة '+r.h+' · دفاع جوي '+r.def+' · استخبارات '+r.intel+' · معاهدات: '+(r.pacts.join('، ')||'لا يوجد')}</div></div>`:''}`}
- if(m==='foreign'){const ps=G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi));
-  h=`<p><b>المعاهدات:</b> ${ps.length?ps.map(x=>G.players[x.a===pi?x.b:x.a].name+' (حتى الجولة '+x.until+')').join('، '):'لا يوجد'}</p>${note}
-  <label for="mT">المملكة:</label> <select id="mT" style="min-height:36px;font-family:inherit;border-radius:8px;margin:4px 0 8px">${opts}</select>
-  <div class="btns">
-  <button onclick="proposePact(${pi},+$('mT').value)" ${dis(act)}>اقتراح معاهدة<br><span class="muted">عدم اعتداء 3 جولات</span></button>
-  <button onclick="breakPact(${pi},+$('mT').value)" ${dis(act&&ps.length)}>نقض معاهدة<br><span class="muted">تخسر ذهبتين</span></button>
-  <div class="row"><label for="aidN">ذهب:</label><input id="aidN" type="number" min="1" max="5" value="2" style="width:56px;min-height:36px;border-radius:8px;border:1.5px solid #B9A57F;font-family:inherit"></div>
-  <button onclick="sendAid(${pi},+$('mT').value,$('aidN').value)" ${dis(act&&p.gold>=1)}>إرسال مساعدات<br><span class="muted">حتى 5 ذهب</span></button></div>`}
- dlg(MNAMES[m]+' · '+p.name,h,[{label:V.minSit?'قم من المكتب':'إغلاق',fn:()=>closeDlg()}])}
+ if(t.ai){p.buys++;if(aiPactOK(ti,pi)){signPact(pi,ti);if(!p.ai)toast(t.name+' وافقت على المعاهدة')}else{log(t.name+' رفضت معاهدة '+p.name);if(!p.ai)toast(t.name+' رفضت: العلاقات ما تسمح')}refresh();return}
+ if(p.ai&&!t.ai&&V.instant){p.buys++;return}
+ if(p.ai)G.wait=true;
+ dlg('اقتراح معاهدة',`<p>${sw(p)}${p.name} تقترح على ${sw(t)}<b>${t.name}</b> معاهدة عدم اعتداء لمدة 3 جولات: لا هجوم ولا صواريخ بينكم.</p><p class="muted">${p.ai?'':'سلّم الجهاز لـ '+t.name+' عشان يقرر.'}</p>`,
+ [{label:t.name+' يرفض',fn:()=>{G.wait=false;p.buys++;relAdd(pi,ti,-5);log(t.name+' رفضت معاهدة '+p.name);closeDlg(true);refresh()}},{label:t.name+' يوافق',primary:true,fn:()=>{G.wait=false;p.buys++;signPact(pi,ti);closeDlg(true);refresh()}}])}
+function sendAid(pi,ti,n){const p=G.players[pi],t=G.players[ti];n=Math.min(+n||0,p.gold,5);if(!canAct(pi)||!hasOp(p)||!t||n<1)return;p.gold-=n;t.gold+=n;p.buys++;relAdd(ti,pi,5*n);p.s.repAdj=Math.min(20,p.s.repAdj+2);log(p.name+' أرسلت '+n+' ذهب مساعدات لـ'+t.name);cable(ti,'وصلت مساعدات من '+p.name+': '+n+' ذهب.');refresh()}
+function breakPact(pi,ti){const p=G.players[pi];if(!canAct(pi)||!hasOp(p)||!pactWith(pi,ti))return;G.pacts=G.pacts.filter(x=>!((x.a===pi&&x.b===ti)||(x.a===ti&&x.b===pi)));const pen=Math.min(2,p.gold);p.gold-=pen;p.buys++;
+ relAdd(ti,pi,-40);others(pi).forEach(q=>{if(q!==ti)relAdd(q,pi,-10)});p.s.repAdj-=10;log(p.name+' نقضت معاهدتها مع '+G.players[ti].name+' وخسرت '+pen+' ذهب');cable(ti,p.name+' نقضت المعاهدة معنا.');refresh()}
+function openMinistry(m,pi,sitting,tab){V.minOpen=m;V.minFor=pi;V.minSit=!!sitting;V.minTab=tab||INST[m].tabs[0][0];showMinistry()}
 /* ---------- render ---------- */
 const svg=$('map');
 function buildMap(){
@@ -413,10 +425,10 @@ function renderMap(){
 function sw(p){return `<span class="sw" style="background:${K[p.k].fill}"></span>`}
 function renderPlayers(){
  if(!G){$('players').innerHTML='<p class="muted">ابدأ لعبة جديدة.</p>';return}
- let h='<table><thead><tr><th>المملكة</th><th>ذهب</th><th>مناطق</th><th>جنود</th><th>وزير</th><th>كرت</th></tr></thead><tbody>';
+ let h='<table><thead><tr><th>المملكة</th><th>ذهب</th><th>مناطق</th><th>جنود</th><th>استقرار</th><th>كرت</th></tr></thead><tbody>';
  G.players.forEach((p,pi)=>{const o=owned(pi);const t=o.reduce((s,i)=>s+G.reg[i].troops,0);
   const cardShown=(['reveal','move','attack','resolve','income'].includes(G.phase)&&p.card)?CARD[p.card]:(p.card?'✓':'—');
-  h+=`<tr style="${p.alive?'':'opacity:.45;text-decoration:line-through'}"><td>${sw(p)}${p.name}</td><td>${p.gold}</td><td>${o.length}</td><td>${t}</td><td>${MIN_NAMES[p.minister]}</td><td>${cardShown}</td></tr>`});
+  h+=`<tr style="${p.alive?'':'opacity:.45;text-decoration:line-through'}"><td>${sw(p)}${p.name}${p.ai?' <span class="badge" style="background:#5A4630">حاسوب</span>':''}</td><td>${p.gold}</td><td>${o.length}</td><td>${t}</td><td>${p.s.stab}%</td><td>${cardShown}</td></tr>`});
  $('players').innerHTML=h+'</tbody></table><p class="muted" style="margin:8px 0 0">'+G.players.map(p=>`${sw(p)}${K[p.k].short}: ${K[p.k].ab}`).join('<br>')+'</p>';
 }
 function renderLog(){$('log').innerHTML=G?G.log.slice(0,60).map(l=>`<li><span class="muted">ج${l.r}:</span> ${l.t}</li>`).join(''):''}
@@ -439,26 +451,33 @@ function renderPanel(){
   وزارة الدفاع: صاروخ عادي (3 ذهب) يقتل جنديين. صاروخ ثقيل (6 ذهب، يحتاج دفاع مستوى 1) يقتل جندي ويدمر المعسكر ويعطّل المنطقة جولتين (بلا دخل وسعة −2). الدفاع الجوي يعترض صاروخ لكل مستوى كل جولة. صاروخ واحد كل دور.<br>
   الاستخبارات: تقرير عن مملكة (1 ذهب)، وتخريب يسرق 3 ذهب (2 ذهب، يحتاج مستوى 1). المستوى الأعلى يغلب.<br>
   الخارجية: معاهدة عدم اعتداء 3 جولات (ما فيه هجوم ولا صواريخ بينكم)، مساعدات ذهب، ونقض المعاهدة يكلف ذهبتين.<br>
-  النقاط: كل منطقة نقطة (الكبيرة نقطتين)، وكل 3 ذهب نقطة، والقصر اللي ما سقط أبداً نقطتين.</div></details>`;
-  const draw=n=>{$('names').innerHTML=['m','p','d','f'].slice(0,n).map((k,i)=>`<div class="row" style="margin-bottom:6px"><span class="sw" style="background:${K[k].fill}"></span><label for="nm${i}" style="width:110px">${K[k].name}</label><input id="nm${i}" placeholder="اسم اللاعب (اختياري)" style="flex:1;min-height:36px;border:1.5px solid #B9A57F;border-radius:8px;padding:4px 8px;font-family:inherit"></div>`).join('')};
-  let n=4;draw(n);
+  النقاط: كل منطقة نقطة (الكبيرة نقطتين)، وكل 3 ذهب نقطة، والقصر اللي ما سقط أبداً نقطتين، ونقطة لو استقرارك 75% أو أكثر، وتخسر نقطة عن كل 5 ديون.<br>
+  <b>إدارة الدولة:</b> من القيادة الوطنية تحدد الجاهزية (تأهب/تعبئة) والضرائب، وتبني الصناعة وتستورد الوقود وتقترض. الجيش له رواتب، والحرب تأكل الاستقرار.<br>
+  <b>البحث والتطوير:</b> الصواريخ والرادار والتدريب برامج لها تكلفة ومدة واختبارات. الصاروخ العادي يحتاج برنامج «محركات الصواريخ».<br>
+  <b>الاستخبارات:</b> التقارير تقديرات بنسبة ثقة ومصدر وتاريخ، وممكن تتأخر أو تضلل. <b>الإنذار المبكر:</b> الاعتراض احتمالي حسب الرادار والجاهزية والطقس.<br>
+  <b>المعركة:</b> تتأثر بالإمداد (القرب من القصر أو معسكر)، الوقود، المعنويات، الطقس، التدريب، والجاهزية.</div></details>
+  <p class="muted" style="margin:8px 0 0">علّم «حاسوب» على أي مملكة عشان يديرها الذكاء الاصطناعي.</p>`;
+  const draw=n=>{$('names').innerHTML=['m','p','d','f'].slice(0,n).map((k,i)=>`<div class="row" style="margin-bottom:6px"><span class="sw" style="background:${K[k].fill}"></span><label for="nm${i}" style="width:110px">${K[k].name}</label><input id="nm${i}" placeholder="اسم اللاعب (اختياري)" style="flex:1;min-width:90px;min-height:36px;border:1.5px solid #B9A57F;border-radius:8px;padding:4px 8px;font-family:inherit"><label style="font-size:13px;white-space:nowrap"><input type="checkbox" id="ai${i}" ${i>0&&aiSet[i]?'checked':''} ${i===0?'disabled':''}> حاسوب</label></div>`).join('')};
+  const aiSet=[false,false,false,false];let n=4;draw(n);
   el.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{n=+b.dataset.n;el.querySelectorAll('[data-n]').forEach(x=>x.classList.toggle('sel',x===b));draw(n)});
-  $('startBtn').onclick=()=>{const names=[];for(let i=0;i<n;i++){const v=$('nm'+i).value.trim();names.push(v?v+' ('+K[['m','p','d','f'][i]].short+')':'')}newGame(n,names)};
+  $('startBtn').onclick=()=>{const names=[];for(let i=0;i<n;i++){const v=$('nm'+i).value.trim();names.push(v?v+' ('+K[['m','p','d','f'][i]].short+')':'')}newGame(n,names,[0,1,2,3].slice(0,n).map(i=>$('ai'+i).checked))};
   return}
  const ph=G.phase;let h='';
+ if(['market','cards','move','attack'].includes(ph)&&P()&&P().ai){el.innerHTML=`<h2>${PHASE[ph]}: ${sw(P())}${P().name}</h2><p class="muted">الحاسوب يدير هذي المملكة ويتخذ قراره…</p>`;return}
  if(ph==='event'){h=`<h2>الجولة ${G.round}: الحدث</h2>${evBox()}<button class="primary" style="width:100%" onclick="applyEvent()">طبّق الحدث</button>`}
  else if(ph==='market'){const p=P(),pi=PI();
   if(G.aim){h=`<h2>اختيار هدف الصاروخ</h2><p>${sw(p)}${p.name}: اضغط على منطقة معادية (المضيئة بالأحمر) عشان تطلق صاروخ <b>${G.aim.t==='h'?'ثقيل':'عادي'}</b>.</p><p class="warn">${G.warn}</p><button style="width:100%" onclick="cancelAim()">إلغاء</button>`}
   else{
   const b=(k,label,dis)=>`<button onclick="buy('${k}')" ${dis||p.gold<price(k,p)||p.buys>=OPS?'disabled':''}>${label}<br><span class="muted">${price(k,p)} ذهب</span></button>`;
+  if(p.ai)h=`<h2>الإدارة: ${sw(p)}${p.name}</h2><p class="muted">الحاسوب يدير شؤون المملكة…</p>`;else
   h=`<h2>الإدارة: ${sw(p)}${p.name}</h2><p class="muted">ذهبك: <b>${p.gold}</b> · عملياتك: ${p.buys}/${OPS} (كل شراء أو تطوير أو إطلاق أو عملية وزارة = عملية)</p>
   <h3 style="margin:8px 0 6px">السوق</h3>
   <div class="btns">${b('troops',p.k==='d'?'3 جنود':'جنديين')}${b('camp','معسكر ('+p.campsBuilt+'/2)',p.campsBuilt>=2||p.placing)}${b('silver','وزير فضي',p.minister!==1)}${b('diamond','وزير ماسي',p.minister!==2)}</div>
   ${p.placing==='camp'?'<p><b>اضغط على منطقة من مناطقك عشان تبني المعسكر.</b></p>':''}
   ${p.reserve>0?`<p><b>جنود للتوزيع: ${p.reserve}.</b> اضغط على القصر أو المعسكر المضيء.</p><button onclick="autoPlace()">وزّعهم تلقائياً</button>`:''}
   <h3 style="margin:12px 0 6px">الوزارات</h3>
-  <div class="btns" style="grid-template-columns:1fr 1fr 1fr">${['def','intel','foreign'].map(m=>`<button onclick="openMinistry('${m}',${pi},false)">${MSHORT[m]}</button>`).join('')}</div>
-  <p class="muted" style="margin:6px 0 0">${V3?'أو ادخل مملكتك وامشِ داخل مبنى الوزارة.':''}</p>
+  <div class="btns">${['hq','def','intel','foreign'].map(m=>`<button onclick="openMinistry('${m}',${pi},false)"${m==='hq'?' class="sel"':''}>${MNAMES[m]}${m==='hq'&&p.s.brief.length?' <span class="badge">'+p.s.brief.length+'</span>':''}</button>`).join('')}</div>
+  <p class="muted" style="margin:6px 0 0">الاستقرار ${p.s.stab}% · الجاهزية: ${READY[p.s.ready]} · الوقود ${p.s.fuel} · الطقس: ${G.wx.t}${V3?'<br>أو ادخل مملكتك وامشِ داخل المباني.':''}</p>
   <p class="warn">${G.warn}</p><button class="primary" style="width:100%" onclick="endMarketTurn()">انتهيت، الدور اللي بعده</button>`}}
  else if(ph==='cards'){const p=P();const fri=G.ev.id==='friday';
   h=`<h2>اختيار الكرت: ${p.name}</h2><p class="muted">اختيارك سري، وينكشف بعد ما الكل يختار.</p>
@@ -478,9 +497,9 @@ function renderPanel(){
    <div class="btns"><button onclick="P().att=null;render()">غيّر الهدف</button><button class="primary" onclick="confirmAttack()">ثبّت الهجوم</button></div>`}
  }
  else if(ph==='resolve'){h=`<h2>نتائج المعارك</h2><ul style="padding-right:18px;line-height:1.7;margin:0 0 10px">${G.battles.map(b=>`<li>${b}</li>`).join('')}</ul><button class="primary" style="width:100%" onclick="income()">احسب الدخل</button>`}
- else if(ph==='income'){h=`<h2>دخل الجولة ${G.round}</h2><table><thead><tr><th>المملكة</th><th>المصدر</th><th>المجموع</th></tr></thead>${alive().map(pi=>{const p=G.players[pi],c=p.inc;const parts=[];if(c.big)parts.push('كبيرة '+c.big);if(c.mid)parts.push('متوسطة '+c.mid);if(c.mine)parts.push('المنجم 1');if(c.port)parts.push('تجارة 1');if(c.peace)parts.push('سلام 1');if(c.under)parts.push('دعم الأضعف 1');return `<tr><td>${sw(p)}${p.name}</td><td class="muted">${parts.join('، ')||'—'}</td><td><b>+${c.total}</b></td></tr>`}).join('')}</table><button class="primary" style="width:100%;margin-top:10px" onclick="endRound()">${G.round>=G.maxRound?'احسب النتيجة النهائية':'الجولة '+(G.round+1)}</button>`}
+ else if(ph==='income'){h=`<h2>دخل الجولة ${G.round}</h2><table><thead><tr><th>المملكة</th><th>المصدر</th><th>المجموع</th></tr></thead>${alive().map(pi=>{const p=G.players[pi],c=p.inc;const parts=incParts(c);return `<tr><td>${sw(p)}${p.name}</td><td class="muted">${parts.join('، ')||'—'}</td><td><b>${c.total>=0?'+':''}${c.total}</b></td></tr>`}).join('')}</table><button class="primary" style="width:100%;margin-top:10px" onclick="endRound()">${G.round>=G.maxRound?'احسب النتيجة النهائية':'الجولة '+(G.round+1)}</button>`}
  else if(ph==='end'){const s=G.players.map((p,pi)=>({p,pi,...score(pi)})).sort((a,b)=>b.total-a.total);
-  h=`<h2>${sw(s[0].p)}${s[0].p.name} فازت!</h2><table><thead><tr><th>المملكة</th><th>مناطق</th><th>ذهب</th><th>قصر</th><th>المجموع</th></tr></thead>${s.map(x=>`<tr><td>${sw(x.p)}${x.p.name}</td><td>${x.reg}</td><td>${x.gold}</td><td>${x.pal}</td><td><b>${x.total}</b></td></tr>`).join('')}</table><button class="primary" style="width:100%;margin-top:10px" onclick="G=null;render()">لعبة جديدة</button>`}
+  h=`<h2>${sw(s[0].p)}${s[0].p.name} فازت!</h2><table><thead><tr><th>المملكة</th><th>مناطق</th><th>ذهب</th><th>قصر</th><th>الدولة</th><th>المجموع</th></tr></thead>${s.map(x=>`<tr><td>${sw(x.p)}${x.p.name}</td><td>${x.reg}</td><td>${x.gold}</td><td>${x.pal}</td><td>${x.nat}</td><td><b>${x.total}</b></td></tr>`).join('')}</table><button class="primary" style="width:100%;margin-top:10px" onclick="G=null;render()">لعبة جديدة</button>`}
  el.innerHTML=h;
 }
 function render(){
@@ -489,7 +508,378 @@ function render(){
  $('hEvent').textContent=G&&G.ev?'الحدث: '+G.ev.t:'';$('hEvent').style.display=G&&G.ev?'':'none';
  renderPanel();renderPlayers();renderLog();renderMap();
  if(typeof V3!=='undefined'&&V3){update3D();renderKingdom()}
+ aiSchedule();
 }
+/* ===== National simulation layer: economy, readiness, research, intelligence, early warning, diplomacy =====
+   One shared state for every institution. Per-kingdom state lives in player.s, world state in G (wx, rel, sanc, crises, reps). */
+const TECH={
+ radar:{n:'رادار الإنذار المبكر',br:'air',c:2,t:1,d:'يكشف الإطلاقات المعادية مبكراً ويرفع فرصة الاعتراض.'},
+ ew2:{n:'شبكة إنذار متكاملة',br:'air',c:3,t:1,req:['radar'],d:'كشف أدق، تصنيف مؤكد للتهديد، وتنهي الإنذارات الكاذبة.'},
+ inter:{n:'صواريخ اعتراضية متقدمة',br:'air',c:3,t:1,req:['radar'],d:'+15% لنجاح الاعتراض.'},
+ civil:{n:'الدفاع المدني',br:'air',c:2,t:1,d:'عند الإنذار المبكر تنزل الملاجئ الخسائر بجندي.'},
+ rocket:{n:'محركات الصواريخ',br:'mis',c:2,t:1,test:1,d:'يفتح إنتاج الصاروخ العادي.'},
+ heavy:{n:'الرؤوس الثقيلة',br:'mis',c:4,t:2,req:['rocket'],ind:1,test:1,d:'يفتح إنتاج الصاروخ الثقيل. يحتاج قاعدة صناعية.'},
+ guid:{n:'التوجيه الدقيق',br:'mis',c:3,t:1,req:['rocket'],test:1,d:'صواريخك أصعب في الكشف والاعتراض.'},
+ train:{n:'التدريب الاحترافي',br:'land',c:2,t:1,d:'+1 دفاع لكل مناطقك.'},
+ doctrine:{n:'عقيدة الهجوم المشترك',br:'land',c:3,t:2,req:['train'],d:'+1 هجوم.'},
+ logi:{n:'سلاح الإمداد',br:'land',c:2,t:1,d:'خطوط إمداد أطول واستهلاك وقود أقل.'},
+ fort:{n:'تحصين العاصمة',br:'land',c:2,t:1,d:'+1 دفاع للقصر.'},
+ crypto:{n:'التشفير ومكافحة التجسس',br:'int',c:2,t:1,d:'يخفض دقة تقارير الأعداء عنك ويصعّب التخريب.'},
+ sigint:{n:'اعتراض الإشارات',br:'int',c:3,t:1,intel:1,d:'يرصد مشتريات السلاح وبرامج البحث عند الآخرين.'},
+ sat:{n:'الاستطلاع الفضائي',br:'int',c:3,t:2,intel:1,req:['radar'],d:'تقرير تلقائي كل جولة عن كل مملكة بثقة أعلى.'}};
+const BRANCH={air:'الدفاع الجوي والإنذار',mis:'برنامج الصواريخ',land:'القوات البرية',int:'تقنيات الاستخبارات'};
+const STAGES=['التصميم','النموذج الأولي','الاختبارات','جاهز للإنتاج'];
+const READY=['سلم','تأهب','تعبئة عامة'];
+const TAX=['منخفضة','عادية','مرتفعة'];
+const WX={clear:{t:'صحو',d:'لا تأثير على العمليات.'},rain:{t:'أمطار غزيرة',d:'الوحل يعيق كل الهجمات (−1).'},storm:{t:'عاصفة بحرية',d:'الهجوم على المناطق الساحلية −1، والتجارة البحرية متوقفة.'},
+ snow:{t:'ثلوج',d:'الهجوم على مناطق الجبال −1.'},sand:{t:'عاصفة رملية',d:'الهجوم على مناطق الصحراء −1، والرادار أضعف.'},fog:{t:'ضباب كثيف',d:'الرادار والاستطلاع أضعف.'}};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function simNew(){return{stab:70,ready:0,readyR:0,tax:1,debt:0,infl:0,ind:0,fuel:3,tech:{},rd:[],dos:{},threat:{},brief:[],ew:[],cables:[],sig:[],ci:[],repAdj:0}}
+function simInit(){const n=G.players.length;G.rel=G.players.map(()=>new Array(n).fill(0));G.sanc=[];G.crises=[];G.reps=[];G.wx=Object.assign({id:'clear'},WX.clear);
+ /* history: one inherited rivalry and one old friendship, so the world does not start symmetric */
+ G.hist=[];const pr=[];for(let a=0;a<n;a++)for(let b=a+1;b<n;b++)pr.push([a,b]);shuffle(pr);
+ if(n>2){const [a,b]=pr[0];G.rel[a][b]=G.rel[b][a]=-25;G.hist.push({a,b,riv:1});const [c,d]=pr[1];G.rel[c][d]=G.rel[d][c]=20;G.hist.push({a:c,b:d})}}
+const has=(p,id)=>!!p.s.tech[id];
+function relAdd(a,b,v){if(a===b||a==null||b==null)return;G.rel[a][b]=clamp(G.rel[a][b]+v,-100,100)}
+function rep(pi){const o=G.players.map((p,i)=>i).filter(i=>i!==pi&&G.players[i].alive);const a=o.length?o.reduce((s,i)=>s+G.rel[i][pi],0)/o.length:0;return Math.round(clamp(a+G.players[pi].s.repAdj,-100,100))}
+function relWord(v){return v>=40?'ودّية':v>=15?'جيدة':v>-15?'محايدة':v>-40?'متوترة':'عدائية'}
+function brief(pi,cls,t){G.players[pi].s.brief.push({cls,t})}
+function cable(pi,t){const s=G.players[pi].s;s.cables.unshift({r:G.round,t});if(s.cables.length>14)s.cables.pop()}
+function sancOn(ti){return G.sanc.filter(x=>x.b===ti&&x.until>=G.round)}
+function troopsOf(pi){return owned(pi).reduce((s,i)=>s+G.reg[i].troops,0)}
+function inCrisis(a,b){return G.crises.some(c=>(c.a===a&&c.b===b)||(c.a===b&&c.b===a))}
+
+/* ---------- round cycle ---------- */
+function simRoundStart(){
+ if(G.round>1){const ids=['clear','clear','clear','rain','storm','snow','sand','fog'];const id=ids[rnd(ids.length)];G.wx=Object.assign({id},WX[id])}
+ G.sanc.filter(x=>x.until===G.round-1).forEach(x=>{log('انتهت عقوبات '+G.players[x.a].name+' على '+G.players[x.b].name);cable(x.b,'رُفعت عقوبات '+G.players[x.a].name+' عنكم.')});
+ G.sanc=G.sanc.filter(x=>x.until>=G.round&&G.players[x.a].alive&&G.players[x.b].alive);
+ alive().forEach(pi=>{const p=G.players[pi],s=p.s;s.brief=[];
+  brief(pi,'أرصاد','حالة الطقس: '+G.wx.t+' — '+G.wx.d);
+  if(G.round===1)G.hist.forEach(x=>{if(x.a===pi||x.b===pi){const o=G.players[x.a===pi?x.b:x.a].name;brief(pi,'خارجية',x.riv?'نزاع حدودي قديم مع '+o+'. العلاقات متوترة من البداية.':'صداقة تاريخية مع '+o+'. أرضية جاهزة لمعاهدة.')}});
+  if(G.round>1){
+   s.rd=s.rd.filter(pr=>{pr.left--;if(pr.left>0)return true;const T=TECH[pr.id];
+    if(T.test&&!pr.retest&&Math.random()<(s.ind?.12:.25)){pr.left=1;pr.retest=1;brief(pi,'بحث وتطوير','فشل اختبار «'+T.n+'». الفريق يعيد التجربة، التأخير جولة واحدة.');return true}
+    s.tech[pr.id]=G.round;brief(pi,'بحث وتطوير','اكتمل برنامج «'+T.n+'» ودخل الخدمة.');return false});
+   s.fuel=clamp(s.fuel+1+s.ind-(s.ready===2?1:0),0,8);
+   if(s.fuel<=1)brief(pi,'إمداد','مخزون الوقود حرج ('+s.fuel+'). الهجوم بلا وقود يخسر نقطتين.')}
+  /* false alarm: only with basic detection and no integrated network */
+  s.alarm=false;
+  if(G.round>1&&(p.def>0||has(p,'radar'))&&!has(p,'ew2')&&Math.random()<.14){s.alarm=true;s.stab=clamp(s.stab-2,0,100);
+   const waste=s.ready>0&&p.def>0;if(waste)p.adUsed=1;
+   s.ew.unshift({r:G.round,k:'false',t:'إنذار كاذب: هدف غير معرّف على الرادار تبيّن أنه خلل في القراءة.'+(waste?' أُطلق صاروخ اعتراضي بلا داعٍ.':'')});
+   brief(pi,'إنذار مبكر','إنذار كاذب أربك الدفاع الجوي'+(waste?' واستهلك صاروخاً اعتراضياً هذي الجولة.':'.')+' شبكة الإنذار المتكاملة تمنع تكراره.')}
+ });
+ /* diplomatic crises */
+ const al=alive();
+ for(let x=0;x<al.length;x++)for(let y=x+1;y<al.length;y++){const a=al[x],b=al[y];const lo=Math.min(G.rel[a][b],G.rel[b][a]);
+  if(lo<=-50&&!inCrisis(a,b)&&!pactWith(a,b)){G.crises.push({a,b,r:G.round});log('أزمة دبلوماسية بين '+G.players[a].name+' و'+G.players[b].name+': استُدعي السفراء.');
+   [a,b].forEach(q=>{G.players[q].s.stab=clamp(G.players[q].s.stab-3,0,100);brief(q,'خارجية','أزمة دبلوماسية مع '+G.players[q===a?b:a].name+'. مبعوث أو مساعدات ممكن تهدّي الوضع.');cable(q,'أزمة دبلوماسية مع '+G.players[q===a?b:a].name+'.')})}}
+ G.crises=G.crises.filter(c=>{const ok=G.players[c.a].alive&&G.players[c.b].alive&&Math.min(G.rel[c.a][c.b],G.rel[c.b][c.a])<=-30;if(!ok&&G.players[c.a].alive&&G.players[c.b].alive)log('انفراج الأزمة بين '+G.players[c.a].name+' و'+G.players[c.b].name);return ok});
+ al.forEach(pi=>simIntelCycle(pi));
+}
+
+/* ---------- intelligence ---------- */
+function borderForce(pi,qi){let n=0;const seen=new Set();owned(pi).forEach(i=>NB[i].forEach(j=>{if(G.reg[j].owner===qi&&!seen.has(j)){seen.add(j);n+=Math.max(0,movable(j))}}));return n}
+function simIntelCycle(pi){const p=G.players[pi],s=p.s;
+ Object.keys(s.dos).forEach(ti=>s.dos[ti].forEach(r=>{if(r.due===G.round&&r.late){r.late=0;brief(pi,'استخبارات','وصل تقرير الميدان عن '+G.players[r.ti].name+' (جُمع في الجولة '+r.r+').')}}));
+ others(pi).forEach(qi=>{const q=G.players[qi];const tr=borderForce(pi,qi);const noise=Math.max(0,2-p.intel);const est=Math.max(0,tr+rnd(noise*2+1)-noise);
+  const mob=(q.s.ready>0&&Math.random()*100<40+20*p.intel)?q.s.ready:0;const conf=clamp(50+15*p.intel+(has(p,'sat')?10:0)-(G.wx.id==='fog'?10:0)-(has(q,'crypto')?10:0),20,95);
+  const pact=pactWith(pi,qi);let sc=est+q.minister+mob*2+(inCrisis(pi,qi)?2:0)-(G.rel[qi][pi]>=30?2:0);if(pact)sc=0;
+  const lvl=pact?0:sc<4?1:sc<7?2:sc<10?3:4;
+  s.threat[qi]={est,mob,conf,lvl,pact,r:G.round};
+  if(lvl>=3)brief(pi,'تقدير تهديد','مستوى التهديد من '+q.name+' '+THREAT[lvl]+': حوالي '+est+' جنود على حدودنا'+(mob?' مع مؤشرات '+READY[mob]:'')+' (ثقة '+conf+'%).');
+  else if(mob)brief(pi,'استخبارات','رُصدت مؤشرات «'+READY[mob]+'» عند '+q.name+' (ثقة '+conf+'%).');
+  if(has(p,'sat')&&G.round>1)mkReport(pi,qi,'sat')});
+ if(has(p,'sat')&&G.round>1)brief(pi,'استطلاع فضائي','حُدّثت ملفات كل الممالك من صور المدار.');
+}
+const THREAT=['حليف','منخفض','مرتفع','عالٍ','حرج'];
+const SRC={hum:'مصادر بشرية (HUMINT)',sig:'اعتراض إشارات (SIGINT)',sat:'استطلاع فضائي (IMINT)'};
+function mkReport(pi,ti,src){const p=G.players[pi],t=G.players[ti],s=p.s;
+ let conf=45+15*p.intel+(src==='sat'?15:0)+(src==='sig'?8:0)-(has(t,'crypto')?15:0)-(G.wx.id==='fog'&&src==='sat'?10:0);
+ const list=s.dos[ti]||(s.dos[ti]=[]);const prev=list.find(r=>!r.fail&&G.round-r.r<=1&&r.src!==src);const ver=!!prev;if(ver)conf+=12;
+ conf=clamp(conf,20,95);
+ const est=(v,k)=>{k=k||1;const e=Math.round((100-conf)/100*(v*.5+2*k));let lo=v-rnd(e+1),hi=lo+e;if(Math.random()*100>conf+25){const sh=(e+1)*(Math.random()<.5?-1:1);lo+=sh;hi+=sh}lo=Math.max(0,lo);hi=Math.max(lo,hi);return lo===hi?''+lo:lo+'–'+hi};
+ const lv=v=>{if(conf>=65)return''+v;const a=Math.max(0,v-rnd(2)),b=v+rnd(2);return a===b?''+a:a+'–'+b};
+ const it=[['الخزينة (ذهب)',est(t.gold)],['القوات (جنود)',est(troopsOf(ti))],['صواريخ عادية',est(t.mis.n)],['صواريخ ثقيلة',est(t.mis.h)],['بطاريات الدفاع الجوي',lv(t.def)],['مستوى استخباراتهم',lv(t.intel)],
+  ['وضع الجاهزية',Math.random()*100<conf?READY[t.s.ready]:'غير مؤكد'],['مخزون الوقود',est(t.s.fuel)],['الاستقرار الداخلي',est(t.s.stab,5)+'%'],['القاعدة الصناعية',lv(t.s.ind)]];
+ const prog=t.s.rd.filter(()=>Math.random()*100<conf).map(pr=>TECH[pr.id].n+' (اكتمال متوقع ج'+(G.round+pr.left)+')');
+ it.push(['برامج تطوير مشتبه بها',prog.length?prog.join('، '):(t.s.rd.length&&conf<60?'نشاط غير مفسّر':'لا مؤشرات')]);
+ it.push(['تقنيات في الخدمة',conf>=55?(Object.keys(t.s.tech).map(k=>TECH[k].n).join('، ')||'لا شيء'):'حوالي '+est(Object.keys(t.s.tech).length)]);
+ it.push(['معاهدات',G.pacts.filter(x=>x.until>=G.round&&(x.a===ti||x.b===ti)).map(x=>G.players[x.a===ti?x.b:x.a].name).join('، ')||'لا يوجد']);
+ const late=src==='hum'&&p.intel<1;
+ const r={r:G.round,due:late?G.round+1:G.round,late:late?1:0,src,conf,ver,ti,it,unc:conf>=75?'تقدير موثوق؛ الأرقام ضمن هامش ضيق.':conf>=55?'تقدير متوسط الثقة؛ الأرقام نطاقات محتملة.':'مصدر واحد غير مؤكد؛ قد تكون بعض الأرقام مضللة.'};
+ list.unshift(r);if(list.length>5)list.pop();
+ p.report={ti,round:G.round,gold:t.gold,n:t.mis.n,h:t.mis.h,def:t.def,intel:t.intel,pacts:[],conf};
+ return r}
+function simSignal(pi,txt){others(pi).forEach(qi=>{const q=G.players[qi];if(has(q,'sigint')&&Math.random()<.75){q.s.sig.unshift({r:G.round,t:G.players[pi].name+': '+txt});if(q.s.sig.length>10)q.s.sig.pop()}})}
+
+/* ---------- early warning & air defense ---------- */
+function detPct(d,a){const s=d.s;let v=(d.def?30+d.def*10:20)+(has(d,'radar')?25:0)+(has(d,'ew2')?20:0)+s.ready*8-(G.wx.id==='sand'||G.wx.id==='fog'?15:0)-(a&&has(a,'guid')?10:0);return clamp(v,5,97)}
+function intPct(d,a,early){let v=(early?70:40)+(has(d,'inter')?15:0)+d.s.ready*5-(a&&has(a,'guid')?15:0);return clamp(v,5,95)}
+function simIntercept(pi,di,t,i){const a=G.players[pi],d=G.players[di];const det=detPct(d,a),r=Math.random()*100;
+ const stage=r<det*.6?'early':r<det?'late':'miss';const unsure=stage!=='miss'&&!has(d,'ew2')&&Math.random()<.3;
+ let ic=false,tried=false;if(stage!=='miss'&&d.def-d.adUsed>0){tried=true;d.adUsed++;ic=Math.random()*100<intPct(d,a,stage==='early')}
+ const civ=!ic&&has(d,'civil')&&(stage==='early'||(stage==='late'&&has(d,'ew2')))?1:0;
+ const txt=(stage==='early'?'كشف مبكر':stage==='late'?'كشف متأخر':'لم يُكشف الإطلاق')+(unsure?' · تصنيف غير مؤكد':'')+' · '+(ic?'اعتراض ناجح':tried?'فشل الاعتراض':stage==='miss'?'لا إنذار':'لا صواريخ اعتراضية متاحة')+(civ?' · أُطلقت صافرات الإنذار المدني':'');
+ d.s.ew.unshift({r:G.round,k:ic?'ok':'hit',from:stage==='miss'?null:pi,reg:i,t:(stage==='miss'?'ضربة مفاجئة':'إطلاق من '+a.name)+' باتجاه '+R[i].name+': '+txt});if(d.s.ew.length>8)d.s.ew.pop();
+ return{ic,civ,stage,txt}}
+function simStrikeFx(pi,di,ic){relAdd(di,pi,ic?-18:-30);others(pi).forEach(q=>{if(q!==di)relAdd(q,pi,-4)});if(!ic)G.players[di].s.stab=clamp(G.players[di].s.stab-5,0,100);
+ cable(di,(ic?'اعتُرض صاروخ أطلقته ':'ضربة صاروخية من ')+G.players[pi].name+'.')}
+
+/* ---------- land combat factors ---------- */
+function supplyOK(pi,j){const p=G.players[pi];const max=has(p,'logi')?3:2;const seen=new Set([j]);let fr=[j];
+ for(let d=0;d<=max;d++){for(const x of fr)if(x===p.palace||G.reg[x].camp)return true;const nx=[];fr.forEach(x=>NB[x].forEach(y=>{if(!seen.has(y)&&G.reg[y].owner===pi){seen.add(y);nx.push(y)}}));fr=nx}return false}
+function wxPen(t){const w=G.wx.id;return w==='rain'||(w==='storm'&&R[t].coastal)||(w==='snow'&&R[t].k==='m')||(w==='sand'&&R[t].k==='d')}
+function atkMods(ai,t,a){const p=G.players[ai],m=[['كفاءة القيادة',p.minister]];
+ if(R[t].size==='L')m.push(['أرض مفتوحة',1]);if(has(p,'doctrine'))m.push(['عقيدة هجومية',1]);if(p.s.ready===2)m.push(['تعبئة عامة',1]);
+ if(a&&a.sup===false)m.push(['إمداد منقطع',-1]);if(a&&a.noFuel)m.push(['نقص وقود',-2]);if(p.s.stab<40)m.push(['معنويات متدنية',-1]);if(wxPen(t))m.push([G.wx.t,-1]);return m}
+function defMods(di,t,Dr){const m=[];if(Dr<=0||di==null)return m;const d=G.players[di];
+ if(R[t].size==='S')m.push(['أرض وعرة',1]);if(d.card==='peace')m.push(['تحصّن',1]);if(has(d,'train'))m.push(['تدريب احترافي',1]);if(d.s.ready>=1)m.push(['جاهزية مرتفعة',1]);
+ if(d.palace===t&&has(d,'fort'))m.push(['تحصين العاصمة',1]);if(d.s.stab<40)m.push(['معنويات متدنية',-1]);return m}
+const sumM=m=>m.reduce((s,x)=>s+x[1],0);
+function simCommit(pi,a){const p=G.players[pi],s=p.s;a.sup=Object.keys(a.from).every(j=>a.from[j]<=0||supplyOK(pi,+j));
+ const tot=Object.values(a.from).reduce((x,y)=>x+y,0);if(tot<=0)return;const need=1+(tot>=5&&!has(p,'logi')?1:0);a.noFuel=s.fuel<need;s.fuel=Math.max(0,s.fuel-need)}
+function simBattleFx(ai,di,t,win,rec){const a=G.players[ai];
+ if(di!=null&&rec.D>0){a.s.stab=clamp(a.s.stab+(win?3:-3),0,100);const d=G.players[di];d.s.stab=clamp(d.s.stab+(win?-5:2),0,100);relAdd(di,ai,-25);if(G.rel[di][ai]>=20)a.s.repAdj-=5;others(ai).forEach(q=>{if(q!==di)relAdd(q,ai,-3)});
+  cable(di,(win?'سقطت ':'صمدت ')+R[t].name+' أمام هجوم '+a.name+'.')}
+ G.reps.unshift(rec);if(G.reps.length>12)G.reps.pop()}
+
+/* ---------- economy ---------- */
+const INC_L={big:'مناطق كبيرة',mid:'مناطق متوسطة',mine:'المنجم',port:'تجارة الموانئ',peace:'عائد السلام',under:'دعم الأضعف',ind:'الصناعة',trade:'التجارة الخارجية',prod:'إنتاجية (استقرار عالٍ)',tax:'الضرائب',
+ upkeep:'رواتب الجيش',ready:'تكلفة الجاهزية',interest:'فوائد الدين',sanc:'خسائر العقوبات',unrest:'اضطرابات'};
+function calcIncome(pi,f,final){const p=G.players[pi],s=p.s,o=owned(pi);const L=o.filter(i=>R[i].size==='L'&&!G.reg[i].dmg).length,M=o.filter(i=>R[i].size==='M'&&!G.reg[i].dmg).length;
+ const storm=G.wx.id==='storm';
+ const inc={big:L,mid:Math.floor(M/2),mine:o.includes(MINE)?1:0,port:(p.k==='p'&&G.round%2===0&&!storm)?1:0,peace:(final&&p.card==='peace'&&!p.attacked)?1:0,under:(f.includes(pi)&&alive().length>1&&f.length<alive().length)?1:0};
+ inc.ind=s.ind;inc.trade=(o.some(i=>R[i].coastal)&&!storm&&rep(pi)>-20)?1:0;inc.prod=s.stab>=80?1:0;inc.tax=[-1,0,2][s.tax];
+ const T=troopsOf(pi);inc.upkeep=-(T>16?2:T>10?1:0);inc.ready=-s.ready;inc.interest=-Math.ceil(s.debt/5);
+ inc.sanc=-Math.min(sancOn(pi).length,inc.ind+inc.trade+inc.port);inc.unrest=s.stab<25?-1:0;
+ inc.total=Object.values(inc).reduce((a,b)=>a+b,0);return inc}
+function incParts(c){return Object.keys(c).filter(k=>k!=='total'&&c[k]).map(k=>INC_L[k]+' '+(c[k]>0?'+':'−')+Math.abs(c[k]))}
+function simSettle(pi){const p=G.players[pi],s=p.s;
+ if(p.gold<0){const d=-p.gold;p.gold=0;s.debt+=d;s.infl+=5;s.stab-=5;log(p.name+' عجزت عن سداد التزاماتها: اقتراض اضطراري '+d+' ذهب.')}
+ let d=[5,0,-7][s.tax]+(s.ready===2?-4:0)+(s.debt>5?-3:0)+(s.infl>=15?-3:0)+(rep(pi)>=15?2:0)+(p.card==='peace'&&!p.attacked?2:0)+(s.stab<65?2:s.stab>65?-1:0);
+ G.crises.forEach(c=>{if(c.a===pi||c.b===pi)d-=1});
+ s.stab=clamp(s.stab+d,0,100);s.infl=Math.max(0,s.infl-3+(s.ready===2?3:0));
+ if(s.stab<25){const c=owned(pi).filter(i=>i!==p.palace).sort((a,b)=>G.reg[b].troops-G.reg[a].troops);if(c.length&&regLoss(c[0],1,1))log('اضطرابات داخلية في '+p.name+': فرار جندي من '+R[c[0]].name)}}
+function natScore(pi){const s=G.players[pi].s;return(s.stab>=75?1:0)-Math.floor(s.debt/5)}
+
+/* ---------- national decisions (each costs one operation) ---------- */
+function setReady(pi,v){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||v===s.ready||s.readyR===G.round)return;const up=v>s.ready;s.ready=v;s.readyR=G.round;p.buys++;
+ log(p.name+' أعلنت وضع «'+READY[v]+'»');if(up)others(pi).forEach(q=>relAdd(q,pi,-3*v));simSignal(pi,'تغيّر وضع الجاهزية إلى '+READY[v]);refresh()}
+function setTax(pi,v){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||v===s.tax)return;s.tax=v;p.buys++;log(p.name+' عدّلت الضرائب إلى '+TAX[v]);refresh()}
+function borrow(pi){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||s.debt>=10)return;p.gold+=4;s.debt+=5;s.infl+=6;p.buys++;log(p.name+' اقترضت 4 ذهب من البنك الدولي');refresh()}
+function repay(pi){const p=G.players[pi],s=p.s;const n=Math.min(5,s.debt);if(!canAct(pi)||!hasOp(p)||n<=0||p.gold<n)return;p.gold-=n;s.debt-=n;p.buys++;log(p.name+' سددت '+n+' من ديونها');refresh()}
+function indCost(p){return(p.s.ind?6:4)+(p.s.infl>=15?1:0)}
+function buildInd(pi){const p=G.players[pi],s=p.s,c=indCost(p);if(!canAct(pi)||!hasOp(p)||s.ind>=2||p.gold<c)return;p.gold-=c;s.ind++;p.buys++;log(p.name+' وسّعت قاعدتها الصناعية للمستوى '+s.ind);refresh()}
+function fuelCost(pi){return sancOn(pi).length?2:1}
+function buyFuel(pi){const p=G.players[pi],s=p.s,c=fuelCost(pi);if(!canAct(pi)||!hasOp(p)||p.gold<c||s.fuel>=8)return;p.gold-=c;s.fuel=Math.min(8,s.fuel+2);p.buys++;log(p.name+' استوردت وقود');refresh()}
+function rdSlots(p){return p.s.ind>=1?2:1}
+function rdWhy(p,id){const T=TECH[id],s=p.s;if(s.tech[id])return'done';if(s.rd.some(x=>x.id===id))return'run';
+ const miss=(T.req||[]).filter(r=>!s.tech[r]);if(miss.length)return'يحتاج: '+miss.map(r=>TECH[r].n).join('، ');
+ if(T.ind&&s.ind<T.ind)return'يحتاج قاعدة صناعية مستوى '+T.ind;if(T.intel&&p.intel<T.intel)return'يحتاج استخبارات مستوى '+T.intel;return''}
+function rdCost(p,id){return TECH[id].c+(p.s.infl>=15?1:0)}
+function startRD(pi,id){const p=G.players[pi],s=p.s,T=TECH[id];if(!T||!canAct(pi)||!hasOp(p)||rdWhy(p,id)||s.rd.length>=rdSlots(p)||p.gold<rdCost(p,id))return;
+ p.gold-=rdCost(p,id);s.rd.push({id,left:T.t,total:T.t});p.buys++;log(p.name+' موّلت برنامج بحث وتطوير');simSignal(pi,'تمويل برنامج «'+T.n+'»');refresh()}
+function rdStage(pr){const done=pr.total-pr.left;return pr.retest?STAGES[2]+' (إعادة)':STAGES[Math.min(2,Math.floor(done/pr.total*3))]}
+function sanction(pi,ti){const p=G.players[pi],t=G.players[ti];if(!canAct(pi)||!hasOp(p)||!t||pi===ti||pactWith(pi,ti)||G.sanc.some(x=>x.a===pi&&x.b===ti))return;
+ const un=Math.min(G.maxRound,G.round+2);G.sanc.push({a:pi,b:ti,until:un});p.buys++;relAdd(ti,pi,-20);log(p.name+' فرضت عقوبات اقتصادية على '+t.name+' حتى الجولة '+un);cable(ti,p.name+' فرضت علينا عقوبات: دخل التجارة والصناعة ينقص والوقود أغلى.');refresh()}
+function liftSanction(pi,ti){if(!canAct(pi))return;const n=G.sanc.length;G.sanc=G.sanc.filter(x=>!(x.a===pi&&x.b===ti));if(G.sanc.length<n){relAdd(ti,pi,8);log(G.players[pi].name+' رفعت العقوبات عن '+G.players[ti].name);cable(ti,G.players[pi].name+' رفعت عقوباتها عنا.')}refresh()}
+function envoy(pi,ti){const p=G.players[pi],t=G.players[ti];if(!canAct(pi)||!hasOp(p)||!t||p.gold<1)return;p.gold--;p.buys++;relAdd(ti,pi,12);relAdd(pi,ti,8);log(p.name+' أوفدت مبعوثاً إلى '+t.name);cable(ti,'وصل مبعوث من '+p.name+' لتهدئة العلاقات.');refresh()}
+
+/* ---------- advisors: recommendations computed from the live state ---------- */
+function advisors(pi){const p=G.players[pi],s=p.s,out=[];const th=others(pi).map(q=>({q,...s.threat[q]})).filter(x=>x.lvl!=null).sort((a,b)=>b.lvl-a.lvl)[0];
+ if(th&&th.lvl>=3&&s.ready===0)out.push({w:'مستشار الأمن القومي',t:'التهديد من '+G.players[th.q].name+' '+THREAT[th.lvl]+'. أوصي برفع الجاهزية إلى «تأهب».',b:'ارفع الجاهزية',f:`setReady(${pi},1)`});
+ if(th&&th.lvl<=1&&s.ready>0)out.push({w:'وزير المالية',t:'لا تهديد جدّي الحين، والجاهزية تكلّفنا '+s.ready+' ذهب كل جولة.',b:'ارجع لوضع السلم',f:`setReady(${pi},0)`});
+ if(s.ew.some(e=>e.k==='hit'&&e.r>=G.round-1)&&!has(p,'radar'))out.push({w:'قائد الدفاع الجوي',t:'انضربنا بدون إنذار كافٍ. نحتاج رادار إنذار مبكر.',b:'افتح البحث والتطوير',f:`openMinistry('def',${pi},false,'rd')`});
+ if(s.fuel<=1)out.push({w:'رئيس الأركان',t:'الوقود حرج ('+s.fuel+'). أي هجوم بدون وقود يخسر نقطتين.',b:'استورد وقود',f:`buyFuel(${pi})`});
+ if(s.stab<45)out.push({w:'وزير الداخلية',t:'الاستقرار '+s.stab+'%. تخفيض الضرائب يهدّي الشارع.',b:'خفّض الضرائب',f:`setTax(${pi},0)`});
+ if(s.debt>0&&p.gold>=s.debt+3)out.push({w:'وزير المالية',t:'عندنا فائض. سداد الدين يوقف الفوائد ويحمي نقاطنا.',b:'سدّد',f:`repay(${pi})`});
+ if(s.ind===0&&p.gold>=indCost(p)+2)out.push({w:'وزير الصناعة',t:'مصنع واحد يعطي ذهبة كل جولة ومسار بحث ثاني.',b:'ابنِ قاعدة صناعية',f:`buildInd(${pi})`});
+ const blind=others(pi).filter(q=>!(s.dos[q]||[]).some(r=>!r.fail&&G.round-r.r<=2)).sort((a,b)=>troopsOf(b)-troopsOf(a))[0];
+ if(blind!=null)out.push({w:'مدير الاستخبارات',t:'ما عندنا تقرير حديث عن '+G.players[blind].name+'. نشتغل على عمى.',b:'افتح الملفات',f:`openMinistry('intel',${pi},false,'dos')`});
+ const ex=G.pacts.find(x=>x.until===G.round&&(x.a===pi||x.b===pi));if(ex)out.push({w:'وزير الخارجية',t:'معاهدتنا مع '+G.players[ex.a===pi?ex.b:ex.a].name+' تنتهي هذي الجولة.',b:'افتح المفاوضات',f:`openMinistry('foreign',${pi},false,'neg')`});
+ const cr=G.crises.find(c=>c.a===pi||c.b===pi);if(cr)out.push({w:'وزير الخارجية',t:'الأزمة مع '+G.players[cr.a===pi?cr.b:cr.a].name+' تنزف استقرارنا. مبعوث يفتح باب التهدئة.',b:'أوفد مبعوثاً',f:`envoy(${pi},${cr.a===pi?cr.b:cr.a})`});
+ if(!out.length)out.push({w:'رئيس الديوان',t:'الوضع مستقر. لا توصيات عاجلة.'});
+ return out}
+
+/* ===== Institutions: department terminals (one view per room/workstation) + computer-run kingdoms ===== */
+const INST={
+ hq:{tabs:[['brief','غرفة العمليات الوطنية'],['cab','مجلس الوزراء'],['eco','الخزانة والصناعة'],['comm','الاتصالات المؤمّنة']]},
+ def:{tabs:[['cmd','مركز القيادة'],['ew','الإنذار المبكر'],['rd','البحث والتطوير'],['arm','التسليح']]},
+ intel:{tabs:[['threat','مركز التهديدات'],['dos','ملفات الدول'],['ops','العمليات والتقنية'],['ci','مكافحة التجسس']]},
+ foreign:{tabs:[['neg','قاعة المفاوضات'],['world','العلاقات الدولية'],['sanc','العقوبات والأزمات']]}};
+function instTab(t){V.minTab=t;showMinistry()}
+const dis=c=>c?'':'disabled';
+const gauge=(l,v,max,col,txt)=>`<div class="gauge"><span>${l}</span><i><b style="width:${clamp(v/max*100,0,100)}%;background:${col}"></b></i><em>${txt!=null?txt:v}</em></div>`;
+const stabCol=v=>v>=65?'#4E9A5B':v>=40?'#C9A227':'#B3372B';
+const kcol=q=>K[G.players[q].k].strong;
+function tgtSel(pi){const o=others(pi);if(!o.includes(V.mT))V.mT=o[0];return `<select id="mT" class="isel" onchange="V.mT=+this.value;showMinistry()">${o.map(q=>`<option value="${q}" ${q===V.mT?'selected':''}>${G.players[q].name}</option>`).join('')}</select>`}
+
+/* schematic operations display: nodes = regions, edges = borders */
+function opsMap(pi,mode){const p=G.players[pi],s=p.s;const xs=R.map(r=>r.lx),ys=R.map(r=>r.ly),x0=Math.min(...xs)-60,y0=Math.min(...ys)-50,w=Math.max(...xs)-x0+60,hh=Math.max(...ys)-y0+60;
+ let h=`<svg class="ops" viewBox="${x0} ${y0} ${w} ${hh}" role="img" aria-label="خريطة العمليات">`;
+ D.adj.forEach(([a,b])=>{h+=`<line x1="${R[a].lx}" y1="${R[a].ly}" x2="${R[b].lx}" y2="${R[b].ly}" class="oe"/>`});
+ if(mode==='ew'&&p.palace!=null){const c=R[p.palace],r=120+detPct(p)*3.2;h+=`<circle cx="${c.lx}" cy="${c.ly}" r="${r}" class="orad"/><circle cx="${c.lx}" cy="${c.ly}" r="${r*.6}" class="orad"/>`;
+  s.ew.filter(e=>e.reg!=null&&e.from!=null&&G.players[e.from].palace!=null).slice(0,4).forEach(e=>{const A=R[G.players[e.from].palace],B=R[e.reg];h+=`<path d="M${A.lx},${A.ly} Q${(A.lx+B.lx)/2},${Math.min(A.ly,B.ly)-90} ${B.lx},${B.ly}" class="otrk ${e.k}"/>`})}
+ if(mode==='threat')others(pi).forEach(q=>{if(pactWith(pi,q))return;owned(q).forEach(j=>{if(movable(j)<2)return;NB[j].forEach(i=>{if(G.reg[i].owner!==pi)return;const A=R[j],B=R[i];h+=`<line x1="${A.lx}" y1="${A.ly}" x2="${(A.lx+B.lx*2)/3}" y2="${(A.ly+B.ly*2)/3}" stroke="#E0553F" stroke-width="${2+movable(j)}" stroke-linecap="round" opacity=".75"/>`})})});
+ R.forEach((r,i)=>{const g=G.reg[i],o=g.owner,mine=o===pi;const rad=r.size==='L'?24:r.size==='M'?20:16;
+  let ring='';if(mine&&mode==='cmd')ring=`<circle cx="${r.lx}" cy="${r.ly}" r="${rad+6}" class="${supplyOK(pi,i)?'osup':'onosup'}"/>`;
+  if(mine&&isPalace(i))ring+=`<rect x="${r.lx-rad-4}" y="${r.ly-rad-4}" width="${rad*2+8}" height="${rad*2+8}" class="opal"/>`;
+  h+=ring+`<circle cx="${r.lx}" cy="${r.ly}" r="${rad}" fill="${o!=null?kcol(o):'#4A5058'}" opacity="${mine?1:.8}" stroke="${mine?'#fff':'#0008'}" stroke-width="${mine?2.5:1}"/><text x="${r.lx}" y="${r.ly+1}" class="ot">${g.troops||''}</text>`+(mine?`<text x="${r.lx}" y="${r.ly+rad+15}" class="on">${r.name}</text>`:'')});
+ return h+'</svg>'}
+
+function rdTree(pi,p,act,brs){const s=p.s;let h=`<p class="muted">مسارات البحث المتاحة: ${s.rd.length}/${rdSlots(p)}${s.ind<1?' (القاعدة الصناعية تفتح مساراً ثانياً)':''}</p>`;
+ if(s.rd.length)h+=s.rd.map(pr=>{const T=TECH[pr.id],done=pr.total-pr.left;return `<div class="doc"><b>${T.n}</b> · المرحلة: ${rdStage(pr)} · الاكتمال المتوقع: الجولة ${G.round+pr.left}${gauge('التقدم',done+.5,pr.total+.5,'#C9A227',Math.round((done+.5)/(pr.total+.5)*100)+'%')}</div>`}).join('');
+ brs.forEach(br=>{h+=`<h3>${BRANCH[br]}</h3><div class="tree">`;Object.keys(TECH).filter(id=>TECH[id].br===br).forEach(id=>{const T=TECH[id],w=rdWhy(p,id),c=rdCost(p,id);
+  const st=w==='done'?'<span class="tg ok">في الخدمة</span>':w==='run'?'<span class="tg run">قيد التطوير</span>':w?`<span class="tg lock">${w}</span>`:`<button onclick="startRD(${pi},'${id}')" ${dis(act&&p.gold>=c&&s.rd.length<rdSlots(p))}>موّل · ${c} ذهب · ${T.t} ${T.t>1?'جولات':'جولة'}</button>`;
+  h+=`<div class="node ${w==='done'?'done':w&&w!=='run'?'locked':''}"><b>${T.n}</b><span class="muted">${T.d}${T.test?' يمر بمرحلة اختبار قد تفشل.':''}</span>${st}</div>`});h+='</div>'});
+ return h}
+
+const VIEW={
+hq:{
+ brief(pi,p){const s=p.s;const th=others(pi).map(q=>s.threat[q]?s.threat[q].lvl:0);const mx=Math.max(0,...th);
+  return `<div class="grow">${gauge('الاستقرار',s.stab,100,stabCol(s.stab),s.stab+'%')}${gauge('أعلى تهديد',mx,4,mx>=3?'#B3372B':'#C9A227',THREAT[mx])}</div>
+  ${opsMap(pi,'threat')}<p class="muted">الأسهم الحمراء: حشود معادية قادرة على الهجوم على حدودك. الطقس: <b>${G.wx.t}</b> — ${G.wx.d}</p>
+  <h3>الإيجاز اليومي · الجولة ${G.round}</h3>${s.brief.map(b=>`<div class="doc"><span class="cls">${b.cls}</span>${b.t}</div>`).join('')||'<p class="muted">لا جديد.</p>'}
+  <h3>توصيات المستشارين</h3>${advisors(pi).map(a=>`<div class="adv"><div><b>${a.w}:</b> ${a.t}</div>${a.b?`<button onclick="${a.f}" ${dis(canAct(pi)||a.f.startsWith('open'))}>${a.b}</button>`:''}</div>`).join('')}`},
+ cab(pi,p,act){const s=p.s,T=troopsOf(pi),o=owned(pi),cut=o.filter(i=>G.reg[i].troops>0&&!supplyOK(pi,i)).length,inc=calcIncome(pi,fewest(),false);
+  const th=others(pi).map(q=>({q,...s.threat[q]})).sort((a,b)=>(b.lvl||0)-(a.lvl||0))[0];const lock=s.readyR===G.round;
+  return `<h3>تقارير الوزراء</h3>
+  <div class="doc"><span class="cls">الدفاع</span>${T} جندي في ${o.length} مناطق${cut?'، '+cut+' منها خارج خطوط الإمداد':''}. الصواريخ: ${p.mis.n} عادي و${p.mis.h} ثقيل. الوقود ${s.fuel}/8.</div>
+  <div class="doc"><span class="cls">المالية</span>صافي الدخل المتوقع ${inc.total>=0?'+':''}${inc.total} ذهب. الدين ${s.debt}، التضخم ${s.infl}%${s.infl>=15?' (الأسعار +1)':''}.</div>
+  <div class="doc"><span class="cls">الاستخبارات</span>${th&&th.lvl!=null?'أخطر جار: '+G.players[th.q].name+' بمستوى '+THREAT[th.lvl]+' (ثقة '+th.conf+'%).':'لا تقديرات بعد.'}</div>
+  <div class="doc"><span class="cls">الخارجية</span>سمعتنا الدولية ${rep(pi)} (${relWord(rep(pi))}). عقوبات علينا: ${sancOn(pi).length}. أزمات: ${G.crises.filter(c=>c.a===pi||c.b===pi).length}.</div>
+  <div class="doc"><span class="cls">الداخلية</span>الاستقرار ${s.stab}%${s.stab<40?' — المعنويات متدنية والجيش يقاتل بـ −1':s.stab>=80?' — إنتاجية عالية (+1 ذهب)':''}${s.stab<25?' — اضطرابات وفرار جنود':''}.</div>
+  <h3>وضع الجاهزية العسكرية</h3><p class="muted">تأهب: +1 دفاع واعتراض أفضل (1 ذهب/جولة). تعبئة عامة: +1 هجوم و+1 دفاع (2 ذهب/جولة، −4 استقرار، وقود وتضخم). الجيران يلاحظون التصعيد. ${lock?'<b>غُيّر الوضع هذي الجولة.</b>':''}</p>
+  <div class="btns3">${READY.map((n,v)=>`<button class="${s.ready===v?'sel':''}" onclick="setReady(${pi},${v})" ${dis(act&&!lock&&s.ready!==v)}>${n}</button>`).join('')}</div>
+  <h3>السياسة الضريبية</h3><p class="muted">منخفضة: −1 ذهب و+5 استقرار. مرتفعة: +2 ذهب و−7 استقرار كل جولة.</p>
+  <div class="btns3">${TAX.map((n,v)=>`<button class="${s.tax===v?'sel':''}" onclick="setTax(${pi},${v})" ${dis(act&&s.tax!==v)}>${n}</button>`).join('')}</div>`},
+ eco(pi,p,act){const s=p.s,inc=calcIncome(pi,fewest(),false),ic=indCost(p),fc=fuelCost(pi);
+  return `<div class="grow">${gauge('الخزينة',p.gold,15,'#C9A227',p.gold+' ذهب')}${gauge('الدين',s.debt,10,'#B3372B',s.debt+'/10')}${gauge('التضخم',s.infl,30,s.infl>=15?'#B3372B':'#C9A227',s.infl+'%')}${gauge('الوقود',s.fuel,8,'#5E8FB0',s.fuel+'/8')}</div>
+  <h3>الميزانية المتوقعة لهذي الجولة</h3><table>${Object.keys(inc).filter(k=>k!=='total'&&inc[k]).map(k=>`<tr><td>${INC_L[k]}</td><td style="color:${inc[k]>0?'#3E8A4C':'#C0392B'}"><b>${inc[k]>0?'+':'−'}${Math.abs(inc[k])}</b></td></tr>`).join('')}<tr><td><b>الصافي</b></td><td><b>${inc.total>=0?'+':''}${inc.total}</b></td></tr></table>
+  <p class="muted">العجز يتحول تلقائياً لدين اضطراري (تضخم +5، استقرار −5). كل 5 ديون = فائدة ذهبة بالجولة و−1 نقطة بالنهاية.</p>
+  <div class="btns">
+  <button onclick="buildInd(${pi})" ${dis(act&&s.ind<2&&p.gold>=ic)}>${s.ind>=2?'الصناعة بأعلى مستوى':'توسعة القاعدة الصناعية → '+(s.ind+1)}<br><span class="muted">${s.ind>=2?'—':ic+' ذهب · +1 دخل'+(s.ind?' · صواريخ أرخص':' · مسار بحث ثاني')}</span></button>
+  <button onclick="buyFuel(${pi})" ${dis(act&&p.gold>=fc&&s.fuel<8)}>استيراد وقود (+2)<br><span class="muted">${fc} ذهب${fc>1?' · السعر مضاعف بسبب العقوبات':''}</span></button>
+  <button onclick="borrow(${pi})" ${dis(act&&s.debt<10)}>قرض دولي (+4 ذهب)<br><span class="muted">دين +5 · تضخم +6</span></button>
+  <button onclick="repay(${pi})" ${dis(act&&s.debt>0&&p.gold>=Math.min(5,s.debt))}>سداد الدين<br><span class="muted">${Math.min(5,s.debt)||5} ذهب</span></button></div>`},
+ comm(pi,p,act){const s=p.s;
+  return `<h3>الخط الساخن</h3>${others(pi).map(q=>{const t=G.players[q];return `<div class="adv"><div>${sw(t)}<b>${t.name}</b> · نظرتهم لنا: ${relWord(G.rel[q][pi])} (${G.rel[q][pi]})${pactWith(pi,q)?' · <span class="tg ok">معاهدة</span>':''}${inCrisis(pi,q)?' · <span class="tg lock">أزمة</span>':''}</div><button onclick="envoy(${pi},${q})" ${dis(act&&p.gold>=1)}>أوفد مبعوثاً · 1 ذهب</button></div>`}).join('')}
+  <h3>البرقيات الواردة</h3>${s.cables.map(c=>`<div class="doc"><span class="cls">ج${c.r}</span>${c.t}</div>`).join('')||'<p class="muted">لا برقيات.</p>'}`}},
+def:{
+ cmd(pi,p){const s=p.s;const o=owned(pi);
+  const rows=o.map(i=>{const g=G.reg[i];let en=0;NB[i].forEach(j=>{const q=G.reg[j].owner;if(q!=null&&q!==pi&&!pactWith(pi,q))en+=Math.max(0,movable(j))});const sup=supplyOK(pi,i);
+   return `<tr><td>${R[i].name}${isPalace(i)?' <span class="tg ok">قصر</span>':''}${g.camp?' <span class="tg run">معسكر</span>':''}</td><td>${g.troops}/${cap(i)}</td><td>${sup?'متصل':'<span style="color:#E0553F">منقطع</span>'}</td><td>${en?(en>g.troops?'<span style="color:#E0553F">'+en+' ⚠</span>':en):'—'}</td></tr>`}).join('');
+  const ops=[];attackTargets(pi).forEach(t=>{let A=0,sup=true;NB[t].forEach(j=>{if(G.reg[j].owner===pi){const n=Math.max(0,movable(j)-(isPalace(j)?0:1));if(n>0){A+=n;if(!supplyOK(pi,j))sup=false}}});if(!A)return;
+   const Ae=A+sumM(atkMods(pi,t,{sup,noFuel:s.fuel<1})),De=G.reg[t].troops+(G.reg[t].troops>0&&R[t].size==='S'?1:0);ops.push({t,A,Ae,De,m:Ae-De})});ops.sort((a,b)=>b.m-a.m);
+  const reps=G.reps.filter(r=>r.ai===pi||r.di===pi).slice(0,4);
+  return `${opsMap(pi,'cmd')}<p class="muted">حلقة خضراء: المنطقة متصلة بخط إمداد (قصر أو معسكر قريب). حمراء متقطعة: منقطعة، والهجوم منها −1. الطقس: <b>${G.wx.t}</b> — ${G.wx.d}</p>
+  <div class="grow">${gauge('الوقود',s.fuel,8,'#5E8FB0',s.fuel+'/8')}${gauge('المعنويات',s.stab,100,stabCol(s.stab),s.stab<40?'متدنية':'جيدة')}</div>
+  <h3>حالة الوحدات</h3><table><thead><tr><th>المنطقة</th><th>القوة</th><th>الإمداد</th><th>عدو مجاور</th></tr></thead>${rows}</table>
+  <h3>تقدير الموقف (رئيس الأركان)</h3>${ops.slice(0,3).map(x=>`<div class="doc"><span class="cls">${x.m>0?'فرصة':x.m===0?'متكافئ':'مجازفة'}</span>${R[x.t].name}: قوتنا الفعلية ${x.Ae} (${x.A} جندي مع العوامل) مقابل دفاع مقدّر ${x.De}+ <span class="muted">— التقدير ما يشمل تدريب العدو وجاهزيته؛ اسأل الاستخبارات.</span></div>`).join('')||'<p class="muted">لا أهداف في المدى.</p>'}
+  <h3>تقارير المعارك</h3>${reps.map(r=>`<div class="doc"><span class="cls">ج${r.r} · ${r.res==='win'?(r.ai===pi?'نصر':'خسارة'):r.res==='tie'?'تعادل':(r.ai===pi?'صُدّ هجومنا':'صمود')}</span>${G.players[r.ai].name} ← ${R[r.t].name}: ${r.A} جندي → قوة ${r.Ae} ضد ${r.D} → ${r.De}.<br><span class="muted">${r.am.map(x=>x[0]+' '+(x[1]>0?'+':'')+x[1]).join('، ')}${r.dm.length?' | المدافع: '+r.dm.map(x=>x[0]+' '+(x[1]>0?'+':'')+x[1]).join('، '):''}</span></div>`).join('')||'<p class="muted">لا معارك بعد.</p>'}`},
+ ew(pi,p,act){const s=p.s,d=detPct(p),left=Math.max(0,p.def-p.adUsed);
+  return `<div class="grow">${gauge('احتمال الكشف',d,100,'#5EC27A',d+'%')}${gauge('اعتراض (كشف مبكر)',intPct(p,null,true),100,'#5EC27A',intPct(p,null,true)+'%')}${gauge('اعتراض (كشف متأخر)',intPct(p,null,false),100,'#C9A227',intPct(p,null,false)+'%')}${gauge('صواريخ اعتراضية جاهزة',left,2,'#5E8FB0',left+'/'+p.def)}</div>
+  ${opsMap(pi,'ew')}<p class="muted">الدوائر: تغطية الرادار. المسارات: آخر الإطلاقات المرصودة (أحمر أصاب، أخضر اعتُرض). الكشف يتأثر بالرادار والجاهزية والطقس وتقنية العدو.</p>
+  <button onclick="defUp(${pi})" ${dis(act&&p.def<2&&p.gold>=(p.def?6:4))}>${p.def>=2?'بطاريات الدفاع بأعلى مستوى':'نشر بطارية دفاع جوي → مستوى '+(p.def+1)}<br><span class="muted">${p.def>=2?'—':(p.def?6:4)+' ذهب · صاروخ اعتراضي إضافي كل جولة'}</span></button>
+  <h3>سجل الإنذارات</h3>${s.ew.map(e=>`<div class="doc"><span class="cls">ج${e.r} · ${e.k==='ok'?'اعتراض':e.k==='false'?'كاذب':'إصابة'}</span>${e.t}</div>`).join('')||'<p class="muted">الأجواء هادئة. لا إنذارات.</p>'}`},
+ rd(pi,p,act){return rdTree(pi,p,act,['air','mis','land'])},
+ arm(pi,p,act){const s=p.s,tg=missileTargets(pi).length,cn=misCost(p,'n'),ch=misCost(p,'h');
+  return `<div class="grow">${gauge('صواريخ عادية',p.mis.n,4,'#C9A227',p.mis.n)}${gauge('صواريخ ثقيلة',p.mis.h,4,'#B3372B',p.mis.h)}${gauge('الوقود',s.fuel,8,'#5E8FB0',s.fuel+'/8')}</div>
+  <p class="muted">إطلاق واحد كل جولة، ويستهلك وحدة وقود. ${p.launched?'<b>تم الإطلاق هذي الجولة.</b>':''}</p>
+  <div class="btns">
+  <button onclick="buyMis(${pi},'n')" ${dis(act&&p.gold>=cn&&has(p,'rocket'))}>إنتاج صاروخ عادي<br><span class="muted">${has(p,'rocket')?cn+' ذهب · يقتل جنديين':'يحتاج برنامج «محركات الصواريخ»'}</span></button>
+  <button onclick="buyMis(${pi},'h')" ${dis(act&&p.gold>=ch&&has(p,'heavy'))}>إنتاج صاروخ ثقيل<br><span class="muted">${has(p,'heavy')?ch+' ذهب · يدمر المباني':'يحتاج برنامج «الرؤوس الثقيلة»'}</span></button>
+  <button class="primary" onclick="startAim(${pi},'n')" ${dis(act&&p.mis.n>0&&!p.launched&&tg&&s.fuel>=1)}>أطلق صاروخ عادي</button>
+  <button class="primary" onclick="startAim(${pi},'h')" ${dis(act&&p.mis.h>0&&!p.launched&&tg&&s.fuel>=1)}>أطلق صاروخ ثقيل</button></div>`}},
+intel:{
+ threat(pi,p){const s=p.s;
+  return `${opsMap(pi,'threat')}<h3>تقدير التهديد</h3>${others(pi).map(q=>{const t=G.players[q],x=s.threat[q];if(!x)return'';return `<div class="doc"><span class="cls" style="background:${['#3E8A4C','#5E8FB0','#C9A227','#D9772B','#B3372B'][x.lvl]};color:#fff">${THREAT[x.lvl]}</span>${sw(t)}<b>${t.name}</b>: قوات على حدودنا ≈ ${x.est}${x.mob?' · مؤشرات '+READY[x.mob]:''}${x.pact?' · معاهدة سارية':''}<br><span class="muted">المصدر: مراقبة الحدود · جُمع ج${x.r} · ثقة ${x.conf}% · هامش ±${Math.max(0,2-p.intel)}</span></div>`}).join('')}
+  <h3>رصد الإشارات</h3>${has(p,'sigint')?(s.sig.map(g=>`<div class="doc"><span class="cls">ج${g.r} · SIGINT</span>${g.t}</div>`).join('')||'<p class="muted">لا إشارات ملتقطة.</p>'):'<p class="muted">يحتاج برنامج «اعتراض الإشارات».</p>'}`},
+ dos(pi,p,act){const s=p.s,sel=tgtSel(pi),ti=V.mT,list=s.dos[ti]||[];
+  return `<label for="mT">الدولة:</label> ${sel}
+  <button onclick="spyReport(${pi},${ti})" ${dis(act&&p.gold>=1)}>تكليف بجمع معلومات · 1 ذهب<br><span class="muted">${p.intel<1?'بلا شبكة محلّلين: التقرير يتأخر جولة':'التقرير يوصل فوراً'} · تقرير ثانٍ بمصدر مختلف يرفع الثقة</span></button>
+  ${list.map(r=>r.fail?`<div class="doc"><span class="cls">ج${r.r} · فشل</span>انكشف عملاؤنا. لا معلومات.</div>`:r.due>G.round?`<div class="doc"><span class="cls">ج${r.r} · في الطريق</span>العملاء في الميدان. التقرير يوصل الجولة ${r.due}.</div>`:
+   `<div class="doc rep"><span class="cls">سري للغاية</span><b>تقرير عن ${G.players[r.ti].name}</b><br><span class="muted">المصدر: ${SRC[r.src]} · تاريخ الجمع: الجولة ${r.r}${G.round>r.r?' (قديم '+(G.round-r.r)+' ج)':''} · الثقة: ${r.conf}%${r.ver?' · مؤكَّد بمصدر ثانٍ':''}</span>
+   <table>${r.it.map(x=>`<tr><td>${x[0]}</td><td><b>${x[1]}</b></td></tr>`).join('')}</table><span class="muted">${r.unc}</span></div>`).join('')||'<p class="muted">الملف فارغ. ما نعرف عن هذي الدولة إلا اللي نشوفه على الخريطة.</p>'}`},
+ ops(pi,p,act){const sel=tgtSel(pi);
+  return `<div class="grow">${gauge('قدرة التحليل',p.intel,2,'#5EC2D6','مستوى '+p.intel)}</div>
+  <div class="btns"><button onclick="intelUp(${pi})" ${dis(act&&p.intel<2&&p.gold>=(p.intel?5:3))}>${p.intel>=2?'أعلى مستوى':'توظيف وتدريب محلّلين → '+(p.intel+1)}<br><span class="muted">${p.intel>=2?'—':(p.intel?5:3)+' ذهب · ثقة أعلى وتقارير أسرع'}</span></button>
+  <span>${sel}<button style="width:100%;margin-top:6px" onclick="sabotage(${pi},V.mT)" ${dis(act&&p.gold>=2&&p.intel>=1)}>عملية تخريب<br><span class="muted">2 ذهب · ${p.intel>=1?'تسرق حتى 3 ذهب':'يحتاج مستوى 1'}</span></button></span></div>`+rdTree(pi,p,act,['int'])},
+ ci(pi,p){const s=p.s;const n=Object.values(s.dos).reduce((a,l)=>a+l.length,0);
+  return `<div class="doc"><span class="cls">الحماية</span>${has(p,'crypto')?'التشفير مفعّل: تقارير الأعداء عنا أقل دقة (−15% ثقة)، وعملاؤهم ينكشفون أكثر.':'اتصالاتنا غير مشفّرة. برنامج «التشفير ومكافحة التجسس» يسد الثغرة.'}</div>
+  <h3>حوادث مكافحة التجسس</h3>${s.ci.map(c=>`<div class="doc"><span class="cls">ج${c.r}</span>${c.t}</div>`).join('')||'<p class="muted">لا حوادث مسجلة. (غياب الحوادث ما يعني غياب التجسس.)</p>'}
+  <h3>الأرشيف</h3><p class="muted">${n} تقرير محفوظ في ${Object.keys(s.dos).length} ملف. تُحفظ آخر 5 تقارير لكل دولة.</p>`}},
+foreign:{
+ neg(pi,p,act){const ps=G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi)),sel=tgtSel(pi),ti=V.mT;
+  return `<h3>المعاهدات السارية</h3>${ps.map(x=>`<div class="doc"><span class="cls">حتى ج${x.until}</span>عدم اعتداء مع ${G.players[x.a===pi?x.b:x.a].name}</div>`).join('')||'<p class="muted">لا يوجد.</p>'}
+  <label for="mT">المملكة:</label> ${sel} <span class="muted">نظرتهم لنا: ${relWord(G.rel[ti][pi])} (${G.rel[ti][pi]})</span>
+  <div class="btns">
+  <button onclick="proposePact(${pi},${ti})" ${dis(act&&!pactWith(pi,ti))}>اقتراح معاهدة<br><span class="muted">عدم اعتداء 3 جولات</span></button>
+  <button onclick="breakPact(${pi},${ti})" ${dis(act&&pactWith(pi,ti))}>نقض المعاهدة<br><span class="muted">ذهبتين وضربة لسمعتك عند الكل</span></button>
+  <div class="row"><label for="aidN">ذهب:</label><input id="aidN" type="number" min="1" max="5" value="2" class="isel" style="width:56px"></div>
+  <button onclick="sendAid(${pi},${ti},$('aidN').value)" ${dis(act&&p.gold>=1)}>إرسال مساعدات<br><span class="muted">حتى 5 ذهب · يحسّن العلاقة</span></button>
+  <button onclick="envoy(${pi},${ti})" ${dis(act&&p.gold>=1)}>إيفاد مبعوث<br><span class="muted">1 ذهب · تهدئة</span></button></div>`},
+ world(pi,p){const al=alive();
+  return `<div class="grow">${gauge('سمعتنا الدولية',rep(pi)+100,200,rep(pi)>=0?'#4E9A5B':'#B3372B',rep(pi)+' · '+relWord(rep(pi)))}</div>
+  <p class="muted">السمعة ≥ 15: +2 استقرار كل جولة. السمعة ≤ −20: تنقطع التجارة الخارجية. الهجوم والصواريخ ونقض المعاهدات تهدمها، والمساعدات تبنيها.</p>
+  <h3>كيف ترى كل مملكة غيرها</h3><table><thead><tr><th>نظرة ↓ إلى ←</th>${al.map(q=>`<th>${K[G.players[q].k].short}</th>`).join('')}</tr></thead>${al.map(a=>`<tr><td>${sw(G.players[a])}${K[G.players[a].k].short}</td>${al.map(b=>a===b?'<td>—</td>':`<td style="color:${G.rel[a][b]>=15?'#3E8A4C':G.rel[a][b]<=-15?'#C0392B':'inherit'}">${G.rel[a][b]}</td>`).join('')}</tr>`).join('')}</table>`},
+ sanc(pi,p,act){const sel=tgtSel(pi),ti=V.mT,mine=G.sanc.filter(x=>x.a===pi),on=sancOn(pi);
+  return `<h3>عقوبات مفروضة علينا</h3>${on.map(x=>`<div class="doc"><span class="cls">حتى ج${x.until}</span>من ${G.players[x.a].name}: −1 من دخل التجارة/الصناعة، والوقود بسعر مضاعف.</div>`).join('')||'<p class="muted">لا يوجد.</p>'}
+  <h3>عقوباتنا</h3>${mine.map(x=>`<div class="adv"><div>على ${G.players[x.b].name} حتى ج${x.until}</div><button onclick="liftSanction(${pi},${x.b})" ${dis(canAct(pi))}>ارفعها</button></div>`).join('')||'<p class="muted">لا يوجد.</p>'}
+  <label for="mT">المملكة:</label> ${sel}
+  <button onclick="sanction(${pi},${ti})" ${dis(act&&!pactWith(pi,ti)&&!mine.some(x=>x.b===ti))}>فرض عقوبات اقتصادية<br><span class="muted">3 جولات · تخنق تجارتهم وتسمّم العلاقة</span></button>
+  <h3>الأزمات الدبلوماسية</h3>${G.crises.map(c=>`<div class="doc"><span class="cls">منذ ج${c.r}</span>${G.players[c.a].name} × ${G.players[c.b].name}: السفراء مسحوبون، −1 استقرار للطرفين كل جولة حتى تتحسن العلاقة فوق −30.</div>`).join('')||'<p class="muted">لا أزمات قائمة.</p>'}`}}};
+
+function showMinistry(){const m=V.minOpen,pi=V.minFor,p=G.players[pi],I=INST[m];if(!I.tabs.some(t=>t[0]===V.minTab))V.minTab=I.tabs[0][0];
+ const act=canAct(pi)&&hasOp(p),s=p.s;
+ const note=canAct(pi)?(hasOp(p)?'':'<p class="warn">خلصت عملياتك لهذا الدور. تقدر تطّلع فقط.</p>'):'<p class="warn">القرارات متاحة في دورك بمرحلة الإدارة فقط. تقدر تطّلع على المعلومات الحين.</p>';
+ const h=`<div class="itabs" role="tablist">${I.tabs.map(([id,n])=>`<button role="tab" class="${id===V.minTab?'sel':''}" onclick="instTab('${id}')">${n}</button>`).join('')}</div>
+ <div class="istat"><span>الذهب <b>${p.gold}</b></span><span>العمليات <b>${p.buys}/${OPS}</b></span><span>الجاهزية <b>${READY[s.ready]}</b></span><span>الجولة <b>${G.round}/${G.maxRound}</b></span></div>${note}
+ <div class="ibody">${VIEW[m][V.minTab](pi,p,act)}</div>`;
+ dlg(MNAMES[m]+' · '+p.name,h,[{label:V.minSit?'قم من المكتب':'إغلاق',fn:()=>closeDlg()}],'inst i-'+m)}
+
+/* ---------- computer-run kingdoms ---------- */
+const AI_RD={m:['train','radar','fort','rocket','inter','doctrine','ew2','logi'],p:['radar','rocket','crypto','train','guid','ew2','heavy','civil'],d:['rocket','train','doctrine','logi','guid','heavy','radar'],f:['train','logi','radar','rocket','doctrine','fort','civil']};
+function aiFoe(pi){const c=others(pi).filter(q=>!pactWith(pi,q));if(!c.length)return null;return c.sort((a,b)=>(G.rel[pi][a]-4*borderForce(pi,a))-(G.rel[pi][b]-4*borderForce(pi,b)))[0]}
+function aiPactOK(ti,pi){const r=G.rel[ti][pi];if(inCrisis(ti,pi)||r<-15)return false;return r>=10||(aiFoe(ti)!==pi&&troopsOf(pi)>=troopsOf(ti)+2)}
+function aiBest(pi){const p=G.players[pi];let best=null;attackTargets(pi).forEach(t=>{let A=0,sup=true;NB[t].forEach(j=>{if(G.reg[j].owner===pi){const n=Math.max(0,movable(j)-(isPalace(j)?0:1));if(n>0){A+=n;if(!supplyOK(pi,j))sup=false}}});if(!A)return;
+  const Dr=G.reg[t].troops,o=G.reg[t].owner;const Ae=A+sumM(atkMods(pi,t,{sup,noFuel:p.s.fuel<1}));const De=Dr+(Dr>0&&R[t].size==='S'?1:0)+(Dr>0&&o!=null?1:0);
+  const val=(R[t].size==='L'?3:R[t].size==='M'?2:1)+(o!=null&&G.players[o].palace===t?2:0)+(o!=null&&G.rel[pi][o]<-20?1:0);const sc=(Ae-De)*2+val+Math.random()*4;if(Ae>De&&(!best||sc>best.sc))best={t,sc}});return best}
+function aiMarket(pi){const p=G.players[pi],s=p.s;
+ if(p.aiM!==G.round){p.aiM=G.round;const foe=aiFoe(pi);const mx=Math.max(0,...others(pi).map(q=>s.threat[q]?s.threat[q].lvl:0));
+  const want=mx>=4?2:mx>=3?1:0;if(want!==s.ready&&(want<s.ready||p.gold>=want+2))setReady(pi,want);
+  if(s.stab<40&&s.tax!==0)setTax(pi,0);else if(s.stab>78&&s.tax===0)setTax(pi,1);
+  if(s.fuel<=1&&p.gold>=fuelCost(pi))buyFuel(pi);
+  if(s.debt>0&&p.gold>=s.debt+4)repay(pi);
+  const id=AI_RD[p.k].find(x=>!rdWhy(p,x));if(id&&s.rd.length<rdSlots(p)&&p.gold>=rdCost(p,id)+1)startRD(pi,id);
+  if(foe!=null&&p.mis.n+p.mis.h>0&&!p.launched&&s.fuel>=2&&G.rel[pi][foe]<=-20&&hasOp(p)){const ts=missileTargets(pi).filter(i=>G.reg[i].owner===foe).sort((a,b)=>G.reg[b].troops-G.reg[a].troops);if(ts.length)launch(pi,p.mis.h?'h':'n',ts[0])}
+  if(mx>=2&&p.gold>=price('troops',p)&&placeTargets(pi).length)buy('troops');
+  if(s.ind<1&&G.round<=4&&p.gold>=indCost(p)+2)buildInd(pi);
+  if(has(p,'rocket')&&p.mis.n<2&&p.gold>=misCost(p,'n')+1&&foe!=null&&G.rel[pi][foe]<=-15)buyMis(pi,'n');
+  if(p.gold>=price('troops',p)+1&&placeTargets(pi).length)buy('troops');
+  if(p.minister<3&&p.gold>=price(p.minister===1?'silver':'diamond',p)+3)buy(p.minister===1?'silver':'diamond');
+  if(foe!=null&&G.rel[pi][foe]<=-45&&Math.random()<.5)sanction(pi,foe);
+  if(foe!=null&&p.gold>=3&&Math.random()<.5)spyReport(pi,foe);
+  const strong=others(pi).filter(q=>!pactWith(pi,q)&&q!==foe&&G.rel[pi][q]>=-10&&troopsOf(q)>troopsOf(pi)).sort((a,b)=>troopsOf(b)-troopsOf(a))[0];
+  if(strong!=null&&mx>=2&&hasOp(p)&&Math.random()<.4)proposePact(pi,strong)}
+ if(G.wait)return;
+ autoPlace();endMarketTurn()}
+function aiCard(pi){const p=G.players[pi];if(G.ev.id!=='friday'&&aiBest(pi))return'attack';
+ const mx=Math.max(0,...others(pi).map(q=>p.s.threat[q]?p.s.threat[q].lvl:0));if(mx>=3)return'peace';
+ const brd=i=>NB[i].some(j=>G.reg[j].owner!==pi);return owned(pi).some(i=>!brd(i)&&movable(i)-(isPalace(i)?0:1)>0)?'move':'peace'}
+function aiMove(pi){const brd=i=>NB[i].some(j=>G.reg[j].owner!=null&&G.reg[j].owner!==pi);const o=owned(pi);
+ o.filter(i=>!brd(i)).forEach(src=>{let n=movable(src)-(isPalace(src)?0:1);const dst=o.filter(i=>brd(i)&&G.reg[i].troops<cap(i)).sort((a,b)=>G.reg[a].troops-G.reg[b].troops);
+  for(const d of dst){while(n>0&&G.reg[d].troops<cap(d)){G.reg[src].troops--;G.reg[d].troops++;n--}}})}
+function aiAttack(pi){const p=G.players[pi],b=aiBest(pi);p.att=null;
+ if(b){onRegion(b.t);const a=p.att;if(a){for(const j in a.from)a.from[j]=Math.max(0,movable(+j)-(isPalace(+j)?0:1));if(!Object.values(a.from).some(v=>v>0))p.att=null}}
+ hideCurtain();next(resolve)}
+function aiAct(){const p=P();if(!G||!p||!p.ai)return;const pi=PI(),ph=G.phase;
+ if(ph==='market')aiMarket(pi);else if(ph==='cards')chooseCard(aiCard(pi));else if(ph==='move'){aiMove(pi);next(startAttack)}else if(ph==='attack')aiAttack(pi)}
+function aiSchedule(){if(!G||V.instant||aiSchedule.h)return;if(!['market','cards','move','attack'].includes(G.phase))return;const p=P();if(!p||!p.ai||G.aim)return;
+ aiSchedule.h=setTimeout(()=>{aiSchedule.h=null;if(!G||G.wait)return;aiAct()},650)}
+
 /* ================= 3D view (own WebGL renderer, no libraries) ================= */
 let V3=false;
 const V={ok:false,reg:[],cam:{th:0,ph:.9,dist:1060,tx:0,tz:20},anim:null,ptrs:new Map(),lastKey:'',keys:[],kmode:false,me:0,sel:-1,kb:null,t0:performance.now()};
@@ -714,8 +1104,8 @@ function update3D(){
  /* camera focus on turn */
  const key=G?(G.phase+'|'+G.qi+'|'+G.round):'none';
  if(key!==V.lastKey){V.lastKey=key;
-  const act=actorNow();if(act!=null)V.me=act;
-  if(act!=null&&V.mode!=='world'&&V.int&&V.int.pi!==act){if(V.mode==='tower')backFromTower();exitBuilding();return}
+  const act=actorNow();if(act!=null&&!G.players[act].ai)V.me=act;
+  if(act!=null&&!G.players[act].ai&&V.mode!=='world'&&V.int&&V.int.pi!==act){if(V.mode==='tower')backFromTower();exitBuilding();return}
   if(V.kmode&&G)kFocus();
   else if(G&&['market','cards','move','attack'].includes(G.phase)&&P()&&P().palace!=null){const rg=V.reg[P().palace];focus3D(rg.px,rg.pz+10,560,0)}
   else focus3D(0,20,V.cv.clientWidth<600?980:1060,0)}
@@ -728,21 +1118,21 @@ function kFocus(){const p=G.players[V.me];V.kb=kBounds(p.k);focus3D(V.kb.cx,V.kb
 function enterK(on){
  if(on&&!G)on=false;
  V.kmode=on;
- if(on){const a=actorNow();if(a!=null)V.me=a;kFocus()}
+ if(on){const a=actorNow();if(a!=null&&!G.players[a].ai)V.me=a;kFocus()}
  else{V.kb=null;focus3D(0,20,V.cv.clientWidth<600?980:1060,0,.9)}
  $('kBtn').textContent=on?'اطلع للخريطة الكاملة':'ادخل مملكتك';$('kBtn').classList.toggle('sel',on);
  renderKingdom()}
 function renderKingdom(){
  const el=$('kcard');if(!el)return;
  if(!V.kmode||!G){el.style.display='none';return}
- const a=actorNow();if(a!=null)V.me=a;
+ let a=actorNow();if(a!=null&&G.players[a].ai)a=null;if(a!=null)V.me=a;
  const pi=V.me,p=G.players[pi],o=owned(pi).sort((x,y)=>(isPalace(y)-isPalace(x))||(R[y].size>R[x].size?1:-1));
  const troops=o.reduce((s,i)=>s+G.reg[i].troops,0);
- let h='<h3>داخل مملكتك</h3><div class="row" style="margin-bottom:8px">'+G.players.map((q,qi)=>`<button data-p="${qi}" class="${qi===pi?'sel':''}" ${a!=null&&qi!==a?'disabled':''} style="min-height:34px;padding:2px 10px"><span class="sw" style="background:${K[q.k].fill}"></span>${K[q.k].short}</button>`).join('')+'</div>';
+ let h='<h3>داخل مملكتك</h3><div class="row" style="margin-bottom:8px">'+G.players.map((q,qi)=>`<button data-p="${qi}" class="${qi===pi?'sel':''}" ${q.ai||(a!=null&&qi!==a)?'disabled':''} style="min-height:34px;padding:2px 10px"><span class="sw" style="background:${K[q.k].fill}"></span>${K[q.k].short}</button>`).join('')+'</div>';
  h+=`<div style="font-weight:700;font-size:16px">${sw(p)}${p.name}${p.alive?'':' (خرجت)'}</div><div class="muted">${K[p.k].ab}</div>`;
  h+=`<div class="kstat"><span>الذهب: <b>${p.gold}</b></span><span>الجنود: <b>${troops}</b></span><span>المناطق: <b>${o.length}</b></span><span>الوزير: <b>${MIN_NAMES[p.minister]}</b> (+${p.minister})</span><span>المعسكرات: <b>${o.filter(i=>G.reg[i].camp).length}/2</b></span><span>النقاط الحالية: <b>${score(pi).total}</b></span></div>`;
- h+=`<div class="kstat"><span>صواريخ: <b>${p.mis.n}</b> عادي · <b>${p.mis.h}</b> ثقيل</span><span>الدفاع الجوي: <b>${p.def||'—'}</b></span><span>الاستخبارات: <b>${p.intel||'—'}</b></span><span>معاهدات: <b>${G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi)).map(x=>K[G.players[x.a===pi?x.b:x.a].k].short).join('، ')||'—'}</b></span></div>`;
- h+='<div class="muted" style="margin-bottom:4px">وزاراتك (ادخل المبنى وتمشّى فيه):</div><div class="row" style="margin-bottom:10px">'+['def','intel','foreign'].map(m=>`<button data-m="${m}" ${p.palace==null?'disabled':''}>${MNAMES[m]}</button>`).join('')+'</div>';
+ h+=`<div class="kstat"><span>صواريخ: <b>${p.mis.n}</b> عادي · <b>${p.mis.h}</b> ثقيل</span><span>الدفاع الجوي: <b>${p.def||'—'}</b></span><span>الاستقرار: <b>${p.s.stab}%</b></span><span>الجاهزية: <b>${READY[p.s.ready]}</b></span><span>الاستخبارات: <b>${p.intel||'—'}</b></span><span>معاهدات: <b>${G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi)).map(x=>K[G.players[x.a===pi?x.b:x.a].k].short).join('، ')||'—'}</b></span></div>`;
+ h+='<div class="muted" style="margin-bottom:4px">مؤسسات الدولة (ادخل المبنى وتمشّى فيه):</div><div class="row" style="margin-bottom:10px">'+['hq','def','intel','foreign'].map(m=>`<button data-m="${m}" ${p.palace==null?'disabled':''}>${MNAMES[m]}</button>`).join('')+'</div>';
  h+='<div class="muted" style="margin-bottom:4px">مناطقك (اضغط على منطقة عشان تقرّب لها):</div>';
  h+=o.map(i=>{const g=G.reg[i];return `<div class="krow" data-i="${i}"><span>${R[i].name} <span class="muted">${SZ[R[i].size].label}</span>${isPalace(i)?' <span class="badge">قصر</span>':''}${g.camp?' <span class="badge" style="background:#6B5434">معسكر</span>':''}</span><b>${g.troops}/${cap(i)}</b></div>`}).join('');
  el.style.display='block';el.innerHTML=h;
@@ -1246,6 +1636,23 @@ RR.building=function(m,o){o=o||{};const T=RR.THEMES.bld,mt=RR.mt;const A=new RR.
   screen('x',iw.n,1,1.2,5.6,.95,2.25,'map',[.05,.05,.95,.95]);screen('z',iw.e,-1,-2,1,1.2,2.6,'status');
   (o.flags||[]).forEach((c,qi)=>flag(8.3,2.2+qi*.85,0,c));
   A.cyl(-4.5,0,2.2,.25,.15,.9,12,M.dwood,[1,1,1],0,true);A.sph(-4.5,1.45,2.2,.55,.55,.55,mt('map',1.1,.4),[1.05,1,.9]);for(let i=0;i<24;i++){const a0=i/24*6.2832,a1=(i+1)/24*6.2832;A.tube([-4.5+Math.cos(a0)*.6,1.45+Math.sin(a0)*.6,2.2],[-4.5+Math.cos(a1)*.6,1.45+Math.sin(a1)*.6,2.2],.012,6,M.brass,BR)}}
+ if(m==='hq'){
+  /* situation table with the strategic map + wall displays */
+  A.cb(4.6,.78,1.8,3.1,.07,2.1,0,.025,M.dwood);for(const sx of[-1,1])for(const sz of[-1,1])A.cb(4.6+sx*1.4,.38,1.8+sz*.9,.14,.76,.14,0,.02,M.dwood);
+  N.q([3.15,.82,2.75],[6.05,.82,2.75],[6.05,.82,.85],[3.15,.82,.85],[0,1,0],[1,1,1],SCR,.1,uvf('map',.05,.05,.95,.95));
+  for(let k=0;k<6;k++)A.cyl(3.5+k*.45,.83,1.1+((k*37)%9)*.14,.03,.03,.1,10,M.brass,k%2?[.8,.2,.2]:[.2,.3,.8],0,true);
+  screen('z',iw.e,-1,-4.1,-2.5,1.25,2.55,'status');screen('z',iw.e,-1,-2.3,-.8,1.25,2.55,'map',[.05,.05,.95,.95]);
+  /* cabinet table */
+  A.cb(-4.6,.76,1.6,1.3,.07,3.4,0,.03,M.dwood);A.cb(-4.6,.8,1.6,1.1,.008,3.2,0,.004,mt('leather',2,.3),[.2,.32,.24]);for(const sz of[-1,1])A.cb(-4.6,.37,1.6+sz*1.3,.5,.74,.3,0,.03,M.dwood);
+  for(const z of[.5,1.6,2.7]){diner(-5.65,z,0,Math.PI/2,[.3,.14,.1]);diner(-3.55,z,0,-Math.PI/2,[.3,.14,.1]);for(const sx of[-1,1])A.cb(-4.6+sx*.33,.82,z,.2,.012,.28,sx*.12,.004,M.paper,[.98,.95,.86])}
+  A.cyl(-4.6,.8,1.6,.09,.07,.16,14,M.brass,BR,0,true);
+  /* treasury desk */
+  desk(4.2,-2.8,0,2.2,.8);monitor(4.2,-2.9,0,true,'status');chair(4.2,-2.05,0,0,[.2,.18,.16]);
+  for(let k=0;k<5;k++)A.cb(3.5,.8+k*.035,-2.7,.22,.03,.3,.1*k,.004,M.book,[.3+.08*k,.16,.1]);
+  /* secure communications console */
+  A.cb(.2,.58,-5.45,1.0,1.15,.5,0,.03,M.iron,[.2,.22,.2]);A.cb(.2,1.2,-5.4,.9,.1,.4,0,.02,M.iron,[.1,.1,.1]);A.cb(-.05,1.3,-5.4,.24,.07,.18,0,.02,M.iron,[.08,.08,.08]);A.cb(-.05,1.37,-5.4,.26,.04,.07,0,.02,M.iron,[.08,.08,.08]);
+  for(let k=0;k<4;k++)N.box(.25+k*.1,1.26,-5.3,.31+k*.1,1.29,-5.24,M.paper,k%2?[1,.3,.2]:[.3,1,.45],2.2);
+  (o.flags||[]).forEach((c,qi)=>flag(8.3,2.2+qi*.85,0,c))}
  /* ---------- upper floor: minister's office ---------- */
  const y=F;
  A.box(2,y,-4.6,6.4,y+.012,-.4,M.rug,[.5,.4,.3]);A.q([2,y+.013,-.4],[6.4,y+.013,-.4],[6.4,y+.013,-4.6],[2,y+.013,-4.6],[0,1,0],[1,1,1],M.rug,0,[[0,0],[1,0],[1,1],[0,1]]);
@@ -1271,7 +1678,7 @@ RR.building=function(m,o){o=o||{};const T=RR.THEMES.bld,mt=RR.mt;const A=new RR.
 
 /* ===== Realistic WWII-style interior: glue between the game and the RR renderer (separate canvas) ===== */
 const RRI={active:false,ok:null,R:null,cv:null,sc:null,scrDirty:true,tier:0,fr:[],last:0,sz:'',scrCv:null,px:null,err:null};
-RRI.mcol={def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]};
+RRI.mcol={hq:[.36,.27,.14],def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]};
 RRI.init=function(){if(RRI.ok!==null)return RRI.ok;
  try{const cv=document.createElement('canvas');cv.id='rr';cv.setAttribute('aria-hidden','true');cv.style.cssText='position:absolute;left:0;top:0;width:100%;height:100%;display:none;pointer-events:none';
   $('v3').insertBefore(cv,$('labs'));RRI.cv=cv;
@@ -1301,8 +1708,8 @@ RRI.draw=function(e,t,now,dt){const R=RRI.R;if(!R||!RRI.sc)return;RRI.vis(true);
 
 /* ===================== Ministries in 3D, walkable interiors, tower view, missile FX ===================== */
 V.mode='world';V.fx=[];V.instant=false;V.fp=null;V.int=null;V.tw=null;V.keys={};V.joy={x:0,y:0};V.minOpen=null;V.tex={};V.src={};
-const MNAMES={def:'وزارة الدفاع',intel:'وزارة الاستخبارات',foreign:'وزارة الخارجية'};
-const MSHORT={def:'الدفاع',intel:'الاستخبارات',foreign:'الخارجية'};
+const MNAMES={hq:'القيادة الوطنية',def:'وزارة الدفاع',intel:'وزارة الاستخبارات',foreign:'وزارة الخارجية'};
+const MSHORT={hq:'القيادة',def:'الدفاع',intel:'الاستخبارات',foreign:'الخارجية'};
 B.prototype.aab=function(x0,y0,z0,x1,y1,z1,col){this.obox((x0+x1)/2,(y0+y1)/2,(z0+z1)/2,[1,0,0],[0,1,0],[0,0,1],x1-x0,y1-y0,z1-z0,col)};
 B.prototype.seg=function(a,b,w,h,col){const d=nrm([b[0]-a[0],b[1]-a[1],b[2]-a[2]]);let s=nrm(crs(d,[0,1,0]));if(!isFinite(s[0])||Math.hypot(...s)<.5)s=[1,0,0];const u=crs(s,d);const l=Math.hypot(b[0]-a[0],b[1]-a[1],b[2]-a[2]);this.obox((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2,d,u,s,l,h,w,col)};
 class TB{constructor(){this.d=[]}
@@ -1422,7 +1829,7 @@ function labelsUpdate(vp,show){const labs=$('labs');labs.style.display=show?'':'
   if(wv<=0){l.style.display='none';return}l.style.display='';l.style.transform='translate('+((x/wv+1)/2*W).toFixed(1)+'px,'+((1-y/wv)/2*Hh).toFixed(1)+'px) translate(-50%,-100%)'};
  V.reg.forEach((rg,i)=>{const r=R[i];proj([rg.px,rg.H+(r.cap?32:20),rg.pz-(r.cap?6:0)],rg.lab)});
  const showM=G&&V.kmode&&V.mode==='world'&&G.players[V.me]&&G.players[V.me].palace!=null;
- ['def','intel','foreign'].forEach(m=>{const l=V.mlab[m];if(!showM){l.style.display='none';return}const pal=G.players[V.me].palace,ms=minSpots(pal)[m],rg=V.reg[pal];proj([ms.x,rg.H+(m==='intel'?34:20),ms.z],l)})}
+ ['hq','def','intel','foreign'].forEach(m=>{const l=V.mlab[m];if(!showM){l.style.display='none';return}const pal=G.players[V.me].palace,rg=V.reg[pal],ms=m==='hq'?{x:rg.px,z:rg.pz-6}:minSpots(pal)[m];proj(m==='hq'?[rg.px+4,rg.H+4,rg.pz+16]:[ms.x,rg.H+(m==='intel'?34:20),ms.z],l)})}
 
 /* ---------- main loop ---------- */
 function loop3D(now){
@@ -1446,7 +1853,7 @@ function loop3D(now){
 const IC={marble:[.87,.85,.81],marble2:[.76,.74,.70],wall:[.93,.90,.84],trim:[.36,.26,.18],wood:[.52,.35,.21],dwood:[.33,.22,.14],ceil:[.95,.94,.91],par1:[.63,.45,.29],par2:[.57,.40,.25],frame:[.24,.24,.26],metal:[.58,.60,.63],scr:[.10,.11,.13],white:[.95,.95,.94],fabric:[.38,.42,.48],grass:[.45,.60,.35],terra:[.70,.40,.26],leaf:[.30,.52,.30],book:[[.55,.18,.16],[.18,.32,.52],[.22,.45,.28],[.75,.62,.28],[.4,.3,.5]]};
 function buildInterior(m,k){
  const S=new B(),Lt=new B(),T={win:new TB(),map:new TB(),status:new TB(),sign:new TB()};
- const acc=hexc(K[k].strong),mc={def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]}[m];
+ const acc=hexc(K[k].strong),mc={hq:[.36,.27,.14],def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]}[m];
  const col=[[],[]],hs=[];const W=9,Dp=6,F=3.4,TOP=6.8,t=.25;
  const aab=(...a)=>S.aab(...a);
  /* ground & floors */
@@ -1515,13 +1922,13 @@ function buildInterior(m,k){
   aab(7.5,0,-4.3,8.6,.78,-.7,IC.metal);aab(7.45,.78,-4.35,8.65,.84,-.65,IC.scr);
   scrZ('status',W-.13,-4.1,-2.5,1.25,2.55,true);scrZ('map',W-.13,-2.3,-.8,1.25,2.55,true,[.05,.05,.95,.95]);chair(6.95,-2.5,0,Math.PI/2);
   col[0].push([-5.2,1.5,-3.8,2.9],[3.0,.7,6.2,2.9],[7.4,-4.4,W,-.6]);
-  hs.push({id:'ops',label:'افتح غرفة العمليات',x:6.5,z:-2.5,l:0,mk:[7.9,1.6,-2.5],yaw:Math.PI/2})}
+  hs.push({id:'ops',tab:'ew',label:'اجلس على كونسول الإنذار المبكر',x:6.5,z:-2.5,l:0,mk:[7.9,1.6,-2.5],yaw:Math.PI/2},{id:'cmd',tab:'cmd',label:'قف على طاولة العمليات',x:4.6,z:3.35,l:0,mk:[4.6,1.5,1.8],yaw:0},{id:'rd',tab:'rd',label:'افحص برنامج الصواريخ والبحث',x:-4.5,z:3.5,l:0,mk:[-3.6,1.7,2.2],yaw:0},{id:'arm',tab:'arm',label:'راجع مكتب التسليح',x:0,z:2.1,l:0,mk:[0,1.6,1.05],yaw:0})}
  if(m==='intel'){
   scrX('map',-Dp+.13,1,4.4,.95,2.25,false,[.05,.05,.95,.95]);scrX('status',-Dp+.13,4.6,8.4,.95,2.25,false);
   for(const [x,z] of[[3,-2.6],[6.2,-2.6],[3,.9],[6.2,.9]]){desk(x,z,0,2.2,.8);monitor(x-.5,z-.1,0,true,'status');monitor(x+.5,z-.1,0,true,'map');chair(x,z+.75,0,0)}
   for(let i=0;i<4;i++){const z=1.2+i*.95;aab(7.9,0,z,8.7,2.1,z+.8,[.13,.14,.17]);for(let y=.3;y<2;y+=.25)Lt.aab(7.86,y,z+.12,7.9,y+.04,z+.2,[.3,1,.45])}
   col[0].push([1.85,-3.05,4.15,-2.15],[5.05,-3.05,7.35,-2.15],[1.85,.45,4.15,1.35],[5.05,.45,7.35,1.35],[7.8,1.1,W,5.1]);
-  hs.push({id:'ops',label:'افتح مركز المراقبة',x:4.6,z:-4.3,l:0,mk:[4.6,1.6,-5.4],yaw:0})}
+  hs.push({id:'ops',tab:'threat',label:'افتح شاشات مركز التهديدات',x:4.6,z:-4.3,l:0,mk:[4.6,1.6,-5.4],yaw:0},{id:'dos',tab:'dos',label:'افتح ملفات الدول على مكتب التحليل',x:3,z:1.95,l:0,mk:[3,1.75,.9],yaw:0},{id:'ci',tab:'ci',label:'افحص الأرشيف المؤمّن',x:7.2,z:3.1,l:0,mk:[7.7,1.6,3.1],yaw:Math.PI/2},{id:'iops',tab:'ops',label:'راجع مكتب العمليات',x:0,z:2.1,l:0,mk:[0,1.6,1.05],yaw:0})}
  if(m==='foreign'){
   S.cyl(3.8,0,.6,.35,.35,.72,8,IC.dwood,true);S.cyl(3.8,.72,.6,1.55,1.55,.07,20,IC.wood,true);
   for(let i=0;i<6;i++){const a=i/6*6.2832;const x=3.8+Math.sin(a)*2.05,z=.6-Math.cos(a)*2.05;chair(x,z,0,a+Math.PI,[.45,.16,.16])}
@@ -1529,7 +1936,16 @@ function buildInterior(m,k){
   G.players.forEach((q,qi)=>flag(8.3,2.2+qi*.85,0,hexc(K[q.k].strong)));
   S.cyl(-4.5,0,2.2,.25,.15,.9,6,IC.dwood,true);S.dome(-4.5,1.45,2.2,.55,.55,10,[.25,.45,.7]);S.dome(-4.5,1.45,2.2,.55,-.55,10,[.3,.55,.35]);
   col[0].push([1.6,-1.6,6.0,2.8],[8.1,2,W,5.6],[-4.9,1.8,-4.1,2.6]);
-  hs.push({id:'ops',label:'افتح طاولة المفاوضات',x:3.8,z:-1.9,l:0,mk:[3.8,1.5,.6],yaw:Math.PI})}
+  hs.push({id:'ops',tab:'neg',label:'اجلس على طاولة المفاوضات',x:3.8,z:-1.9,l:0,mk:[3.8,1.5,.6],yaw:Math.PI},{id:'world',tab:'world',label:'تفحّص مجسّم العالم',x:-4.5,z:3.3,l:0,mk:[-4.5,2.35,2.2],yaw:0},{id:'sanc',tab:'sanc',label:'ملف العقوبات والأزمات',x:7.3,z:3.4,l:0,mk:[7.9,1.6,3.4],yaw:Math.PI/2})}
+ if(m==='hq'){
+  aab(3.1,0,.8,6.1,.82,2.8,IC.dwood);T.map.q([3.15,.83,2.75],[6.05,.83,2.75],[6.05,.83,.85],[3.15,.83,.85],[0,1,0],.05,.05,.95,.95);
+  scrZ('status',W-.13,-4.1,-2.5,1.25,2.55,true);scrZ('map',W-.13,-2.3,-.8,1.25,2.55,true,[.05,.05,.95,.95]);
+  aab(-5.25,.72,-.1,-3.95,.8,3.3,IC.dwood);for(const z of[.5,1.6,2.7]){chair(-5.65,z,0,Math.PI/2,[.3,.14,.1]);chair(-3.55,z,0,-Math.PI/2,[.3,.14,.1])}
+  desk(4.2,-2.8,0,2.2,.8);monitor(4.2,-2.9,0,true,'status');chair(4.2,-2.05,0,0);
+  aab(-.3,0,-5.7,.7,1.15,-5.2,IC.metal);aab(-.2,1.15,-5.65,.6,1.3,-5.3,IC.scr);
+  G.players.forEach((q,qi)=>flag(8.3,2.2+qi*.85,0,hexc(K[q.k].strong)));
+  col[0].push([3.0,.7,6.2,2.9],[-5.95,-.3,-3.25,3.5],[3.05,-3.25,5.35,-2.35],[-.4,-5.8,.8,-5.1],[8.1,2,W,5.6]);
+  hs.push({id:'ops',tab:'brief',label:'قف على خريطة غرفة العمليات',x:4.6,z:3.35,l:0,mk:[4.6,1.5,1.8],yaw:0},{id:'cab',tab:'cab',label:'اعقد مجلس الوزراء',x:-2.9,z:1.6,l:0,mk:[-4.6,1.6,1.6],yaw:-Math.PI/2},{id:'eco',tab:'eco',label:'راجع مكتب الخزانة',x:4.2,z:-1.75,l:0,mk:[4.2,1.8,-2.8],yaw:0},{id:'comm',tab:'comm',label:'ارفع سماعة الخط المؤمّن',x:.2,z:-4.5,l:0,mk:[.2,1.75,-5.45],yaw:0})}
  /* upper floor: minister office */
  const y=F;
  carpet(2,-4.6,6.4,-.4,y,mc);
@@ -1552,8 +1968,9 @@ function freeInterior(){const I=V.int;RRI.leave();if(!I)return;const gl=V.gl;[I.
 
 /* ---------- interior textures ---------- */
 function statusTex(){if(!V.int||!G)return;const m=V.int.m,pi=V.int.pi,p=G.players[pi];let L;
- if(m==='def')L=['غرفة العمليات · '+p.name,'صواريخ عادية: '+p.mis.n+'   ·   ثقيلة: '+p.mis.h,'الدفاع الجوي: '+(p.def?'مستوى '+p.def:'غير مفعّل'),'الذهب: '+p.gold+'   ·   الجنود: '+owned(pi).reduce((s,i)=>s+G.reg[i].troops,0)];
- else if(m==='intel'){const r=p.report;L=['الاستخبارات · مستوى '+p.intel,r?(r.fail?'آخر عملية: انكشف الجاسوس عند '+G.players[r.ti].name:'تقرير '+G.players[r.ti].name+': ذهب '+r.gold+' · صواريخ '+(r.n+r.h)+' · دفاع '+r.def):'لا توجد تقارير بعد','الجولة '+G.round+' من '+G.maxRound]}
+ const s=p.s;if(m==='hq')L=['القيادة الوطنية · '+p.name,'الاستقرار: '+s.stab+'%   ·   الجاهزية: '+READY[s.ready],'الخزينة: '+p.gold+'   ·   الدين: '+s.debt+'   ·   الوقود: '+s.fuel,'الطقس: '+G.wx.t+'   ·   الجولة '+G.round+' من '+G.maxRound];
+ else if(m==='def')L=['غرفة العمليات · '+p.name,'صواريخ عادية: '+p.mis.n+'   ·   ثقيلة: '+p.mis.h,'الدفاع الجوي: '+(p.def?'مستوى '+p.def:'غير مفعّل')+'   ·   الكشف: '+detPct(p)+'%','الجاهزية: '+READY[s.ready]+'   ·   الوقود: '+s.fuel+'   ·   الجنود: '+owned(pi).reduce((s,i)=>s+G.reg[i].troops,0)];
+ else if(m==='intel'){const r=p.report;L=['الاستخبارات · مستوى '+p.intel,...others(pi).slice(0,2).map(q=>s.threat[q]?'التهديد من '+K[G.players[q].k].short+': '+THREAT[s.threat[q].lvl]+' (ثقة '+s.threat[q].conf+'%)':''),'الجولة '+G.round+' من '+G.maxRound]}
  else{const ps=G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi));L=['الخارجية · '+p.name,...(ps.length?ps.slice(0,3).map(x=>'معاهدة مع '+G.players[x.a===pi?x.b:x.a].name+' حتى الجولة '+x.until):['لا توجد معاهدات نشطة'])]}
  const sc=textCanvas(L,{bg:'#0E1C26',fg:'#A8E6FF',c1:'#FFFFFF',f1:58,f2:42,border:'#2B4A5C'});V.src.status=sc;V.tex.status=texFromCanvas(sc,V.tex.status);RRI.scrDirty=true}
 function signTex(m,p){const sc=textCanvas([MNAMES[m],p.name],{w:1024,h:160,bg:'#3A2A1A',fg:'#F2D58A',c1:'#F7E3A8',f1:74,f2:40,border:'#C9A55A'});V.src.sign=sc;V.tex.sign=texFromCanvas(sc,V.tex.sign);RRI.scrDirty=true}
@@ -1585,7 +2002,7 @@ function actHS(h){if(!h)return;const m=V.int.m;
  if(h.id==='down'){fpGo({x:-7.8,z:-4.9,l:0,yaw:-Math.PI/2});return}
  if(h.id==='desk'){fpGo(h,()=>openMinistry(m,V.int.pi,true));return}
  if(h.id==='window'){fpGo(h,()=>toTower());return}
- if(h.id==='ops'){fpGo(h,()=>openMinistry(m,V.int.pi,false));return}}
+ if(h.tab){fpGo(h,()=>openMinistry(m,V.int.pi,false,h.tab));return}}
 function goTo(id){if(!V.int)return;const h=V.int.hs.find(x=>x.id===id);if(!h)return;
  if(id==='up'){V.fp.level=1;V.fp.y=3.4;fpGo({x:2,z:0,l:1,yaw:0});return}
  if(id==='down'){V.fp.level=0;V.fp.y=0;fpGo({x:0,z:3.6,l:0,yaw:0});return}
@@ -1609,7 +2026,7 @@ function interiorFrame(dt,now){const gl=V.gl,cv=V.cv,w=cv.width,h=cv.height;
 /* ---------- mode transitions ---------- */
 function enterBuilding(m){if(!G||!V.ok)return;const pi=V.me,p=G.players[pi];if(!p||p.palace==null)return;
  if(V.mode==='world'&&!V3)return;freeInterior();
- V.int=buildInterior(m,p.k);V.int.m=m;V.int.pi=pi;const ms=minSpots(p.palace);V.int.spot={x:ms[m].x,z:ms[m].z,H:V.reg[p.palace].H};RRI.enter(m,p);
+ V.int=buildInterior(m,p.k);V.int.m=m;V.int.pi=pi;const ms=minSpots(p.palace),prg=V.reg[p.palace];V.int.spot=ms[m]?{x:ms[m].x,z:ms[m].z,H:prg.H}:{x:prg.px,z:prg.pz-6,H:prg.H};RRI.enter(m,p);
  V.fp={x:0,z:4.7,y:0,level:0,yaw:0,pitch:-.04,sit:false,anim:null};V.joy={x:0,y:0};
  V.mode='interior';V.texDirty=true;V.winDirty=true;signTex(m,p);$('v3').classList.add('fp');
  $('hud').style.display='block';$('twHud').style.display='none';$('hint3').style.display='none';$('tip3').style.display='none';
@@ -1646,7 +2063,7 @@ function initInput(cv){
   const click=e.type==='pointerup'&&p.b===0&&!p.sh&&Math.hypot(e.clientX-p.sx,e.clientY-p.sy)<7&&performance.now()-p.t<600;if(!click)return;
   if(V.mode==='interior'){interiorTap(e.clientX,e.clientY);return}
   const r=pickRay(e.clientX,e.clientY);if(r.i<0)return;
-  if(V.mode==='world'&&V.kmode&&G&&!busyClick()&&G.players[V.me].palace===r.i){const ms=minSpots(r.i);for(const m in ms)if(Math.hypot(r.x-ms[m].x,r.z-ms[m].z)<15){enterBuilding(m);return}}
+  if(V.mode==='world'&&V.kmode&&G&&!busyClick()&&G.players[V.me].palace===r.i){const ms=minSpots(r.i);for(const m in ms)if(Math.hypot(r.x-ms[m].x,r.z-ms[m].z)<15){enterBuilding(m);return}const prg=V.reg[r.i];if(Math.hypot(r.x-prg.px,r.z-(prg.pz-6))<17){enterBuilding('hq');return}}
   onRegion(r.i);V.sel=r.i;tip.textContent=infoText(r.i);tip.style.display='block'};
  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
  cv.addEventListener('pointerleave',()=>{if(V.mode==='interior')return;if(V.sel>=0){tip.textContent=infoText(V.sel);tip.style.display='block'}else tip.style.display='none'});
@@ -1669,7 +2086,7 @@ function interiorTap(cx,cy){const vp=V.ivp;if(!vp||!V.int||V.fp.anim)return;cons
   const sx=rc.left+(x/w+1)/2*rc.width,sy=rc.top+(1-y/w)/2*rc.height;const d=Math.hypot(sx-cx,sy-cy);if(d<bd){bd=d;best=h}});
  if(best)actHS(best)}
 function initExtra(){initTexProg();initInput(V.cv);
- V.mlab={};['def','intel','foreign'].forEach(m=>{const d=document.createElement('div');d.className='lab3 mlab';d.innerHTML='<b>'+MNAMES[m]+'</b><span>اضغط للدخول</span>';d.style.display='none';$('labs').appendChild(d);V.mlab[m]=d})}
+ V.mlab={};['hq','def','intel','foreign'].forEach(m=>{const d=document.createElement('div');d.className='lab3 mlab';d.innerHTML='<b>'+MNAMES[m]+'</b><span>اضغط للدخول</span>';d.style.display='none';$('labs').appendChild(d);V.mlab[m]=d})}
 
 $('ovB').onclick=hideCurtain;
 buildMap();

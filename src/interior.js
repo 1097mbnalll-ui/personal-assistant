@@ -1,7 +1,7 @@
 /* ===================== Ministries in 3D, walkable interiors, tower view, missile FX ===================== */
 V.mode='world';V.fx=[];V.instant=false;V.fp=null;V.int=null;V.tw=null;V.keys={};V.joy={x:0,y:0};V.minOpen=null;V.tex={};V.src={};
-const MNAMES={def:'وزارة الدفاع',intel:'وزارة الاستخبارات',foreign:'وزارة الخارجية'};
-const MSHORT={def:'الدفاع',intel:'الاستخبارات',foreign:'الخارجية'};
+const MNAMES={hq:'القيادة الوطنية',def:'وزارة الدفاع',intel:'وزارة الاستخبارات',foreign:'وزارة الخارجية'};
+const MSHORT={hq:'القيادة',def:'الدفاع',intel:'الاستخبارات',foreign:'الخارجية'};
 B.prototype.aab=function(x0,y0,z0,x1,y1,z1,col){this.obox((x0+x1)/2,(y0+y1)/2,(z0+z1)/2,[1,0,0],[0,1,0],[0,0,1],x1-x0,y1-y0,z1-z0,col)};
 B.prototype.seg=function(a,b,w,h,col){const d=nrm([b[0]-a[0],b[1]-a[1],b[2]-a[2]]);let s=nrm(crs(d,[0,1,0]));if(!isFinite(s[0])||Math.hypot(...s)<.5)s=[1,0,0];const u=crs(s,d);const l=Math.hypot(b[0]-a[0],b[1]-a[1],b[2]-a[2]);this.obox((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2,d,u,s,l,h,w,col)};
 class TB{constructor(){this.d=[]}
@@ -121,7 +121,7 @@ function labelsUpdate(vp,show){const labs=$('labs');labs.style.display=show?'':'
   if(wv<=0){l.style.display='none';return}l.style.display='';l.style.transform='translate('+((x/wv+1)/2*W).toFixed(1)+'px,'+((1-y/wv)/2*Hh).toFixed(1)+'px) translate(-50%,-100%)'};
  V.reg.forEach((rg,i)=>{const r=R[i];proj([rg.px,rg.H+(r.cap?32:20),rg.pz-(r.cap?6:0)],rg.lab)});
  const showM=G&&V.kmode&&V.mode==='world'&&G.players[V.me]&&G.players[V.me].palace!=null;
- ['def','intel','foreign'].forEach(m=>{const l=V.mlab[m];if(!showM){l.style.display='none';return}const pal=G.players[V.me].palace,ms=minSpots(pal)[m],rg=V.reg[pal];proj([ms.x,rg.H+(m==='intel'?34:20),ms.z],l)})}
+ ['hq','def','intel','foreign'].forEach(m=>{const l=V.mlab[m];if(!showM){l.style.display='none';return}const pal=G.players[V.me].palace,rg=V.reg[pal],ms=m==='hq'?{x:rg.px,z:rg.pz-6}:minSpots(pal)[m];proj(m==='hq'?[rg.px+4,rg.H+4,rg.pz+16]:[ms.x,rg.H+(m==='intel'?34:20),ms.z],l)})}
 
 /* ---------- main loop ---------- */
 function loop3D(now){
@@ -145,7 +145,7 @@ function loop3D(now){
 const IC={marble:[.87,.85,.81],marble2:[.76,.74,.70],wall:[.93,.90,.84],trim:[.36,.26,.18],wood:[.52,.35,.21],dwood:[.33,.22,.14],ceil:[.95,.94,.91],par1:[.63,.45,.29],par2:[.57,.40,.25],frame:[.24,.24,.26],metal:[.58,.60,.63],scr:[.10,.11,.13],white:[.95,.95,.94],fabric:[.38,.42,.48],grass:[.45,.60,.35],terra:[.70,.40,.26],leaf:[.30,.52,.30],book:[[.55,.18,.16],[.18,.32,.52],[.22,.45,.28],[.75,.62,.28],[.4,.3,.5]]};
 function buildInterior(m,k){
  const S=new B(),Lt=new B(),T={win:new TB(),map:new TB(),status:new TB(),sign:new TB()};
- const acc=hexc(K[k].strong),mc={def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]}[m];
+ const acc=hexc(K[k].strong),mc={hq:[.36,.27,.14],def:[.38,.44,.32],intel:[.20,.26,.44],foreign:[.50,.16,.18]}[m];
  const col=[[],[]],hs=[];const W=9,Dp=6,F=3.4,TOP=6.8,t=.25;
  const aab=(...a)=>S.aab(...a);
  /* ground & floors */
@@ -214,13 +214,13 @@ function buildInterior(m,k){
   aab(7.5,0,-4.3,8.6,.78,-.7,IC.metal);aab(7.45,.78,-4.35,8.65,.84,-.65,IC.scr);
   scrZ('status',W-.13,-4.1,-2.5,1.25,2.55,true);scrZ('map',W-.13,-2.3,-.8,1.25,2.55,true,[.05,.05,.95,.95]);chair(6.95,-2.5,0,Math.PI/2);
   col[0].push([-5.2,1.5,-3.8,2.9],[3.0,.7,6.2,2.9],[7.4,-4.4,W,-.6]);
-  hs.push({id:'ops',label:'افتح غرفة العمليات',x:6.5,z:-2.5,l:0,mk:[7.9,1.6,-2.5],yaw:Math.PI/2})}
+  hs.push({id:'ops',tab:'ew',label:'اجلس على كونسول الإنذار المبكر',x:6.5,z:-2.5,l:0,mk:[7.9,1.6,-2.5],yaw:Math.PI/2},{id:'cmd',tab:'cmd',label:'قف على طاولة العمليات',x:4.6,z:3.35,l:0,mk:[4.6,1.5,1.8],yaw:0},{id:'rd',tab:'rd',label:'افحص برنامج الصواريخ والبحث',x:-4.5,z:3.5,l:0,mk:[-3.6,1.7,2.2],yaw:0},{id:'arm',tab:'arm',label:'راجع مكتب التسليح',x:0,z:2.1,l:0,mk:[0,1.6,1.05],yaw:0})}
  if(m==='intel'){
   scrX('map',-Dp+.13,1,4.4,.95,2.25,false,[.05,.05,.95,.95]);scrX('status',-Dp+.13,4.6,8.4,.95,2.25,false);
   for(const [x,z] of[[3,-2.6],[6.2,-2.6],[3,.9],[6.2,.9]]){desk(x,z,0,2.2,.8);monitor(x-.5,z-.1,0,true,'status');monitor(x+.5,z-.1,0,true,'map');chair(x,z+.75,0,0)}
   for(let i=0;i<4;i++){const z=1.2+i*.95;aab(7.9,0,z,8.7,2.1,z+.8,[.13,.14,.17]);for(let y=.3;y<2;y+=.25)Lt.aab(7.86,y,z+.12,7.9,y+.04,z+.2,[.3,1,.45])}
   col[0].push([1.85,-3.05,4.15,-2.15],[5.05,-3.05,7.35,-2.15],[1.85,.45,4.15,1.35],[5.05,.45,7.35,1.35],[7.8,1.1,W,5.1]);
-  hs.push({id:'ops',label:'افتح مركز المراقبة',x:4.6,z:-4.3,l:0,mk:[4.6,1.6,-5.4],yaw:0})}
+  hs.push({id:'ops',tab:'threat',label:'افتح شاشات مركز التهديدات',x:4.6,z:-4.3,l:0,mk:[4.6,1.6,-5.4],yaw:0},{id:'dos',tab:'dos',label:'افتح ملفات الدول على مكتب التحليل',x:3,z:1.95,l:0,mk:[3,1.75,.9],yaw:0},{id:'ci',tab:'ci',label:'افحص الأرشيف المؤمّن',x:7.2,z:3.1,l:0,mk:[7.7,1.6,3.1],yaw:Math.PI/2},{id:'iops',tab:'ops',label:'راجع مكتب العمليات',x:0,z:2.1,l:0,mk:[0,1.6,1.05],yaw:0})}
  if(m==='foreign'){
   S.cyl(3.8,0,.6,.35,.35,.72,8,IC.dwood,true);S.cyl(3.8,.72,.6,1.55,1.55,.07,20,IC.wood,true);
   for(let i=0;i<6;i++){const a=i/6*6.2832;const x=3.8+Math.sin(a)*2.05,z=.6-Math.cos(a)*2.05;chair(x,z,0,a+Math.PI,[.45,.16,.16])}
@@ -228,7 +228,16 @@ function buildInterior(m,k){
   G.players.forEach((q,qi)=>flag(8.3,2.2+qi*.85,0,hexc(K[q.k].strong)));
   S.cyl(-4.5,0,2.2,.25,.15,.9,6,IC.dwood,true);S.dome(-4.5,1.45,2.2,.55,.55,10,[.25,.45,.7]);S.dome(-4.5,1.45,2.2,.55,-.55,10,[.3,.55,.35]);
   col[0].push([1.6,-1.6,6.0,2.8],[8.1,2,W,5.6],[-4.9,1.8,-4.1,2.6]);
-  hs.push({id:'ops',label:'افتح طاولة المفاوضات',x:3.8,z:-1.9,l:0,mk:[3.8,1.5,.6],yaw:Math.PI})}
+  hs.push({id:'ops',tab:'neg',label:'اجلس على طاولة المفاوضات',x:3.8,z:-1.9,l:0,mk:[3.8,1.5,.6],yaw:Math.PI},{id:'world',tab:'world',label:'تفحّص مجسّم العالم',x:-4.5,z:3.3,l:0,mk:[-4.5,2.35,2.2],yaw:0},{id:'sanc',tab:'sanc',label:'ملف العقوبات والأزمات',x:7.3,z:3.4,l:0,mk:[7.9,1.6,3.4],yaw:Math.PI/2})}
+ if(m==='hq'){
+  aab(3.1,0,.8,6.1,.82,2.8,IC.dwood);T.map.q([3.15,.83,2.75],[6.05,.83,2.75],[6.05,.83,.85],[3.15,.83,.85],[0,1,0],.05,.05,.95,.95);
+  scrZ('status',W-.13,-4.1,-2.5,1.25,2.55,true);scrZ('map',W-.13,-2.3,-.8,1.25,2.55,true,[.05,.05,.95,.95]);
+  aab(-5.25,.72,-.1,-3.95,.8,3.3,IC.dwood);for(const z of[.5,1.6,2.7]){chair(-5.65,z,0,Math.PI/2,[.3,.14,.1]);chair(-3.55,z,0,-Math.PI/2,[.3,.14,.1])}
+  desk(4.2,-2.8,0,2.2,.8);monitor(4.2,-2.9,0,true,'status');chair(4.2,-2.05,0,0);
+  aab(-.3,0,-5.7,.7,1.15,-5.2,IC.metal);aab(-.2,1.15,-5.65,.6,1.3,-5.3,IC.scr);
+  G.players.forEach((q,qi)=>flag(8.3,2.2+qi*.85,0,hexc(K[q.k].strong)));
+  col[0].push([3.0,.7,6.2,2.9],[-5.95,-.3,-3.25,3.5],[3.05,-3.25,5.35,-2.35],[-.4,-5.8,.8,-5.1],[8.1,2,W,5.6]);
+  hs.push({id:'ops',tab:'brief',label:'قف على خريطة غرفة العمليات',x:4.6,z:3.35,l:0,mk:[4.6,1.5,1.8],yaw:0},{id:'cab',tab:'cab',label:'اعقد مجلس الوزراء',x:-2.9,z:1.6,l:0,mk:[-4.6,1.6,1.6],yaw:-Math.PI/2},{id:'eco',tab:'eco',label:'راجع مكتب الخزانة',x:4.2,z:-1.75,l:0,mk:[4.2,1.8,-2.8],yaw:0},{id:'comm',tab:'comm',label:'ارفع سماعة الخط المؤمّن',x:.2,z:-4.5,l:0,mk:[.2,1.75,-5.45],yaw:0})}
  /* upper floor: minister office */
  const y=F;
  carpet(2,-4.6,6.4,-.4,y,mc);
@@ -251,8 +260,9 @@ function freeInterior(){const I=V.int;RRI.leave();if(!I)return;const gl=V.gl;[I.
 
 /* ---------- interior textures ---------- */
 function statusTex(){if(!V.int||!G)return;const m=V.int.m,pi=V.int.pi,p=G.players[pi];let L;
- if(m==='def')L=['غرفة العمليات · '+p.name,'صواريخ عادية: '+p.mis.n+'   ·   ثقيلة: '+p.mis.h,'الدفاع الجوي: '+(p.def?'مستوى '+p.def:'غير مفعّل'),'الذهب: '+p.gold+'   ·   الجنود: '+owned(pi).reduce((s,i)=>s+G.reg[i].troops,0)];
- else if(m==='intel'){const r=p.report;L=['الاستخبارات · مستوى '+p.intel,r?(r.fail?'آخر عملية: انكشف الجاسوس عند '+G.players[r.ti].name:'تقرير '+G.players[r.ti].name+': ذهب '+r.gold+' · صواريخ '+(r.n+r.h)+' · دفاع '+r.def):'لا توجد تقارير بعد','الجولة '+G.round+' من '+G.maxRound]}
+ const s=p.s;if(m==='hq')L=['القيادة الوطنية · '+p.name,'الاستقرار: '+s.stab+'%   ·   الجاهزية: '+READY[s.ready],'الخزينة: '+p.gold+'   ·   الدين: '+s.debt+'   ·   الوقود: '+s.fuel,'الطقس: '+G.wx.t+'   ·   الجولة '+G.round+' من '+G.maxRound];
+ else if(m==='def')L=['غرفة العمليات · '+p.name,'صواريخ عادية: '+p.mis.n+'   ·   ثقيلة: '+p.mis.h,'الدفاع الجوي: '+(p.def?'مستوى '+p.def:'غير مفعّل')+'   ·   الكشف: '+detPct(p)+'%','الجاهزية: '+READY[s.ready]+'   ·   الوقود: '+s.fuel+'   ·   الجنود: '+owned(pi).reduce((s,i)=>s+G.reg[i].troops,0)];
+ else if(m==='intel'){const r=p.report;L=['الاستخبارات · مستوى '+p.intel,...others(pi).slice(0,2).map(q=>s.threat[q]?'التهديد من '+K[G.players[q].k].short+': '+THREAT[s.threat[q].lvl]+' (ثقة '+s.threat[q].conf+'%)':''),'الجولة '+G.round+' من '+G.maxRound]}
  else{const ps=G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi));L=['الخارجية · '+p.name,...(ps.length?ps.slice(0,3).map(x=>'معاهدة مع '+G.players[x.a===pi?x.b:x.a].name+' حتى الجولة '+x.until):['لا توجد معاهدات نشطة'])]}
  const sc=textCanvas(L,{bg:'#0E1C26',fg:'#A8E6FF',c1:'#FFFFFF',f1:58,f2:42,border:'#2B4A5C'});V.src.status=sc;V.tex.status=texFromCanvas(sc,V.tex.status);RRI.scrDirty=true}
 function signTex(m,p){const sc=textCanvas([MNAMES[m],p.name],{w:1024,h:160,bg:'#3A2A1A',fg:'#F2D58A',c1:'#F7E3A8',f1:74,f2:40,border:'#C9A55A'});V.src.sign=sc;V.tex.sign=texFromCanvas(sc,V.tex.sign);RRI.scrDirty=true}
@@ -284,7 +294,7 @@ function actHS(h){if(!h)return;const m=V.int.m;
  if(h.id==='down'){fpGo({x:-7.8,z:-4.9,l:0,yaw:-Math.PI/2});return}
  if(h.id==='desk'){fpGo(h,()=>openMinistry(m,V.int.pi,true));return}
  if(h.id==='window'){fpGo(h,()=>toTower());return}
- if(h.id==='ops'){fpGo(h,()=>openMinistry(m,V.int.pi,false));return}}
+ if(h.tab){fpGo(h,()=>openMinistry(m,V.int.pi,false,h.tab));return}}
 function goTo(id){if(!V.int)return;const h=V.int.hs.find(x=>x.id===id);if(!h)return;
  if(id==='up'){V.fp.level=1;V.fp.y=3.4;fpGo({x:2,z:0,l:1,yaw:0});return}
  if(id==='down'){V.fp.level=0;V.fp.y=0;fpGo({x:0,z:3.6,l:0,yaw:0});return}
@@ -308,7 +318,7 @@ function interiorFrame(dt,now){const gl=V.gl,cv=V.cv,w=cv.width,h=cv.height;
 /* ---------- mode transitions ---------- */
 function enterBuilding(m){if(!G||!V.ok)return;const pi=V.me,p=G.players[pi];if(!p||p.palace==null)return;
  if(V.mode==='world'&&!V3)return;freeInterior();
- V.int=buildInterior(m,p.k);V.int.m=m;V.int.pi=pi;const ms=minSpots(p.palace);V.int.spot={x:ms[m].x,z:ms[m].z,H:V.reg[p.palace].H};RRI.enter(m,p);
+ V.int=buildInterior(m,p.k);V.int.m=m;V.int.pi=pi;const ms=minSpots(p.palace),prg=V.reg[p.palace];V.int.spot=ms[m]?{x:ms[m].x,z:ms[m].z,H:prg.H}:{x:prg.px,z:prg.pz-6,H:prg.H};RRI.enter(m,p);
  V.fp={x:0,z:4.7,y:0,level:0,yaw:0,pitch:-.04,sit:false,anim:null};V.joy={x:0,y:0};
  V.mode='interior';V.texDirty=true;V.winDirty=true;signTex(m,p);$('v3').classList.add('fp');
  $('hud').style.display='block';$('twHud').style.display='none';$('hint3').style.display='none';$('tip3').style.display='none';
@@ -345,7 +355,7 @@ function initInput(cv){
   const click=e.type==='pointerup'&&p.b===0&&!p.sh&&Math.hypot(e.clientX-p.sx,e.clientY-p.sy)<7&&performance.now()-p.t<600;if(!click)return;
   if(V.mode==='interior'){interiorTap(e.clientX,e.clientY);return}
   const r=pickRay(e.clientX,e.clientY);if(r.i<0)return;
-  if(V.mode==='world'&&V.kmode&&G&&!busyClick()&&G.players[V.me].palace===r.i){const ms=minSpots(r.i);for(const m in ms)if(Math.hypot(r.x-ms[m].x,r.z-ms[m].z)<15){enterBuilding(m);return}}
+  if(V.mode==='world'&&V.kmode&&G&&!busyClick()&&G.players[V.me].palace===r.i){const ms=minSpots(r.i);for(const m in ms)if(Math.hypot(r.x-ms[m].x,r.z-ms[m].z)<15){enterBuilding(m);return}const prg=V.reg[r.i];if(Math.hypot(r.x-prg.px,r.z-(prg.pz-6))<17){enterBuilding('hq');return}}
   onRegion(r.i);V.sel=r.i;tip.textContent=infoText(r.i);tip.style.display='block'};
  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
  cv.addEventListener('pointerleave',()=>{if(V.mode==='interior')return;if(V.sel>=0){tip.textContent=infoText(V.sel);tip.style.display='block'}else tip.style.display='none'});
@@ -368,4 +378,4 @@ function interiorTap(cx,cy){const vp=V.ivp;if(!vp||!V.int||V.fp.anim)return;cons
   const sx=rc.left+(x/w+1)/2*rc.width,sy=rc.top+(1-y/w)/2*rc.height;const d=Math.hypot(sx-cx,sy-cy);if(d<bd){bd=d;best=h}});
  if(best)actHS(best)}
 function initExtra(){initTexProg();initInput(V.cv);
- V.mlab={};['def','intel','foreign'].forEach(m=>{const d=document.createElement('div');d.className='lab3 mlab';d.innerHTML='<b>'+MNAMES[m]+'</b><span>اضغط للدخول</span>';d.style.display='none';$('labs').appendChild(d);V.mlab[m]=d})}
+ V.mlab={};['hq','def','intel','foreign'].forEach(m=>{const d=document.createElement('div');d.className='lab3 mlab';d.innerHTML='<b>'+MNAMES[m]+'</b><span>اضغط للدخول</span>';d.style.display='none';$('labs').appendChild(d);V.mlab[m]=d})}
