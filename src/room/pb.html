@@ -1,0 +1,18 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1280" height="800"></canvas>
+<script src="room.js"></script><script src="building.js"></script>
+<script>
+try{const q=new URLSearchParams(location.search);const m=q.get('m')||'def',ci=+(q.get('c')||0),ss=+(q.get('ss')||1);const F=3.4;
+const R=RR.create(document.getElementById('c'),{ss});R.setAtlas(RR.atlas(RR.THEMES.bld.atlas));
+const t0=performance.now();
+const o=RR.building(m,{acc:[.8,.2,.2],mc:{def:[.38,.44,.32],intel:[.2,.26,.44],foreign:[.5,.16,.18]}[m],flags:[[.8,.2,.2],[.2,.4,.8],[.2,.6,.3],[.9,.7,.1]],hs:[{mk:[6.4,1.6,-2.5]}]});const sc=o.scene;sc.cast=R.buf(o.A);sc.nc=R.buf(o.N);
+const gl=R.gl;let b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,sc.rayArr,gl.STATIC_DRAW);sc.rays={b,n:sc.rayArr.length/4};
+b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,sc.dustArr,gl.STATIC_DRAW);sc.dust={b,n:sc.dustArr.length/4};
+const C=[{e:[0,1.65,5.3],t:[0,1.4,-3],fov:1.15},{e:[-8,1.65,4.5],t:[5,1.2,-1],fov:1.15},{e:[0,F+1.65,4.8],t:[4,F+1.2,-3],fov:1.15},{e:[-7.8,1.65,-1.5],t:[3,1.3,2],fov:1.15},{e:[2.6,F+1.3,-.2],t:[4.5,F+.8,-3.4],fov:1.1},{e:[8,1.65,4.8],t:[1,1.3,-2],fov:1.15},{e:[-8,F+1.65,5],t:[2,F+1.2,-3],fov:1.15},{e:[0,1.7,-3.5],t:[3,1.3,3],fov:1.15}];
+// fake dynamic textures for test
+const cv=document.createElement('canvas');cv.width=cv.height=2048;const x=cv.getContext('2d');x.fillStyle='#0E1C26';x.fillRect(0,0,1024,512);x.fillStyle='#A8E6FF';x.font='bold 60px sans-serif';x.fillText('STATUS',60,120);x.fillStyle='#3A2A1A';x.fillRect(1024,0,1024,160);x.fillStyle='#F2D58A';x.font='bold 70px sans-serif';x.fillText('MINISTRY',1100,110);x.fillStyle='#A9C8D6';x.fillRect(0,512,1024,1024);x.fillStyle='#6a8';x.beginPath();x.arc(500,1000,300,0,6.3);x.fill();R.setScr(cv);
+const w=256,h=128,px=new Uint8Array(w*h*4);for(let j=0;j<h;j++)for(let i=0;i<w;i++){const k=(j*w+i)*4;const g=j/h;px[k]=120+g*40;px[k+1]=170-g*50;px[k+2]=210-g*120;px[k+3]=255}R.setWin(w,h,px);
+const t1=performance.now();
+R.render(sc,C[ci]);gl.finish();
+document.title='OK verts='+(o.A.d.length/16|0)+'+'+(o.N.d.length/16|0)+' build='+Math.round(t1-t0)+'ms render='+Math.round(performance.now()-t1)+'ms err='+gl.getError()}catch(e){document.title='ERR '+e.message+' '+(e.stack||'').slice(0,300)}
+</script></body></html>
