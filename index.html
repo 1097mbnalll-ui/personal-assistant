@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#05080c">
+<title>الحرب العالمية</title>
+<style>:root{--gd:#d9ae55;--gd2:#f3d58c;--tx:#e6ecf0;--mu:#93a4b0;--pn:#080d12c7;--ln:#ffffff24}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{height:100%;color:var(--tx);-webkit-user-select:none;user-select:none;touch-action:none;background:#05080c;margin:0;font-family:Cairo,Noto Sans Arabic,Segoe UI,system-ui,sans-serif;overflow:hidden}#c{outline:none;width:100%;height:100%;display:block;position:fixed;inset:0}#ui{pointer-events:none;position:fixed;inset:0}#ui>*{pointer-events:none}.panel{background:var(--pn);border:1px solid var(--ln);-webkit-backdrop-filter:blur(10px);border-radius:12px}#loc{top:max(14px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));border-inline-start:3px solid var(--gd);padding:8px 16px;position:absolute}#loc small{color:var(--mu);letter-spacing:2px;font-size:11px;display:block}#loc b{font-size:17px}#obj{top:max(14px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));max-width:min(360px,60vw);padding:8px 14px;font-size:13.5px;line-height:1.6;position:absolute}#obj small{color:var(--gd2);letter-spacing:2px;font-size:11px;display:block}#prompt{white-space:nowrap;align-items:center;gap:10px;padding:9px 18px;font-size:16px;font-weight:600;display:none;position:absolute;bottom:22%;left:50%;transform:translate(-50%)}#prompt kbd{background:var(--gd);color:#1a1205;border-radius:6px;padding:1px 9px;font:700 14px system-ui}#hint{left:50%;bottom:max(14px,env(safe-area-inset-bottom));color:var(--mu);white-space:nowrap;padding:6px 14px;font-size:12.5px;position:absolute;transform:translate(-50%)}#hint b{color:var(--tx)}body.touch #hint{display:none}#stick{background:#ffffff0f;border:2px solid #ffffff59;border-radius:50%;width:120px;height:120px;display:none;position:absolute}#knob{background:#ffffffbf;border-radius:50%;width:50px;height:50px;position:absolute;top:35px;left:35px}#tbtns{right:max(18px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));direction:ltr;align-items:flex-end;gap:14px;display:none;position:absolute}body.touch #tbtns{display:flex}#tbtns button,#menuBtn{pointer-events:auto;color:#fff;background:#0a10168c;border:2px solid #fff6;border-radius:50%;width:66px;height:66px;font:700 13px inherit}#tbtns button.big{border-color:var(--gd);width:82px;height:82px;color:var(--gd2)}#tbtns button.on{background:var(--gd);color:#1a1205}#menuBtn{top:max(14px,env(safe-area-inset-top));width:44px;height:44px;font-size:18px;display:none;position:absolute;left:50%;transform:translate(-50%)}body.touch #menuBtn{display:block}#load{z-index:5;background:radial-gradient(900px 500px at 50% 30%,#1b2b3a 0,#0000 70%),#05080c;flex-direction:column;justify-content:center;align-items:center;gap:18px;transition:opacity .6s;display:flex;position:fixed;inset:0}#load h1{background:linear-gradient(#fff1c8,#d9ae55 55%,#8a6420);color:#0000;-webkit-background-clip:text;background-clip:text;margin:0;font-size:clamp(40px,9vw,72px)}#bar{background:#1c2833;border-radius:3px;width:min(420px,70vw);height:5px;overflow:hidden}#bar i{background:linear-gradient(90deg,#b98a2e,#f3d58c);width:0;height:100%;transition:width .2s;display:block}#load p{color:var(--mu);margin:0;font-size:13px}#startNew{pointer-events:auto;color:var(--mu);cursor:pointer;background:0 0;border:none;font:15px inherit;text-decoration:underline}#start{pointer-events:auto;border:1px solid var(--gd2);color:#1a1205;cursor:pointer;background:linear-gradient(#e7be62,#b98a2e);border-radius:12px;padding:14px 44px;font:700 19px inherit;display:none}#modal{pointer-events:auto;z-index:4;background:#03060a99;justify-content:center;align-items:center;padding:16px;display:none;position:fixed;inset:0}#modal .box{touch-action:pan-y;width:min(720px,100%);max-height:86vh;padding:20px 22px;overflow:auto}#modal h2{color:var(--gd2);border-bottom:1px solid var(--ln);margin:0 0 10px;padding-bottom:8px;font-size:22px}#modal .body{font-size:15px;line-height:1.9}#modal table{border-collapse:collapse;width:100%}#modal td{border-bottom:1px solid var(--ln);padding:5px 4px}#modal td:last-child{color:var(--gd2);text-align:left;direction:ltr}#modal .row{flex-wrap:wrap;gap:10px;margin-top:14px;display:flex}#modal button{pointer-events:auto;border:1px solid var(--ln);min-height:44px;color:var(--tx);cursor:pointer;background:#16222d;border-radius:10px;padding:8px 18px;font:600 15px inherit}#modal button.primary{color:#1a1205;border-color:var(--gd2);background:linear-gradient(#e7be62,#b98a2e)}#modal button.sel{background:#2f5470;border-color:#5c8cb0}#fps{color:#6b7d8a;direction:ltr;font:11px monospace;position:absolute;bottom:6px;left:8px}.strip{border:1px solid var(--ln);background:#ffffff0d;border-radius:9px;flex-wrap:wrap;gap:4px 14px;margin-bottom:10px;padding:7px 12px;font-size:13px;display:flex}.strip b{color:var(--gd2)}#modal h3{color:var(--gd2);margin:16px 0 6px;font-size:15px}.doc{border:1px solid var(--ln);border-inline-start:3px solid var(--gd);background:#ffffff0b;border-radius:7px;margin:7px 0;padding:8px 12px;font-size:14px;line-height:1.75}.cls{border:1px solid var(--gd);color:var(--gd2);border-radius:4px;margin-inline-end:8px;padding:0 7px;font-size:11px;font-weight:700;display:inline-block}.mu{color:var(--mu);font-size:13px}.grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;display:grid}#modal .body button{text-align:right;flex-direction:column;align-items:flex-start;gap:1px;width:100%;display:flex}#modal .body button small{color:var(--mu);font-size:12px;font-weight:400}#modal .body button:disabled{opacity:.42;cursor:not-allowed}#modal .body button.danger{background:linear-gradient(#5a2318,#3a160f);border-color:#a8402c}#modal .body button.primary small{color:#3a2a08}#modal .wide{margin-top:12px}.tabs{flex-wrap:wrap;gap:6px;margin:8px 0;display:flex}.tabs button{width:auto!important;min-height:36px!important;padding:4px 12px!important}.node{border:1px solid var(--ln);background:#ffffff0b;border-radius:9px;flex-direction:column;gap:6px;padding:9px 11px;font-size:14px;display:flex}.node.done{border-color:#4e9a5b}.node.locked{opacity:.6}.tg{border-radius:4px;align-self:flex-start;padding:1px 8px;font-size:12px;font-weight:700;display:inline-block}.tg.ok{color:#fff;background:#3e8a4c}.tg.run{color:#221;background:#c9a227}.tg.lock{color:#fff;background:#6a443e}.bar{background:#1c2833;border-radius:3px;height:6px;margin-top:6px;overflow:hidden}.bar i{background:linear-gradient(90deg,#b98a2e,#f3d58c);height:100%;display:block}canvas.map{border:1px solid var(--ln);border-radius:9px;width:100%;height:auto;display:block}#dlgBar{left:50%;bottom:max(26px,env(safe-area-inset-bottom));border-inline-start:4px solid var(--gd);width:min(820px,94vw);padding:14px 20px;display:none;position:absolute;transform:translate(-50%);pointer-events:auto!important}#dlgWho{color:var(--gd2);margin-bottom:4px;font-size:14px;font-weight:700}#dlgText{min-height:58px;font-size:17px;line-height:1.8}#dlgNext{color:var(--mu);margin-top:6px;font-size:12.5px}#dlgChoices{flex-wrap:wrap;gap:10px;margin-top:10px;display:flex}#dlgChoices button{pointer-events:auto;border:1px solid var(--ln);min-height:44px;color:var(--tx);cursor:pointer;background:#16222d;border-radius:10px;padding:8px 18px;font:600 15px inherit}#dlgChoices button.primary{color:#1a1205;border-color:var(--gd2);background:linear-gradient(#e7be62,#b98a2e)}#toast{left:50%;top:max(74px,calc(env(safe-area-inset-top) + 60px));text-align:center;max-width:92vw;padding:10px 18px;font-weight:600;display:none;position:absolute;transform:translate(-50%)}#toast.in{animation:.35s tin}@keyframes tin{0%{opacity:0;transform:translate(-50%,-10px)}}#fade{opacity:0;pointer-events:none;z-index:3;background:#000;transition:opacity .9s;position:fixed;inset:0}#caption{letter-spacing:2px;text-shadow:0 2px 12px #000;white-space:nowrap;font-size:clamp(18px,3vw,28px);font-weight:700;display:none;position:absolute;bottom:12%;left:50%;transform:translate(-50%)}body.cine #loc,body.cine #obj,body.cine #hint,body.cine #prompt,body.cine #tbtns,body.cine #menuBtn{display:none!important}body.cine:before,body.cine:after{content:"";z-index:2;background:#000;height:9vh;position:fixed;left:0;right:0}body.cine:before{top:0}body.cine:after{bottom:0}body.alarm #ui:after{content:"";pointer-events:none;animation:.9s ease-in-out infinite al;position:absolute;inset:0;box-shadow:inset 0 0 120px 30px #ff28148c}@keyframes al{50%{opacity:.25}}</style>
+  <script type="module" crossorigin src="./assets/index-1JYo7PBP.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/rolldown-runtime-DK3Fl9T5.js">
+  <link rel="modulepreload" crossorigin href="./assets/observable.pure-H-M_hi7F.js">
+  <link rel="modulepreload" crossorigin href="./assets/performanceConfigurator-UtxC_Odd.js">
+  <link rel="modulepreload" crossorigin href="./assets/engineStore-B_7KzytD.js">
+  <link rel="modulepreload" crossorigin href="./assets/math.scalar.functions-BMwEppRb.js">
+  <link rel="modulepreload" crossorigin href="./assets/typeStore-Cu_sj2zM.js">
+  <link rel="modulepreload" crossorigin href="./assets/math.vector.pure-DST8O3ID.js">
+  <link rel="modulepreload" crossorigin href="./assets/math.color.pure-DobtDy7H.js">
+  <link rel="modulepreload" crossorigin href="./assets/logger-CuBYPcDK.js">
+  <link rel="modulepreload" crossorigin href="./assets/decorators-BS-fGYfw.js">
+  <link rel="modulepreload" crossorigin href="./assets/devTools-Bh3wKyVb.js">
+  <link rel="modulepreload" crossorigin href="./assets/math.size-Bt5uOvQN.js">
+  <link rel="modulepreload" crossorigin href="./assets/webRequest-dqz0dHXK.js">
+  <link rel="modulepreload" crossorigin href="./assets/animation.pure-B6lEfabK.js">
+  <link rel="modulepreload" crossorigin href="./assets/domManagement-BqltO0ki.js">
+  <link rel="modulepreload" crossorigin href="./assets/precisionDate-Uyb-ubD0.js">
+  <link rel="modulepreload" crossorigin href="./assets/tools.functions-Dg2h0TJs.js">
+  <link rel="modulepreload" crossorigin href="./assets/halfFloat-Ce77JD5z.js">
+  <link rel="modulepreload" crossorigin href="./assets/guid-BXdVC_j_.js">
+  <link rel="modulepreload" crossorigin href="./assets/tools.pure--w8spdnO.js">
+  <link rel="modulepreload" crossorigin href="./assets/smartArray-BRfcgNbX.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightConstants-CIxVT7Gr.js">
+  <link rel="modulepreload" crossorigin href="./assets/shaderStore-D-XQlhUT.js">
+  <link rel="modulepreload" crossorigin href="./assets/internalTexture-CIqq8xFB.js">
+  <link rel="modulepreload" crossorigin href="./assets/abstractEngine.pure-DDhpwQc-.js">
+  <link rel="modulepreload" crossorigin href="./assets/thinEngine.pure-3vkRu91i.js">
+  <link rel="modulepreload" crossorigin href="./assets/buffer.pure-CGFpq70F.js">
+  <link rel="modulepreload" crossorigin href="./assets/sceneComponent-xelZ1PTW.js">
+  <link rel="modulepreload" crossorigin href="./assets/pointerEvents-BkRxbko_.js">
+  <link rel="modulepreload" crossorigin href="./assets/keyboardEvents-CGYiptFb.js">
+  <link rel="modulepreload" crossorigin href="./assets/math.plane-nQVNjOOq.js">
+  <link rel="modulepreload" crossorigin href="./assets/scene.pure-DkB5Fm2r.js">
+  <link rel="modulepreload" crossorigin href="./assets/animationGroup.pure-DPsczslv.js">
+  <link rel="modulepreload" crossorigin href="./assets/audioEngineV2-DVCbGoO_.js">
+  <link rel="modulepreload" crossorigin href="./assets/spatialWebAudioUpdaterComponent-CSbbigZo.js">
+  <link rel="modulepreload" crossorigin href="./assets/abstractAudioNode-Ct5BhjKQ.js">
+  <link rel="modulepreload" crossorigin href="./assets/preload-helper-DclECHGd.js">
+  <link rel="modulepreload" crossorigin href="./assets/webAudioBaseSubGraph-ahxe98Fe.js">
+  <link rel="modulepreload" crossorigin href="./assets/spatialWebAudio-DXcAgaNB.js">
+  <link rel="modulepreload" crossorigin href="./assets/abstractSoundSource-EXxOfp1e.js">
+  <link rel="modulepreload" crossorigin href="./assets/abstractSoundInstance-vDtCTfJr.js">
+  <link rel="modulepreload" crossorigin href="./assets/drawWrapper-DOnb5BzV.js">
+  <link rel="modulepreload" crossorigin href="./assets/effectRenderer.pure-DX8V6O9N.js">
+  <link rel="modulepreload" crossorigin href="./assets/constants-DlOANaVb.js">
+  <link rel="modulepreload" crossorigin href="./assets/baseTexture.pure-CpyJgWka.js">
+  <link rel="modulepreload" crossorigin href="./assets/texture.pure-C2CI4GQj.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphInteger.pure-D-XqaB7B.js">
+  <link rel="modulepreload" crossorigin href="./assets/glTFLoaderAnimation.pure-8CH4M7hH.js">
+  <link rel="modulepreload" crossorigin href="./assets/renderTargetTexture.pure-IxUnnwJz.js">
+  <link rel="modulepreload" crossorigin href="./assets/postProcess.pure-DXHd4W5y.js">
+  <link rel="modulepreload" crossorigin href="./assets/textureFormat.functions-D7W2wHvk.js">
+  <link rel="modulepreload" crossorigin href="./assets/brdfTextureTools-CA1vXquX.js">
+  <link rel="modulepreload" crossorigin href="./assets/easing-BsEVvEPk.js">
+  <link rel="modulepreload" crossorigin href="./assets/packingFunctions-BtK51k3Y.js">
+  <link rel="modulepreload" crossorigin href="./assets/bonesDeclaration-3fzk1vv3.js">
+  <link rel="modulepreload" crossorigin href="./assets/bakedVertexAnimation-7XIMgH6x.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertexGlobalDeclaration-CAOQ2X8h.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertexDeclaration-BoNQXQ5g.js">
+  <link rel="modulepreload" crossorigin href="./assets/instancesDeclaration-CJBvtBV5.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertexGlobal-CKIgoRtW.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertex-De98nBP1.js">
+  <link rel="modulepreload" crossorigin href="./assets/instancesVertex-C-FoRQR1.js">
+  <link rel="modulepreload" crossorigin href="./assets/bonesVertex-C-6EIxbv.js">
+  <link rel="modulepreload" crossorigin href="./assets/packingFunctions-zMCp-5EJ.js">
+  <link rel="modulepreload" crossorigin href="./assets/bonesDeclaration-C_GZ6k81.js">
+  <link rel="modulepreload" crossorigin href="./assets/bakedVertexAnimationDeclaration-C-g0vyVW.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertexGlobalDeclaration-LgRwWaoX.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertexDeclaration-lzw20E7Y.js">
+  <link rel="modulepreload" crossorigin href="./assets/instancesDeclaration-DsiFqYXH.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertexGlobal-IS1MZ8yz.js">
+  <link rel="modulepreload" crossorigin href="./assets/morphTargetsVertex-x5LmUlz0.js">
+  <link rel="modulepreload" crossorigin href="./assets/instancesVertex-Dty6qjVO.js">
+  <link rel="modulepreload" crossorigin href="./assets/bonesVertex-BGJW_9OC.js">
+  <link rel="modulepreload" crossorigin href="./assets/bakedVertexAnimation-CP3BNGXM.js">
+  <link rel="modulepreload" crossorigin href="./assets/cubemapToSphericalPolynomial-Dfw0H1VR.js">
+  <link rel="modulepreload" crossorigin href="./assets/helperFunctions-CPZVryR8.js">
+  <link rel="modulepreload" crossorigin href="./assets/fresnelFunction-B3UVg8Q-.js">
+  <link rel="modulepreload" crossorigin href="./assets/meshUboDeclaration-BATNZvmb.js">
+  <link rel="modulepreload" crossorigin href="./assets/sceneUboDeclaration-D_dVU-T1.js">
+  <link rel="modulepreload" crossorigin href="./assets/decalFragment-CvBK6CMD.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphBlock-CCsyI2Jw.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphExecutionBlock-CRgvFzj2.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphRichTypes.pure-oNbkkV0Y.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphExecutionBlockWithOutSignal-zOL8OoG1.js">
+  <link rel="modulepreload" crossorigin href="./assets/utils-CLq_UU0_.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphAsyncExecutionBlock-B82oUWM8.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphDelayRegistry-Dd3murvx.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphAnimationHelpers-DeoRHYDE.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphPlayAnimationBlock.pure-D7xoC5wW.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphSoundAssets-Bn4FiuTO.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphCachedOperationBlock-DfWzpObL.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphAssetsContext-WtUyuDAI.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphBinaryOperationBlock-Bwhw9mE6.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphUnaryOperationBlock-ClFSEaj7.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphEventBlock-BejPFajC.js">
+  <link rel="modulepreload" crossorigin href="./assets/flowGraphKeyboardEventBlock-BYiu7EjI.js">
+  <link rel="modulepreload" crossorigin href="./assets/textureProcessor-BGPyxKsP.js">
+  <link rel="modulepreload" crossorigin href="./assets/helperFunctions-DXiZRiWF.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneFragmentDeclaration-DwyXN3A8.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneFragment-CiHPIb-X.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneVertexDeclaration-lbEIdyxE.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneVertex-DPSs14UF.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneFragmentDeclaration-ByWuc2u-.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneFragment-CIXWtyW3.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneVertexDeclaration-_B10-M6A.js">
+  <link rel="modulepreload" crossorigin href="./assets/clipPlaneVertex-BDcbHYFd.js">
+  <link rel="modulepreload" crossorigin href="./assets/sceneVertexDeclaration-CluTp-RC.js">
+  <link rel="modulepreload" crossorigin href="./assets/meshVertexDeclaration-CPlGPeEg.js">
+  <link rel="modulepreload" crossorigin href="./assets/sceneUboDeclaration-B5VhSG0v.js">
+  <link rel="modulepreload" crossorigin href="./assets/meshUboDeclaration-BmNu2KU_.js">
+  <link rel="modulepreload" crossorigin href="./assets/clusteredLightingFunctions-BFCOODPn.js">
+  <link rel="modulepreload" crossorigin href="./assets/clusteredLightingFunctions-DNqaoQCj.js">
+  <link rel="modulepreload" crossorigin href="./assets/backgroundUboDeclaration-CvL1rn_O.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogVertexDeclaration-CiHbVcSR.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightVxUboDeclaration-CRTevJ7j.js">
+  <link rel="modulepreload" crossorigin href="./assets/logDepthDeclaration-FIwYr9tC.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogVertex-D0bmc4KF.js">
+  <link rel="modulepreload" crossorigin href="./assets/shadowsVertex-BorYl7Jm.js">
+  <link rel="modulepreload" crossorigin href="./assets/logDepthVertex-DSD5XdGw.js">
+  <link rel="modulepreload" crossorigin href="./assets/reflectionFunction-B71fKnsF.js">
+  <link rel="modulepreload" crossorigin href="./assets/imageProcessingDeclaration-DXUaJI_N.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightUboDeclaration-CUIASsX5.js">
+  <link rel="modulepreload" crossorigin href="./assets/ltcHelperFunctions-D8BySwCQ.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightsFragmentFunctions-CQUWMvKD.js">
+  <link rel="modulepreload" crossorigin href="./assets/shadowsFragmentFunctions-BEUrtVDp.js">
+  <link rel="modulepreload" crossorigin href="./assets/imageProcessingFunctions-Ccn56Hme.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogFragmentDeclaration-RaGxQRv_.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightFragment-x1Dngszw.js">
+  <link rel="modulepreload" crossorigin href="./assets/logDepthFragment-CxtJswLx.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogFragment-C9E3EVJj.js">
+  <link rel="modulepreload" crossorigin href="./assets/backgroundUboDeclaration-i4MsxPq1.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogVertexDeclaration-Bb9kDbrL.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightVxFragmentDeclaration-Bl0jzps7.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightVxUboDeclaration-C0bL_Fd5.js">
+  <link rel="modulepreload" crossorigin href="./assets/logDepthDeclaration-DcRZd9JE.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogVertex-B90wzaBe.js">
+  <link rel="modulepreload" crossorigin href="./assets/shadowsVertex-PTtZYBbI.js">
+  <link rel="modulepreload" crossorigin href="./assets/logDepthVertex-D5IUM6qd.js">
+  <link rel="modulepreload" crossorigin href="./assets/reflectionFunction-UnxJdyP6.js">
+  <link rel="modulepreload" crossorigin href="./assets/imageProcessingDeclaration-BrX2Kfu8.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightFragmentDeclaration-BQSeSN9D.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightUboDeclaration-BGQye3zh.js">
+  <link rel="modulepreload" crossorigin href="./assets/ltcHelperFunctions-DS3Utz6C.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightsFragmentFunctions-CBON2Pju.js">
+  <link rel="modulepreload" crossorigin href="./assets/shadowsFragmentFunctions-B2pdv0XY.js">
+  <link rel="modulepreload" crossorigin href="./assets/imageProcessingFunctions-D0LsETkF.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogFragmentDeclaration-DCUwnHxF.js">
+  <link rel="modulepreload" crossorigin href="./assets/lightFragment-BGrbNx2s.js">
+  <link rel="modulepreload" crossorigin href="./assets/logDepthFragment-C5lxT4l1.js">
+  <link rel="modulepreload" crossorigin href="./assets/fogFragment-CKCGTcJi.js">
+  <link rel="modulepreload" crossorigin href="./assets/vertexColorMixing-DPW6Is9y.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrUboDeclaration-aCN_FR-R.js">
+  <link rel="modulepreload" crossorigin href="./assets/samplerVertexImplementation-CbPW9xhO.js">
+  <link rel="modulepreload" crossorigin href="./assets/mainUVVaryingDeclaration-B_7d0nc3.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrBRDFFunctions-DxfbxN23.js">
+  <link rel="modulepreload" crossorigin href="./assets/harmonicsFunctions-Bny7AGgg.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpVertexDeclaration-zEGdjOId.js">
+  <link rel="modulepreload" crossorigin href="./assets/vertexPullingDeclaration-bSzsf5ND.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpVertex-KprKHjtT.js">
+  <link rel="modulepreload" crossorigin href="./assets/vertexColorMixing-UCrnwszu.js">
+  <link rel="modulepreload" crossorigin href="./assets/objectIdFunctions-DbOLxRrm.js">
+  <link rel="modulepreload" crossorigin href="./assets/meshBlendTagFragmentOutput-BRH6s5gV.js">
+  <link rel="modulepreload" crossorigin href="./assets/oitFragment-BX3jW996.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrDebug-CEvFDHdf.js">
+  <link rel="modulepreload" crossorigin href="./assets/samplerFragmentDeclaration-CEHqUfAO.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrIBLFunctions-s_OLNRwF.js">
+  <link rel="modulepreload" crossorigin href="./assets/subSurfaceScatteringFunctions-kzIx-1Od.js">
+  <link rel="modulepreload" crossorigin href="./assets/hdrFilteringFunctions-DYXzZGFY.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpFragmentMainFunctions-D0d3fcRr.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpFragmentFunctions-BtqTG-Jp.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpFragment-qvwADx5P.js">
+  <link rel="modulepreload" crossorigin href="./assets/samplerVertexImplementation-DUwTGCgo.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrUboDeclaration-C6VSFqZI.js">
+  <link rel="modulepreload" crossorigin href="./assets/mainUVVaryingDeclaration-BBamQlxR.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrBRDFFunctions-BCNINF-p.js">
+  <link rel="modulepreload" crossorigin href="./assets/harmonicsFunctions-BVq19rUD.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpVertexDeclaration-CP4xz8pV.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpVertex-matgJiZ9.js">
+  <link rel="modulepreload" crossorigin href="./assets/objectIdFunctions-yylhAVFR.js">
+  <link rel="modulepreload" crossorigin href="./assets/prePassDeclaration-COP2lVSj.js">
+  <link rel="modulepreload" crossorigin href="./assets/oitFragment-DbgsmPZH.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrDebug-BqaGz1G1.js">
+  <link rel="modulepreload" crossorigin href="./assets/samplerFragmentDeclaration-3yaLawFX.js">
+  <link rel="modulepreload" crossorigin href="./assets/pbrIBLFunctions-CZOjFl72.js">
+  <link rel="modulepreload" crossorigin href="./assets/subSurfaceScatteringFunctions-D1w5631e.js">
+  <link rel="modulepreload" crossorigin href="./assets/hdrFilteringFunctions-pzE3ktpd.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpFragmentMainFunctions-DkgncWl2.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpFragmentFunctions-CCuM6cKQ.js">
+  <link rel="modulepreload" crossorigin href="./assets/decalFragment-DYiNNNYb.js">
+  <link rel="modulepreload" crossorigin href="./assets/bumpFragment-DBk_MN3g.js">
+  <link rel="modulepreload" crossorigin href="./assets/openpbrUboDeclaration-Cg4zTwyX.js">
+  <link rel="modulepreload" crossorigin href="./assets/openpbrSubsurfaceLayerData-DpsV2wgM.js">
+  <link rel="modulepreload" crossorigin href="./assets/openpbrUboDeclaration-CbPGRvOI.js">
+  <link rel="modulepreload" crossorigin href="./assets/sceneFragmentDeclaration-ql3RpL9u.js">
+  <link rel="modulepreload" crossorigin href="./assets/openpbrSubsurfaceLayerData-DZgp0Qa4.js">
+  <link rel="modulepreload" crossorigin href="./assets/gaussianSplattingShared-ByBJQ-9z.js">
+  <link rel="modulepreload" crossorigin href="./assets/defaultUboDeclaration-C53xcSdv.js">
+  <link rel="modulepreload" crossorigin href="./assets/pointCloudVertex-CmkEsLzf.js">
+  <link rel="modulepreload" crossorigin href="./assets/defaultUboDeclaration-Dm3rcdMO.js">
+  <link rel="modulepreload" crossorigin href="./assets/gaussianPointSplatting-UwjdZPb8.js">
+  <link rel="modulepreload" crossorigin href="./assets/gaussianPointSplattingScan-COj6jNKT.js">
+  <link rel="modulepreload" crossorigin href="./assets/dumpTools.pure-DHZL7Hnl.js">
+  <link rel="modulepreload" crossorigin href="./assets/geometryRenderingFragment-DZg0Y277.js">
+  <link rel="modulepreload" crossorigin href="./assets/geometryRenderingFragment-po9sGJ7r.js">
+  <link rel="modulepreload" crossorigin href="./assets/screenSpaceRayTrace-BZRnp6Bu.js">
+  <link rel="modulepreload" crossorigin href="./assets/screenSpaceRayTrace-Z74_Mvl0.js">
+  <link rel="modulepreload" crossorigin href="./assets/kernelBlurVaryingDeclaration-DP2Wr9Oc.js">
+  <link rel="modulepreload" crossorigin href="./assets/kernelBlurVaryingDeclaration-g2Ge9lzd.js">
+  <link rel="modulepreload" crossorigin href="./assets/mrtFragmentDeclaration-BZpfWb0R.js">
+  <link rel="modulepreload" crossorigin href="./assets/boundingBoxRendererUboDeclaration-p4IHL4lf.js">
+  <link rel="modulepreload" crossorigin href="./assets/iblVoxelOpacityAtomicMax-C9BLvW0W.js">
+</head>
+<body>
+<canvas id="c" tabindex="0"></canvas>
+<div id="ui">
+  <div id="loc" class="panel" style="display:none"><small>الموقع</small><b></b></div>
+  <div id="obj" class="panel" style="display:none"><small>المهمة</small><span></span></div>
+  <div id="prompt" class="panel"><kbd>E</kbd><span></span></div>
+  <div id="hint" class="panel" style="display:none"><b>WASD</b> تحرك · <b>الماوس</b> كاميرا · <b>Shift</b> ركض سريع · <b>Space</b> قفز · <b>E</b> تفاعل · <b>Tab</b> القائمة</div>
+  <div id="stick"><div id="knob"></div></div>
+  <div id="tbtns"><button data-btn="sprint">ركض</button><button data-btn="jump">قفز</button><button data-btn="interact" class="big">تفاعل</button></div>
+  <button id="menuBtn" data-btn="menu" aria-label="القائمة">☰</button>
+  <div id="dlgBar" class="panel"><div id="dlgWho"></div><div id="dlgText"></div><div id="dlgChoices"></div><div id="dlgNext">اضغط <b>E</b> أو المس هنا للمتابعة</div></div>
+  <div id="toast" class="panel"></div>
+  <div id="caption"></div>
+  <div id="fps"></div>
+</div>
+<div id="fade"></div>
+<div id="modal"><div class="box panel"><h2></h2><div class="body"></div><div class="row"></div></div></div>
+<div id="load"><h1>الحرب العالمية</h1><div id="bar"><i></i></div><p id="loadTxt">تحميل المقر…</p><button id="start">ادخل المقر</button><button id="startNew" style="display:none">لعبة جديدة</button></div>
+</body>
+</html>
