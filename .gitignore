@@ -3,4 +3,3 @@ __pycache__/
 tools/.asset_cache/
 game3d/node_modules/
 game3d/dist/
-game3d/public/assets/chars/

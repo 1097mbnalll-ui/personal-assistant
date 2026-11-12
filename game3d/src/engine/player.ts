@@ -1,16 +1,18 @@
 // Third-person character: camera-relative movement with acceleration, sprint, jump, animation blending and a
 // spring-arm camera that never clips through walls.
-import { AbstractMesh, AnimationGroup, Color3, FreeCamera, Mesh, MeshBuilder, PBRMaterial, Ray, Scalar, Scene, TransformNode, Vector3 } from '@babylonjs/core';
+import { AbstractMesh, AnimationGroup, FreeCamera, Mesh, MeshBuilder, PBRMaterial, Ray, Scalar, Scene, TransformNode, Vector3 } from '@babylonjs/core';
 import { Assets } from './assets';
 import { Input } from './input';
 
-const WALK = 1.7, JOG = 3.9, SPRINT = 6.3, ACCEL = 26, DECEL = 30, AIR_CONTROL = .35, GRAVITY = -19, JUMP = 5.7, TURN = 13;
+const WALK = 1.35, JOG = 3.4, SPRINT = 6.0, ACCEL = 26, DECEL = 30, AIR_CONTROL = .35, GRAVITY = -19, JUMP = 5.7, TURN = 13;
 const RADIUS = .34, HEIGHT = 1.8;
 const FACE_OFFSET = 0;   // the avatar's forward axis relative to +Z after the glTF handedness flip
 
-export const CHAR_FILES = ['human', 'anim_idle', 'anim_idle2', 'anim_walk', 'anim_jog', 'anim_run', 'anim_jump', 'anim_fall', 'anim_talk', 'anim_talk2'];
-const CLIP_SPEED: Record<string, number> = { walk: 1.67, jog: 3.6, run: 5.6 };   // metres per second the mocap was recorded at
-export interface Look { top?: Color3; bottom?: Color3; shoes?: Color3; skin?: Color3; hair?: Color3; cap?: Color3; hat?: boolean }
+export const CLIPS = ['idle', 'idle2', 'look', 'walk', 'jog', 'run', 'talk', 'talk2', 'present', 'listen', 'nod', 'sit', 'work', 'docs'];
+export const MODELS_CHAR = ['officer', 'soldier_a', 'soldier_b', 'commander', 'soldier_f'];
+export const CHAR_FILES = [...MODELS_CHAR, ...CLIPS.map(c => 'anim_' + c)];
+/** metres per second each locomotion clip was authored at; measured from its root motion on first use */
+const CLIP_SPEED: Record<string, number> = { walk: 1.5, jog: 3.4, run: 5.6 };
 
 export class Character {
   readonly root: Mesh;                     // collision capsule (ellipsoid), centre at HEIGHT/2 above the feet
@@ -18,39 +20,39 @@ export class Character {
   private clips: Record<string, AnimationGroup> = {};
   private weights: Record<string, number> = {};
   velocity = new Vector3(); grounded = true; private airTime = 0; facing = 0; speed = 0;
-  /** when set, this clip plays instead of the locomotion blend (e.g. 'talk') */
+  /** when set, this clip plays instead of the locomotion blend (e.g. 'talk', 'sit') */
   pose: string | null = null;
-  constructor(readonly scene: Scene, assets: Assets, name: string, look: Look = {}) {
+  constructor(readonly scene: Scene, assets: Assets, readonly name: string, model = 'officer') {
     this.root = MeshBuilder.CreateBox('char:' + name, { size: .1 }, scene);
     this.root.isVisible = false; this.root.isPickable = false;
     this.root.ellipsoid = new Vector3(RADIUS, HEIGHT / 2, RADIUS); this.root.checkCollisions = false;
     this.visual = new TransformNode('vis:' + name, scene); this.visual.parent = this.root; this.visual.position.y = -HEIGHT / 2;
-    const inst = assets.container('human').instantiateModelsToScene(n => n, true, { doNotInstantiate: true });
+    const inst = assets.container(model).instantiateModelsToScene(n => n, false, { doNotInstantiate: true });
     inst.rootNodes.forEach(r => { r.parent = this.visual; });
     const nodes = new Map<string, TransformNode>();
     this.visual.getChildTransformNodes(false).forEach(n => nodes.set(n.name, n));
-    // skinned meshes report unreliable bounds, so measure the skeleton: lowest joint to highest joint
+    // skinned meshes report unreliable bounds, so measure the skeleton: lowest joint to highest joint (~93% of body height)
     let lo = 1e9, hi = -1e9;
     nodes.forEach(n => { n.computeWorldMatrix(true); const y = n.getAbsolutePosition().y; lo = Math.min(lo, y); hi = Math.max(hi, y); });
-    const holder = inst.rootNodes[0] as TransformNode; const k = hi - lo > 1e-4 ? HEIGHT / (hi - lo) : 1;
+    const holder = inst.rootNodes[0] as TransformNode; const k = hi - lo > 1e-4 ? HEIGHT * .93 / (hi - lo) : 1;
     this.visual.computeWorldMatrix(true); holder.scaling.scaleInPlace(k); holder.position.y -= (lo - this.visual.getAbsolutePosition().y) * k;
-    const meshes = this.visual.getChildMeshes(false);
-    meshes.forEach(m => { m.isPickable = false; m.alwaysSelectAsActiveMesh = true; m.receiveShadows = true; m.metadata = { noGlow: true }; if (assets.shadow) assets.shadow.addShadowCaster(m, false);
-      const mat = m.material as PBRMaterial | null; if (!mat) return; mat.maxSimultaneousLights = 8;
-      const tint = mat.name.includes('Outfit_Top') ? look.top : mat.name.includes('Outfit_Bottom') ? look.bottom : mat.name.includes('Footwear') ? look.shoes : /Skin|Body/.test(mat.name) ? look.skin : /Beard|Hair/.test(mat.name) ? look.hair : mat.name.includes('Headwear') ? look.cap : undefined;
-      // uniform: drop the civilian cloth print and keep only the fabric folds (normal map) under a plain service colour
-      if (tint) { if (/Outfit|Footwear/.test(mat.name)) { mat.albedoTexture = null; mat.roughness = .82; mat.metallic = 0; mat.metallicTexture = null; } mat.albedoColor = tint; } });
-    // retarget the mocap clips onto this body by joint name; drop root motion (the controller owns the position)
-    for (const key of ['idle', 'idle2', 'walk', 'jog', 'run', 'jump', 'fall', 'talk', 'talk2']) {
+    this.visual.getChildMeshes(false).forEach(m => { m.isPickable = false; m.alwaysSelectAsActiveMesh = true; m.receiveShadows = true; m.metadata = { noGlow: true }; if (assets.shadow) assets.shadow.addShadowCaster(m, false);
+      const mat = m.material as PBRMaterial | null; if (mat) { mat.maxSimultaneousLights = 8; mat.environmentIntensity = .9; } });
+    // attach the shared clips to this body by joint name; root motion is removed (the controller owns the position)
+    const bip = nodes.get('Bip01'); bip?.computeWorldMatrix(true);
+    const unit = bip?.parent ? (bip.parent as TransformNode).absoluteScaling.x : 1;
+    for (const key of CLIPS) {
       if (!assets.has('anim_' + key)) continue;
       const src = assets.container('anim_' + key).animationGroups[0]; if (!src) continue;
       const g = new AnimationGroup(name + ':' + key, scene);
       for (const ta of src.targetedAnimations) {
         const target = nodes.get((ta.target as TransformNode).name); if (!target) continue;
         let anim = ta.animation;
-        if (target.name === 'Hips' && anim.targetProperty === 'position') {
-          anim = anim.clone(); const keys = anim.getKeys(); const x0 = keys[0].value.x, z0 = keys[0].value.z;
-          keys.forEach(kf => { kf.value = new Vector3(x0, kf.value.y, z0); }); anim.setKeys(keys);
+        if (target.name === 'Bip01' && anim.targetProperty === 'position') {
+          anim = anim.clone(); const keys = anim.getKeys(); const f0 = keys[0].frame, span = keys[keys.length - 1].frame - f0 || 1;
+          const drift = (keys[keys.length - 1].value as Vector3).subtract(keys[0].value as Vector3);
+          if (CLIP_SPEED[key] !== undefined && drift.length() * unit > .3) CLIP_SPEED[key] = drift.length() * unit / ((src.to - src.from) / (anim.framePerSecond || 60));
+          keys.forEach(kf => { kf.value = (kf.value as Vector3).subtract(drift.scale((kf.frame - f0) / span)); }); anim.setKeys(keys);
         }
         g.addTargetedAnimation(anim, target);
       }
@@ -87,19 +89,20 @@ export class Character {
   /** turn smoothly towards a world point (used by NPCs and conversations) */
   faceTowards(x: number, z: number, dt: number) { const t = Math.atan2(x - this.position.x, z - this.position.z); let d = t - this.facing; d = Math.atan2(Math.sin(d), Math.cos(d)); this.facing += d * Math.min(1, 6 * dt); this.visual.rotation.y = this.facing + FACE_OFFSET; }
   animate(dt: number) {
-    const s = this.speed; const t: Record<string, number> = {};
+    const s = this.speed; const t: Record<string, number> = {}; const air = !this.grounded && this.airTime > .12;
     if (this.pose && this.clips[this.pose]) t[this.pose] = 1;
-    else if (!this.grounded && this.airTime > .12) t[this.velocity.y > 1 && this.clips.jump ? 'jump' : 'fall'] = 1;
+    else if (air) t.jog = 1;                                   // no jump clip in the library: hold a slowed stride in the air
     else if (s < .12) t.idle = 1;
-    else if (s < CLIP_SPEED.walk) { const k = s / CLIP_SPEED.walk; t.walk = Math.max(k, .6); t.idle = 1 - t.walk; }
+    else if (s < CLIP_SPEED.walk) { t.walk = Math.max(s / CLIP_SPEED.walk, .6); t.idle = 1 - t.walk; }
     else if (s < CLIP_SPEED.jog) { const k = (s - CLIP_SPEED.walk) / (CLIP_SPEED.jog - CLIP_SPEED.walk); t.jog = k; t.walk = 1 - k; }
-    else { const k = Scalar.Clamp((s - CLIP_SPEED.jog) / (CLIP_SPEED.run - CLIP_SPEED.jog), 0, 1); t.run = k; t.jog = 1 - k; }
+    else { const k = Scalar.Clamp((s - CLIP_SPEED.jog) / Math.max(.1, CLIP_SPEED.run - CLIP_SPEED.jog), 0, 1); t.run = k; t.jog = 1 - k; }
     for (const n in this.clips) {
-      const w = this.weights[n] = Scalar.Lerp(this.weights[n], t[n] ?? 0, Math.min(1, dt * (n === 'jump' || n === 'fall' ? 14 : 9)));
+      const w = this.weights[n] = Scalar.Lerp(this.weights[n], t[n] ?? 0, Math.min(1, dt * 9));
       this.clips[n].setWeightForAllAnimatables(w < .002 ? 0 : w);
     }
-    for (const n of ['walk', 'jog', 'run']) if (this.clips[n]) this.clips[n].speedRatio = Scalar.Clamp(s / CLIP_SPEED[n], .75, 1.35);
+    for (const n of ['walk', 'jog', 'run']) if (this.clips[n]) this.clips[n].speedRatio = air ? .3 : Scalar.Clamp(s / CLIP_SPEED[n], .7, 1.4);
   }
+  clipSpeeds() { return { ...CLIP_SPEED }; }
 }
 
 export class PlayerController {

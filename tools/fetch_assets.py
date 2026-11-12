@@ -3,13 +3,12 @@
 
 Sources (all free to redistribute):
   * Poly Haven (https://polyhaven.com) — models, PBR textures, HDRIs. License: CC0.
-  * Ready Player Me — human avatar (from the three.js examples) and motion-capture clips (animation-library).
-    Free to use in a game, not to redistribute as files, so they are downloaded here and never committed.
+  * Microsoft Rocketbox (https://github.com/microsoft/Microsoft-Rocketbox) — human avatars and animation clips. License: MIT.
 
 Raw downloads are cached in tools/.asset_cache (git-ignored). Outputs go to game3d/public/assets and ARE committed,
 so the game builds without network access. Run:  python3 tools/fetch_assets.py   (needs game3d/node_modules).
 """
-import json, os, subprocess, sys, urllib.request
+import json, os, shutil, subprocess, sys, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.join(ROOT, 'tools', '.asset_cache')
@@ -103,18 +102,70 @@ def hdri(name):
     get(url, dst); return True
 
 
-RPM_ANIMS = {'idle': 'idle/M_Standing_Idle_001', 'idle2': 'idle/M_Standing_Idle_Variations_001', 'walk': 'locomotion/M_Walk_001', 'jog': 'locomotion/M_Jog_001',
-             'run': 'locomotion/M_Run_001', 'jump': 'locomotion/M_Jog_Jump_001', 'fall': 'locomotion/M_Falling_Idle_002',
-             'talk': 'expression/M_Talking_Variations_001', 'talk2': 'expression/M_Talking_Variations_002'}
+# ---- characters: Microsoft Rocketbox avatar library (MIT). Human soldiers/officers + animation clips on one skeleton.
+RB_REPO = 'https://github.com/microsoft/Microsoft-Rocketbox.git'
+RB_AVATARS = {'officer': 'Professions/Military_Male_02', 'soldier_a': 'Professions/Military_Male_05', 'soldier_b': 'Professions/Military_Male_06',
+              'commander': 'Professions/Pilot_Male_01', 'soldier_f': 'Professions/Military_Female_01'}
+RB_ANIMS = {'idle': 'static/m_idle_neutral_01', 'idle2': 'static/m_idle_breathe_01', 'look': 'static/m_idle_look_around_01', 'walk': 'xy/m_walk_neutral_01',
+            'jog': 'xy/m_run_neutral_01', 'run': 'xy/m_run_fast_01', 'talk': 'static/m_gestic_talk_neutral_01', 'talk2': 'static/m_gestic_talk_neutral_02',
+            'present': 'static/m_gestic_presentation_right_01', 'listen': 'static/m_gestic_listen_neutral_01', 'nod': 'static/m_gestic_listen_accept_01',
+            'sit': 'static/m_sit_table_idle_neutral_01', 'work': 'static/m_work_table', 'docs': 'static/m_documents_idle'}
+FBX2GLTF = os.path.join(ROOT, 'game3d', 'node_modules', 'fbx2gltf', 'bin', 'Linux', 'FBX2glTF')
+
+
+def rb_git(*a):
+    return subprocess.run(['git', '-C', os.path.join(CACHE, 'rocketbox'), *a], capture_output=True)
+
+
+def rb_file(path, dst):
+    if os.path.exists(dst) and os.path.getsize(dst) > 0:
+        return True
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    r = rb_git('show', 'HEAD:' + path)
+    if r.returncode:
+        print('missing in rocketbox:', path, file=sys.stderr); return False
+    open(dst, 'wb').write(r.stdout); return True
 
 
 def character():
-    """Human avatar + motion-capture clips. NOT committed (see .gitignore): the Ready Player Me animation licence allows
-    use inside a game but not redistribution of the files, so every checkout fetches them with this script."""
+    """Avatars and clips are converted FBX -> GLB (FBX2glTF), textures TGA -> PNG -> WebP. MIT licensed, so the results are committed."""
+    from PIL import Image
     d = os.path.join(OUT, 'chars')
-    get('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/gltf/readyplayer.me.glb', os.path.join(d, 'human.glb'))
-    for name, path in RPM_ANIMS.items():
-        get(f'https://raw.githubusercontent.com/readyplayerme/animation-library/master/masculine/glb/{path}.glb', os.path.join(d, f'anim_{name}.glb'))
+    want = [os.path.join(d, k + '.glb') for k in RB_AVATARS] + [os.path.join(d, 'anim_' + k + '.glb') for k in RB_ANIMS]
+    if all(os.path.exists(p) for p in want):
+        return
+    repo = os.path.join(CACHE, 'rocketbox')
+    if not os.path.exists(repo):
+        subprocess.run(['git', 'clone', '-q', '--depth', '1', '--filter=blob:none', '--no-checkout', RB_REPO, repo], check=True)
+    listing = rb_git('ls-tree', '-r', 'HEAD', '--name-only').stdout.decode().split('\n')
+    for key, rel in RB_AVATARS.items():
+        dst = os.path.join(d, key + '.glb')
+        if os.path.exists(dst):
+            continue
+        name = rel.split('/')[-1]; work = os.path.join(CACHE, 'rb', name); tex = os.path.join(work, 'png')
+        os.makedirs(tex, exist_ok=True)
+        rb_file(f'Assets/Avatars/{rel}/Export/{name}.fbx', os.path.join(work, name + '.fbx'))
+        for p in listing:
+            if p.startswith(f'Assets/Avatars/{rel}/Textures/') and ('_color' in p or '_normal' in p) and p.endswith('.tga'):
+                tga = os.path.join(work, os.path.basename(p)); png = os.path.join(tex, os.path.basename(p)[:-4] + '.png')
+                if not os.path.exists(png) and rb_file(p, tga):
+                    im = Image.open(tga).convert('RGB')
+                    if '_normal' in p:      # 3ds Max normal maps are DirectX style; glTF wants OpenGL (green up)
+                        r_, g_, b_ = im.split(); im = Image.merge('RGB', (r_, g_.point(lambda v: 255 - v), b_))
+                    im.save(png)
+        raw = os.path.join(work, 'raw.glb'); tx = os.path.join(work, 'tex.glb')
+        run(FBX2GLTF, '--binary', '--input', os.path.join(work, name + '.fbx'), '--output', raw)
+        run('node', os.path.join(ROOT, 'game3d', 'scripts', 'rb_textures.mjs'), raw, tx, tex)
+        run(GT, 'optimize', tx, dst, '--compress', 'false', '--texture-compress', 'webp', '--texture-size', '2048', '--simplify', 'false', '--join', 'false', '--flatten', 'false', '--prune', 'false', '--weld', 'false', '--instance', 'false', '--palette', 'false', '--resample', 'false')
+    for key, rel in RB_ANIMS.items():
+        dst = os.path.join(d, 'anim_' + key + '.glb')
+        if os.path.exists(dst):
+            continue
+        folder, clip = rel.split('/'); src = os.path.join(CACHE, 'rb', 'anims', clip + '.fbx')
+        if rb_file(f'Assets/Animations/all_animations_max_motextr_{folder}/{clip}.max.fbx', src):
+            tmp = src[:-4] + '.glb'
+            run(FBX2GLTF, '--binary', '--input', src, '--output', tmp)
+            run(GT, 'resample', tmp, dst) or shutil.copy(tmp, dst)
 
 
 if __name__ == '__main__':

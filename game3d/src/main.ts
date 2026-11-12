@@ -10,8 +10,6 @@ import { HQ, MODELS } from './world/hq';
 import { Hud } from './ui/hud';
 
 type Quality = 'low' | 'medium' | 'high';
-const lin = (hex: string) => Color3.FromHexString(hex).toLinearSpace();
-const UNIFORM = { top: lin('#4a5238'), bottom: lin('#454c35'), shoes: lin('#1a1814') };
 const params = new URLSearchParams(location.search);
 const canvas = document.getElementById('c') as HTMLCanvasElement;
 const isTouch = matchMedia('(pointer:coarse)').matches;
@@ -36,7 +34,7 @@ async function boot() {
 
   await assets.preload(MODELS, CHAR_FILES, (d, t) => hud.loading(d / t, 'تحميل المقر…'));
   const hq = new HQ(scene, assets, inter); hq.build();
-  const body = new Character(scene, assets, 'player', UNIFORM); body.teleport(0, -3.4, 0);
+  const body = new Character(scene, assets, 'player', 'officer'); body.teleport(0, -3.4, 0);
   const player = new PlayerController(scene, body, input);
 
   // ---- post-processing

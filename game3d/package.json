@@ -15,7 +15,9 @@
   },
   "devDependencies": {
     "@gltf-transform/cli": "^4.5.1",
+    "fbx2gltf": "^0.9.7-p1",
     "typescript": "^7.0.2",
-    "vite": "^8.3.8"
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }
