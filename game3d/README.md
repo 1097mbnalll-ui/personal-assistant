@@ -34,7 +34,10 @@ headless browser: walk, door, briefing, report, tactical table, launch cinematic
   cinematic timeline (`LaunchSite.setTime`), research upgrades that appear in the lab (`Upgrades`).
 - `src/ui/hud.ts`, `src/ui/panels.ts`, `index.html` — Arabic RTL HUD, conversation bar, terminal panels (all values from the sim).
 - `src/main.ts` — boot, lighting (HDRI + shadowed key + room lamps), post-processing (SSAO, bloom, ACES), game loop.
-- Quality tiers `?q=low|medium|high` (also in the Tab menu); touch devices default to low. `?new=1` ignores the save.
+- Quality tiers `?q=low|medium|high` (also in the Tab menu). Default is picked from the GPU: phones and software/
+  mobile GPUs → low (512 px textures, `models_lo/`, `chars_lo/`, `tex/512/`), Intel/integrated → medium (1k), others → high.
+  If a start crashes before the game is ready, the next visit steps down one tier; WebGL context loss shows a message.
+  Lighting environment is a pre-filtered `env/hq.env` (no float textures needed). `?new=1` ignores the save.
 
 ## Milestones
 1. **Done** — project, third-person movement, HQ shell, doors.

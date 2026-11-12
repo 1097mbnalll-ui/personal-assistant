@@ -168,11 +168,34 @@ def character():
             run(GT, 'resample', tmp, dst) or shutil.copy(tmp, dst)
 
 
+def tiers():
+    """Lower-resolution copies for weaker GPUs and phones (GPU memory, not download size, is what crashes them):
+    models_lo/ (512 px textures), chars at 1024 + chars_lo/ (512), tex/1k/ and tex/512/."""
+    for src_dir, lo_dir, size in (('models', 'models_lo', 512), ('chars', 'chars_lo', 512)):
+        os.makedirs(os.path.join(OUT, lo_dir), exist_ok=True)
+        for f in sorted(os.listdir(os.path.join(OUT, src_dir))):
+            src, dst = os.path.join(OUT, src_dir, f), os.path.join(OUT, lo_dir, f)
+            if f.endswith('.glb') and not f.startswith('anim_') and not os.path.exists(dst):
+                run(GT, 'resize', src, dst, '--width', str(size), '--height', str(size))
+    for f in sorted(os.listdir(os.path.join(OUT, 'chars'))):        # characters: 1024 is plenty at third-person distance
+        p = os.path.join(OUT, 'chars', f)
+        if f.endswith('.glb') and not f.startswith('anim_') and os.path.getsize(p) > 1_500_000:
+            run(GT, 'resize', p, p + '.tmp.glb', '--width', '1024', '--height', '1024') and os.replace(p + '.tmp.glb', p)
+    for sub, size in (('1k', 1024), ('512', 512)):
+        d = os.path.join(OUT, 'tex', sub); os.makedirs(d, exist_ok=True)
+        for f in sorted(os.listdir(os.path.join(OUT, 'tex'))):
+            src, dst = os.path.join(OUT, 'tex', f), os.path.join(d, f)
+            if f.endswith('.webp') and not os.path.exists(dst):
+                q = 88 if '_nor' in f else 80
+                run('node', '-e', "import('sharp').then(m=>m.default(process.argv[1]).resize(%d).webp({quality:%d}).toFile(process.argv[2]))" % (min(size, 1024 if '_arm' in f else size), q), src, dst)
+
+
 if __name__ == '__main__':
     for sub in ('models', 'tex', 'env', 'chars'):
         os.makedirs(os.path.join(OUT, sub), exist_ok=True)
     os.chdir(os.path.join(ROOT, 'game3d'))
     got = {'models': [m for m in MODELS if model(m)], 'textures': [t for t in TEXTURES if texture(t)], 'hdris': [h for h in HDRIS if hdri(h)]}
     character()
+    tiers()
     json.dump(got, open(os.path.join(OUT, 'manifest.json'), 'w'), indent=1)
     print({k: len(v) for k, v in got.items()})

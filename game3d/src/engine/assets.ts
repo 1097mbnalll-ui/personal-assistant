@@ -14,10 +14,13 @@ export class Assets {
   private containers = new Map<string, AssetContainer>();
   private mats = new Map<string, PBRMaterial>();
   shadow: ShadowGenerator | null = null;
-  constructor(readonly scene: Scene) {}
+  /** asset tier: 'low' = 512 px textures everywhere (phones, weak GPUs), 'medium' = 1k, 'high' = 1k props + 2k surfaces */
+  constructor(readonly scene: Scene, readonly tier: 'low' | 'medium' | 'high' = 'high') {}
+  private get modelDir() { return this.tier === 'high' ? 'models/' : 'models_lo/'; }
+  private get texDir() { return this.tier === 'high' ? 'tex/' : this.tier === 'medium' ? 'tex/1k/' : 'tex/512/'; }
 
   async preload(models: string[], chars: string[], onProgress: (done: number, total: number) => void) {
-    const jobs = [...models.map(m => ['models/' + m, m] as const), ...chars.map(c => ['chars/' + c, c] as const)];
+    const jobs = [...models.map(m => [this.modelDir + m, m] as const), ...chars.map(c => [(c.startsWith('anim_') || this.tier !== 'low' ? 'chars/' : 'chars_lo/') + c, c] as const)];
     let done = 0;
     await Promise.all(jobs.map(async ([path, key]) => {
       try {
@@ -61,7 +64,7 @@ export class Assets {
     let m = this.mats.get(key);
     if (m) return m;
     m = new PBRMaterial('m:' + key, this.scene);
-    const t = (k: string) => { const x = new Texture(`${BASE}tex/${tex}_${k}.webp`, this.scene, false, true); x.anisotropicFilteringLevel = 8; return x; };
+    const t = (k: string) => { const x = new Texture(`${BASE}${this.texDir}${tex}_${k}.webp`, this.scene, false, true); x.anisotropicFilteringLevel = 8; return x; };
     m.albedoTexture = t('diff'); m.bumpTexture = t('nor'); m.bumpTexture.level = opts.bump ?? 1; m.metallicTexture = t('arm');
     m.useAmbientOcclusionFromMetallicTextureRed = true; m.useRoughnessFromMetallicTextureGreen = true; m.useMetallnessFromMetallicTextureBlue = true;
     m.metallic = opts.metal ?? 1; m.roughness = opts.rough ?? 1;
