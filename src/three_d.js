@@ -229,7 +229,7 @@ function update3D(){
   else focus3D(0,20,V.cv.clientWidth<600?980:1060,0)}
  if(V.sel>=0&&V.info&&G){const t=$('tip3');t.textContent=V.info(V.sel);t.style.display='block'}
  V.dirty=true;V.texDirty=true;V.winDirty=true}
-function actorNow(){return G&&['market','cards','move','attack'].includes(G.phase)&&G.queue&&G.queue[G.qi]!=null?G.queue[G.qi]:null}
+function actorNow(){if(G&&G.net)return ME;return G&&['market','cards','move','attack'].includes(G.phase)&&G.queue&&G.queue[G.qi]!=null?G.queue[G.qi]:null}
 function kBounds(k){let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;R.forEach((r,i)=>{if(r.k!==k)return;V.reg[i].ring.forEach(p=>{x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);z0=Math.min(z0,p[1]);z1=Math.max(z1,p[1])})});
  return{cx:(x0+x1)/2,cz:(z0+z1)/2,hx:(x1-x0)/2,hz:(z1-z0)/2,dist:Math.max(x1-x0,z1-z0)*(V.cv.clientWidth<600?1.7:1.35)+90}}
 function kFocus(){const p=G.players[V.me];V.kb=kBounds(p.k);focus3D(V.kb.cx,V.kb.cz+10,V.kb.dist,0,.85)}
@@ -246,7 +246,7 @@ function renderKingdom(){
  let a=actorNow();if(a!=null&&G.players[a].ai)a=null;if(a!=null)V.me=a;
  const pi=V.me,p=G.players[pi],o=owned(pi).sort((x,y)=>(isPalace(y)-isPalace(x))||(R[y].size>R[x].size?1:-1));
  const troops=o.reduce((s,i)=>s+G.reg[i].troops,0);
- let h='<h3>داخل مملكتك</h3><div class="row" style="margin-bottom:8px">'+G.players.map((q,qi)=>`<button data-p="${qi}" class="${qi===pi?'sel':''}" ${q.ai||(a!=null&&qi!==a)?'disabled':''} style="min-height:34px;padding:2px 10px"><span class="sw" style="background:${K[q.k].fill}"></span>${K[q.k].short}</button>`).join('')+'</div>';
+ let h='<h3>داخل مملكتك</h3><div class="row" style="margin-bottom:8px">'+G.players.map((q,qi)=>`<button data-p="${qi}" class="${qi===pi?'sel':''}" ${q.ai||(G.net&&qi!==ME)||(a!=null&&qi!==a)?'disabled':''} style="min-height:34px;padding:2px 10px"><span class="sw" style="background:${K[q.k].fill}"></span>${K[q.k].short}</button>`).join('')+'</div>';
  h+=`<div style="font-weight:700;font-size:16px">${sw(p)}${p.name}${p.alive?'':' (خرجت)'}</div><div class="muted">${K[p.k].ab}</div>`;
  h+=`<div class="kstat"><span>الذهب: <b>${p.gold}</b></span><span>الجنود: <b>${troops}</b></span><span>المناطق: <b>${o.length}</b></span><span>الوزير: <b>${MIN_NAMES[p.minister]}</b> (+${p.minister})</span><span>المعسكرات: <b>${o.filter(i=>G.reg[i].camp).length}/2</b></span><span>النقاط الحالية: <b>${score(pi).total}</b></span></div>`;
  h+=`<div class="kstat"><span>صواريخ: <b>${p.mis.n}</b> عادي · <b>${p.mis.h}</b> ثقيل</span><span>الدفاع الجوي: <b>${p.def||'—'}</b></span><span>الاستقرار: <b>${p.s.stab}%</b></span><span>الجاهزية: <b>${READY[p.s.ready]}</b></span><span>الاستخبارات: <b>${p.intel||'—'}</b></span><span>معاهدات: <b>${G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi)).map(x=>K[G.players[x.a===pi?x.b:x.a].k].short).join('، ')||'—'}</b></span></div>`;

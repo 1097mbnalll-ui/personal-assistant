@@ -145,7 +145,7 @@ function calcIncome(pi,f,final){const p=G.players[pi],s=p.s,o=owned(pi);const L=
  inc.total=Object.values(inc).reduce((a,b)=>a+b,0);return inc}
 function incParts(c){return Object.keys(c).filter(k=>k!=='total'&&c[k]).map(k=>INC_L[k]+' '+(c[k]>0?'+':'−')+Math.abs(c[k]))}
 function simSettle(pi){const p=G.players[pi],s=p.s;
- if(p.gold<0){const d=-p.gold;p.gold=0;s.debt+=d;s.infl+=5;s.stab-=5;log(p.name+' عجزت عن سداد التزاماتها: اقتراض اضطراري '+d+' ذهب.')}
+ if(p.gold<0){const d=-p.gold;p.gold=0;s.debt+=d;s.infl+=5;s.stab-=5;logp(pi,p.name+' عجزت عن سداد التزاماتها: اقتراض اضطراري '+d+' ذهب.')}
  let d=[5,0,-7][s.tax]+(s.ready===2?-4:0)+(s.debt>5?-3:0)+(s.infl>=15?-3:0)+(rep(pi)>=15?2:0)+(p.card==='peace'&&!p.attacked?2:0)+(s.stab<65?2:s.stab>65?-1:0);
  G.crises.forEach(c=>{if(c.a===pi||c.b===pi)d-=1});
  s.stab=clamp(s.stab+d,0,100);s.infl=Math.max(0,s.infl-3+(s.ready===2?3:0));
@@ -155,20 +155,20 @@ function natScore(pi){const s=G.players[pi].s;return(s.stab>=75?1:0)-Math.floor(
 /* ---------- national decisions (each costs one operation) ---------- */
 function setReady(pi,v){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||v===s.ready||s.readyR===G.round)return;const up=v>s.ready;s.ready=v;s.readyR=G.round;p.buys++;
  log(p.name+' أعلنت وضع «'+READY[v]+'»');if(up)others(pi).forEach(q=>relAdd(q,pi,-3*v));simSignal(pi,'تغيّر وضع الجاهزية إلى '+READY[v]);refresh()}
-function setTax(pi,v){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||v===s.tax)return;s.tax=v;p.buys++;log(p.name+' عدّلت الضرائب إلى '+TAX[v]);refresh()}
-function borrow(pi){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||s.debt>=10)return;p.gold+=4;s.debt+=5;s.infl+=6;p.buys++;log(p.name+' اقترضت 4 ذهب من البنك الدولي');refresh()}
-function repay(pi){const p=G.players[pi],s=p.s;const n=Math.min(5,s.debt);if(!canAct(pi)||!hasOp(p)||n<=0||p.gold<n)return;p.gold-=n;s.debt-=n;p.buys++;log(p.name+' سددت '+n+' من ديونها');refresh()}
+function setTax(pi,v){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||v===s.tax)return;s.tax=v;p.buys++;logp(pi,p.name+' عدّلت الضرائب إلى '+TAX[v]);refresh()}
+function borrow(pi){const p=G.players[pi],s=p.s;if(!canAct(pi)||!hasOp(p)||s.debt>=10)return;p.gold+=4;s.debt+=5;s.infl+=6;p.buys++;logp(pi,p.name+' اقترضت 4 ذهب من البنك الدولي');refresh()}
+function repay(pi){const p=G.players[pi],s=p.s;const n=Math.min(5,s.debt);if(!canAct(pi)||!hasOp(p)||n<=0||p.gold<n)return;p.gold-=n;s.debt-=n;p.buys++;logp(pi,p.name+' سددت '+n+' من ديونها');refresh()}
 function indCost(p){return(p.s.ind?6:4)+(p.s.infl>=15?1:0)}
-function buildInd(pi){const p=G.players[pi],s=p.s,c=indCost(p);if(!canAct(pi)||!hasOp(p)||s.ind>=2||p.gold<c)return;p.gold-=c;s.ind++;p.buys++;log(p.name+' وسّعت قاعدتها الصناعية للمستوى '+s.ind);refresh()}
+function buildInd(pi){const p=G.players[pi],s=p.s,c=indCost(p);if(!canAct(pi)||!hasOp(p)||s.ind>=2||p.gold<c)return;p.gold-=c;s.ind++;p.buys++;logp(pi,p.name+' وسّعت قاعدتها الصناعية للمستوى '+s.ind);refresh()}
 function fuelCost(pi){return sancOn(pi).length?2:1}
-function buyFuel(pi){const p=G.players[pi],s=p.s,c=fuelCost(pi);if(!canAct(pi)||!hasOp(p)||p.gold<c||s.fuel>=8)return;p.gold-=c;s.fuel=Math.min(8,s.fuel+2);p.buys++;log(p.name+' استوردت وقود');refresh()}
+function buyFuel(pi){const p=G.players[pi],s=p.s,c=fuelCost(pi);if(!canAct(pi)||!hasOp(p)||p.gold<c||s.fuel>=8)return;p.gold-=c;s.fuel=Math.min(8,s.fuel+2);p.buys++;logp(pi,p.name+' استوردت وقود');refresh()}
 function rdSlots(p){return p.s.ind>=1?2:1}
 function rdWhy(p,id){const T=TECH[id],s=p.s;if(s.tech[id])return'done';if(s.rd.some(x=>x.id===id))return'run';
  const miss=(T.req||[]).filter(r=>!s.tech[r]);if(miss.length)return'يحتاج: '+miss.map(r=>TECH[r].n).join('، ');
  if(T.ind&&s.ind<T.ind)return'يحتاج قاعدة صناعية مستوى '+T.ind;if(T.intel&&p.intel<T.intel)return'يحتاج استخبارات مستوى '+T.intel;return''}
 function rdCost(p,id){return TECH[id].c+(p.s.infl>=15?1:0)}
 function startRD(pi,id){const p=G.players[pi],s=p.s,T=TECH[id];if(!T||!canAct(pi)||!hasOp(p)||rdWhy(p,id)||s.rd.length>=rdSlots(p)||p.gold<rdCost(p,id))return;
- p.gold-=rdCost(p,id);s.rd.push({id,left:T.t,total:T.t});p.buys++;log(p.name+' موّلت برنامج بحث وتطوير');simSignal(pi,'تمويل برنامج «'+T.n+'»');refresh()}
+ p.gold-=rdCost(p,id);s.rd.push({id,left:T.t,total:T.t});p.buys++;logp(pi,p.name+' موّلت برنامج بحث وتطوير');simSignal(pi,'تمويل برنامج «'+T.n+'»');refresh()}
 function rdStage(pr){const done=pr.total-pr.left;return pr.retest?STAGES[2]+' (إعادة)':STAGES[Math.min(2,Math.floor(done/pr.total*3))]}
 function sanction(pi,ti){const p=G.players[pi],t=G.players[ti];if(!canAct(pi)||!hasOp(p)||!t||pi===ti||pactWith(pi,ti)||G.sanc.some(x=>x.a===pi&&x.b===ti))return;
  const un=Math.min(G.maxRound,G.round+2);G.sanc.push({a:pi,b:ti,until:un});p.buys++;relAdd(ti,pi,-20);log(p.name+' فرضت عقوبات اقتصادية على '+t.name+' حتى الجولة '+un);cable(ti,p.name+' فرضت علينا عقوبات: دخل التجارة والصناعة ينقص والوقود أغلى.');refresh()}

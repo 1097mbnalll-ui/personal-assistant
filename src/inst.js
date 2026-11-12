@@ -108,7 +108,7 @@ intel:{
   <h3>الأرشيف</h3><p class="muted">${n} تقرير محفوظ في ${Object.keys(s.dos).length} ملف. تُحفظ آخر 5 تقارير لكل دولة.</p>`}},
 foreign:{
  neg(pi,p,act){const ps=G.pacts.filter(x=>x.until>=G.round&&(x.a===pi||x.b===pi)),sel=tgtSel(pi),ti=V.mT;
-  return `<h3>المعاهدات السارية</h3>${ps.map(x=>`<div class="doc"><span class="cls">حتى ج${x.until}</span>عدم اعتداء مع ${G.players[x.a===pi?x.b:x.a].name}</div>`).join('')||'<p class="muted">لا يوجد.</p>'}
+  return `${offersHtml(pi)}<h3>المعاهدات السارية</h3>${ps.map(x=>`<div class="doc"><span class="cls">حتى ج${x.until}</span>عدم اعتداء مع ${G.players[x.a===pi?x.b:x.a].name}</div>`).join('')||'<p class="muted">لا يوجد.</p>'}
   <label for="mT">المملكة:</label> ${sel} <span class="muted">نظرتهم لنا: ${relWord(G.rel[ti][pi])} (${G.rel[ti][pi]})</span>
   <div class="btns">
   <button onclick="proposePact(${pi},${ti})" ${dis(act&&!pactWith(pi,ti))}>اقتراح معاهدة<br><span class="muted">عدم اعتداء 3 جولات</span></button>
@@ -143,6 +143,7 @@ function aiBest(pi){const p=G.players[pi];let best=null;attackTargets(pi).forEac
   const Dr=G.reg[t].troops,o=G.reg[t].owner;const Ae=A+sumM(atkMods(pi,t,{sup,noFuel:p.s.fuel<1}));const De=Dr+(Dr>0&&R[t].size==='S'?1:0)+(Dr>0&&o!=null?1:0);
   const val=(R[t].size==='L'?3:R[t].size==='M'?2:1)+(o!=null&&G.players[o].palace===t?2:0)+(o!=null&&G.rel[pi][o]<-20?1:0);const sc=(Ae-De)*2+val+Math.random()*4;if(Ae>De&&(!best||sc>best.sc))best={t,sc}});return best}
 function aiMarket(pi){const p=G.players[pi],s=p.s;
+ if(G.net&&G.offers)G.offers.filter(o=>o.b===pi).forEach(o=>answerPact(pi,o.id,aiPactOK(pi,o.a)));
  if(p.aiM!==G.round){p.aiM=G.round;const foe=aiFoe(pi);const mx=Math.max(0,...others(pi).map(q=>s.threat[q]?s.threat[q].lvl:0));
   const want=mx>=4?2:mx>=3?1:0;if(want!==s.ready&&(want<s.ready||p.gold>=want+2))setReady(pi,want);
   if(s.stab<40&&s.tax!==0)setTax(pi,0);else if(s.stab>78&&s.tax===0)setTax(pi,1);
@@ -170,7 +171,7 @@ function aiMove(pi){const brd=i=>NB[i].some(j=>G.reg[j].owner!=null&&G.reg[j].ow
 function aiAttack(pi){const p=G.players[pi],b=aiBest(pi);p.att=null;
  if(b){onRegion(b.t);const a=p.att;if(a){for(const j in a.from)a.from[j]=Math.max(0,movable(+j)-(isPalace(+j)?0:1));if(!Object.values(a.from).some(v=>v>0))p.att=null}}
  hideCurtain();next(resolve)}
-function aiAct(){const p=P();if(!G||!p||!p.ai)return;const pi=PI(),ph=G.phase;
+function aiAct(){const p=P();if(!G||!p||!isBot(p))return;const pi=PI(),ph=G.phase;
  if(ph==='market')aiMarket(pi);else if(ph==='cards')chooseCard(aiCard(pi));else if(ph==='move'){aiMove(pi);next(startAttack)}else if(ph==='attack')aiAttack(pi)}
-function aiSchedule(){if(!G||V.instant||aiSchedule.h)return;if(!['market','cards','move','attack'].includes(G.phase))return;const p=P();if(!p||!p.ai||G.aim)return;
+function aiSchedule(){if(!G||G.net||V.instant||aiSchedule.h)return;if(!['market','cards','move','attack'].includes(G.phase))return;const p=P();if(!p||!p.ai||G.aim)return;
  aiSchedule.h=setTimeout(()=>{aiSchedule.h=null;if(!G||G.wait)return;aiAct()},650)}

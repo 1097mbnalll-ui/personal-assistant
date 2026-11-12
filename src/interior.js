@@ -99,7 +99,7 @@ function fxDraw(now){const b=fxBuild(now);if(!b||!b.d.length)return;if(V.fxBuf)f
 function fxPrune(now){V.fx=V.fx.filter(f=>now<f.t0+f.T*1000+200)}
 
 /* ---------- world draw ---------- */
-function hlSets(){const hl=new Set(),aim=new Set();let src=-1,tg=-1;const pi=G&&G.queue?G.queue[G.qi]:null;
+function hlSets(){const hl=new Set(),aim=new Set();let src=-1,tg=-1;const pi=G&&G.queue?PI():null;
  if(G&&G.aim)missileTargets(G.aim.pi).forEach(i=>aim.add(i));
  else if(G&&pi!=null){
   if(G.phase==='market'){const p=G.players[pi];if(p.placing==='camp')owned(pi).filter(i=>!G.reg[i].camp).forEach(i=>hl.add(i));else if(p.reserve>0)placeTargets(pi).forEach(i=>hl.add(i))}
