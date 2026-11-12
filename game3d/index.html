@@ -34,6 +34,7 @@ body.touch #menuBtn{display:block}
 #load h1{margin:0;font-size:clamp(40px,9vw,72px);background:linear-gradient(180deg,#fff1c8,#d9ae55 55%,#8a6420);-webkit-background-clip:text;background-clip:text;color:transparent}
 #bar{width:min(420px,70vw);height:5px;background:#1c2833;border-radius:3px;overflow:hidden}#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#b98a2e,#f3d58c);transition:width .2s}
 #load p{color:var(--mu);margin:0;font-size:13px}
+#startNew{pointer-events:auto;background:none;border:none;color:var(--mu);text-decoration:underline;font:15px inherit;cursor:pointer}
 #start{pointer-events:auto;display:none;padding:14px 44px;border-radius:12px;border:1px solid var(--gd2);background:linear-gradient(180deg,#e7be62,#b98a2e);color:#1a1205;font:700 19px inherit;cursor:pointer}
 #modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,10,.6);pointer-events:auto;z-index:4}
 #modal .box{width:min(720px,100%);max-height:86vh;overflow:auto;padding:20px 22px;touch-action:pan-y}
@@ -45,6 +46,36 @@ body.touch #menuBtn{display:block}
 #modal button.primary{background:linear-gradient(180deg,#e7be62,#b98a2e);color:#1a1205;border-color:var(--gd2)}
 #modal button.sel{background:#2f5470;border-color:#5c8cb0}
 #fps{position:absolute;bottom:6px;left:8px;font:11px monospace;color:#6b7d8a;direction:ltr}
+
+.strip{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;padding:7px 12px;background:rgba(255,255,255,.05);border:1px solid var(--ln);border-radius:9px;margin-bottom:10px}.strip b{color:var(--gd2)}
+#modal h3{margin:16px 0 6px;color:var(--gd2);font-size:15px}
+.doc{background:rgba(255,255,255,.045);border:1px solid var(--ln);border-inline-start:3px solid var(--gd);border-radius:7px;padding:8px 12px;margin:7px 0;font-size:14px;line-height:1.75}
+.cls{display:inline-block;font-size:11px;font-weight:700;border:1px solid var(--gd);color:var(--gd2);border-radius:4px;padding:0 7px;margin-inline-end:8px}
+.mu{color:var(--mu);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+#modal .body button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:right;width:100%}
+#modal .body button small{color:var(--mu);font-size:12px;font-weight:400}
+#modal .body button:disabled{opacity:.42;cursor:not-allowed}
+#modal .body button.danger{border-color:#a8402c;background:linear-gradient(180deg,#5a2318,#3a160f)}
+#modal .body button.primary small{color:#3a2a08}
+#modal .wide{margin-top:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.tabs button{width:auto!important;min-height:36px!important;padding:4px 12px!important}
+.node{background:rgba(255,255,255,.045);border:1px solid var(--ln);border-radius:9px;padding:9px 11px;display:flex;flex-direction:column;gap:6px;font-size:14px}.node.done{border-color:#4e9a5b}.node.locked{opacity:.6}
+.tg{display:inline-block;font-size:12px;border-radius:4px;padding:1px 8px;font-weight:700;align-self:flex-start}.tg.ok{background:#3e8a4c;color:#fff}.tg.run{background:#c9a227;color:#221}.tg.lock{background:#6a443e;color:#fff}
+.bar{height:6px;background:#1c2833;border-radius:3px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#b98a2e,#f3d58c)}
+canvas.map{width:100%;height:auto;border-radius:9px;border:1px solid var(--ln);display:block}
+#dlgBar{position:absolute;left:50%;bottom:max(26px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(820px,94vw);padding:14px 20px;display:none;pointer-events:auto!important;border-inline-start:4px solid var(--gd)}
+#dlgWho{color:var(--gd2);font-weight:700;font-size:14px;margin-bottom:4px}#dlgText{font-size:17px;line-height:1.8;min-height:58px}
+#dlgNext{color:var(--mu);font-size:12.5px;margin-top:6px}#dlgChoices{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+#dlgChoices button{pointer-events:auto;min-height:44px;padding:8px 18px;border-radius:10px;border:1px solid var(--ln);background:#16222d;color:var(--tx);font:600 15px inherit;cursor:pointer}
+#dlgChoices button.primary{background:linear-gradient(180deg,#e7be62,#b98a2e);color:#1a1205;border-color:var(--gd2)}
+#toast{position:absolute;left:50%;top:max(74px,calc(env(safe-area-inset-top) + 60px));transform:translateX(-50%);padding:10px 18px;display:none;font-weight:600;max-width:92vw;text-align:center}
+#toast.in{animation:tin .35s ease}@keyframes tin{from{opacity:0;transform:translate(-50%,-10px)}}
+#fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .9s;z-index:3}
+#caption{position:absolute;left:50%;bottom:12%;transform:translateX(-50%);font-size:clamp(18px,3vw,28px);font-weight:700;letter-spacing:2px;text-shadow:0 2px 12px #000;display:none;white-space:nowrap}
+body.cine #loc,body.cine #obj,body.cine #hint,body.cine #prompt,body.cine #tbtns,body.cine #menuBtn{display:none!important}
+body.cine::before,body.cine::after{content:'';position:fixed;left:0;right:0;height:9vh;background:#000;z-index:2}body.cine::before{top:0}body.cine::after{bottom:0}
+body.alarm #ui::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 120px 30px rgba(255,40,20,.55);animation:al .9s ease-in-out infinite;pointer-events:none}@keyframes al{50%{opacity:.25}}
 </style>
 </head>
 <body>
@@ -57,10 +88,14 @@ body.touch #menuBtn{display:block}
   <div id="stick"><div id="knob"></div></div>
   <div id="tbtns"><button data-btn="sprint">ركض</button><button data-btn="jump">قفز</button><button data-btn="interact" class="big">تفاعل</button></div>
   <button id="menuBtn" data-btn="menu" aria-label="القائمة">☰</button>
+  <div id="dlgBar" class="panel"><div id="dlgWho"></div><div id="dlgText"></div><div id="dlgChoices"></div><div id="dlgNext">اضغط <b>E</b> أو المس هنا للمتابعة</div></div>
+  <div id="toast" class="panel"></div>
+  <div id="caption"></div>
   <div id="fps"></div>
 </div>
+<div id="fade"></div>
 <div id="modal"><div class="box panel"><h2></h2><div class="body"></div><div class="row"></div></div></div>
-<div id="load"><h1>الحرب العالمية</h1><div id="bar"><i></i></div><p id="loadTxt">تحميل المقر…</p><button id="start">ادخل المقر</button></div>
+<div id="load"><h1>الحرب العالمية</h1><div id="bar"><i></i></div><p id="loadTxt">تحميل المقر…</p><button id="start">ادخل المقر</button><button id="startNew" style="display:none">لعبة جديدة</button></div>
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

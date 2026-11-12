@@ -31,9 +31,9 @@ export class HQ {
   build() {
     const A = this.A;
     const wallPaint = A.mat('plastered_wall_02', new Color3(.93, .93, .9)), wallOps = A.mat('concrete_wall_008', new Color3(.5, .56, .62));
-    const wallOffice = A.mat('beige_wall_001', new Color3(.95, .93, .88)), wallLab = A.mat('white_plaster_02', new Color3(.95, .96, .97));
+    const wallOffice = A.mat('beige_wall_001', new Color3(.95, .93, .88)), wallLab = A.mat('plastered_wall_02', new Color3(.9, .93, .96));
     const dado = A.mat('plastered_wall_02', new Color3(.33, .4, .36)), dadoOffice = A.mat('wood_table_001', new Color3(.9, .85, .8), { rough: .8 }), dadoOps = A.mat('concrete_wall_008', new Color3(.2, .24, .29));
-    const dadoLab = A.mat('white_plaster_02', new Color3(.42, .5, .58));
+    const dadoLab = A.mat('plastered_wall_02', new Color3(.3, .38, .46));
     // ---- floors & ceilings
     this.floor('office', A.mat('laminate_floor_02', new Color3(.78, .7, .62), { rough: .85 }), 2.4);
     this.floor('corridor', A.mat('granite_tile', new Color3(.8, .8, .8), { rough: .75 }), 2.4);
@@ -165,7 +165,7 @@ export class HQ {
     }
     P('desk_lamp_arm_01', -11.7, 9.4, 30, { y: .79, collide: false }); P('binder_notebook', -8.1, 13.6, 40, { y: .79, collide: false }); P('clipboard', -12.9, 13.4, -20, { y: .79, collide: false });
     P('vintage_radio_transceiver', -15.3, 17.6, 90, { y: .79, collide: false }); P('metal_office_desk', -15.2, 17.2, 90); P('metal_stool_01', -14.1, 17.2, 0); P('binoculars', -15.3, 16.5, 120, { y: .79, collide: false });
-    P('drawer_cabinet', -15.55, 8, 90); P('drawer_cabinet', -15.55, 9.2, 90); P('drawer_cabinet', -15.55, 10.4, 90); P('steel_frame_shelves_03', -5.5, 19.5, 0); P('steel_frame_shelves_03', -8.2, 19.5, 0);
+    P('drawer_cabinet', -15.55, 8, 90); P('drawer_cabinet', -15.55, 9.2, 90); P('drawer_cabinet', -15.55, 10.4, 90); P('steel_frame_shelves_03', -4.6, 19.5, 0); P('steel_frame_shelves_03', -13.6, 19.5, 0);
     P('standing_chalkboard_01', -3.4, 8, -40); P('potted_plant_01', -2.8, 19.2, 0); P('wall_clock', -9, 6.14, 180, { y: 2.4, collide: false });
     for (const [x, z] of [[-12.5, 10], [-6.5, 10], [-12.5, 16], [-6.5, 16]] as const) this.lamp(x, z, 3.2, .85);
     this.screen('intelWall', -9, 1.75, 19.84, 0, 3.4, 1.5);

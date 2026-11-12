@@ -16,7 +16,8 @@ jobs:
         with: { node-version: 22, cache: npm, cache-dependency-path: game3d/package-lock.json }
       - run: npm ci
         working-directory: game3d
-      - run: python3 tools/fetch_assets.py   # character + motion-capture clips are downloaded here, never committed
+      - run: npm test
+        working-directory: game3d
       - run: npm run build
         working-directory: game3d
       - run: mkdir -p game3d/dist/classic && cp dist/index.html game3d/dist/classic/index.html

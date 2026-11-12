@@ -9,8 +9,9 @@ The owner wants a premium third-person 3D game (single-player first, realistic l
 migration was dropped: the owner's laptop (i5, 16 GB, no dedicated GPU) cannot run it. The 3D game is built with
 **Babylon.js + TypeScript + Vite** in `game3d/` (see `game3d/README.md` for layout, milestones and known defects) and
 will be wrapped as an Android APK later. Libraries are allowed there. The classic game below stays as the rules
-reference; do not break it. Assets come from Poly Haven (CC0, committed) and Ready Player Me (fetched, not committed)
-via `tools/fetch_assets.py`. Verify visuals with headless screenshots before claiming anything about how it looks.
+reference; do not break it. Assets come from Poly Haven (CC0) and Microsoft Rocketbox (MIT, human soldiers + clips), all committed,
+via `tools/fetch_assets.py`. Game state lives in the headless sim `game3d/src/sim/campaign.ts`; the 3D world only reacts to it.
+Run `npm test` and `node tests/e2e.cjs` in `game3d/` after changes. Verify visuals with headless screenshots before claiming anything about how it looks.
 The owner cares most about: characters that look human and realistic, high visual quality, good controls.
 
 ## Owner's standing rules (important)
