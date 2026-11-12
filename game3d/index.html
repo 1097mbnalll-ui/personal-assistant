@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#05080c">
+<title>الحرب العالمية</title>
+<style>
+:root{--gd:#d9ae55;--gd2:#f3d58c;--tx:#e6ecf0;--mu:#93a4b0;--pn:rgba(8,13,18,.78);--ln:rgba(255,255,255,.14)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#05080c;color:var(--tx);font-family:"Cairo","Noto Sans Arabic","Segoe UI",system-ui,sans-serif;user-select:none;-webkit-user-select:none;touch-action:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;outline:none}
+#ui{position:fixed;inset:0;pointer-events:none}
+#ui>*{pointer-events:none}
+.panel{background:var(--pn);border:1px solid var(--ln);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:12px}
+#loc{position:absolute;top:max(14px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));padding:8px 16px;border-inline-start:3px solid var(--gd)}
+#loc small{display:block;color:var(--mu);font-size:11px;letter-spacing:2px}#loc b{font-size:17px}
+#obj{position:absolute;top:max(14px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));padding:8px 14px;max-width:min(360px,60vw);font-size:13.5px;line-height:1.6}
+#obj small{display:block;color:var(--gd2);font-size:11px;letter-spacing:2px}
+#prompt{position:absolute;left:50%;bottom:22%;transform:translateX(-50%);padding:9px 18px;display:none;align-items:center;gap:10px;font-size:16px;font-weight:600;white-space:nowrap}
+#prompt kbd{background:var(--gd);color:#1a1205;border-radius:6px;padding:1px 9px;font:700 14px system-ui}
+#hint{position:absolute;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);padding:6px 14px;font-size:12.5px;color:var(--mu);white-space:nowrap}
+#hint b{color:var(--tx)}
+body.touch #hint{display:none}
+#stick{position:absolute;display:none;width:120px;height:120px;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
+#knob{position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.75)}
+#tbtns{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));display:none;gap:14px;align-items:flex-end;direction:ltr}
+body.touch #tbtns{display:flex}
+#tbtns button,#menuBtn{pointer-events:auto;width:66px;height:66px;border-radius:50%;border:2px solid rgba(255,255,255,.4);background:rgba(10,16,22,.55);color:#fff;font:700 13px inherit}
+#tbtns button.big{width:82px;height:82px;border-color:var(--gd);color:var(--gd2)}#tbtns button.on{background:var(--gd);color:#1a1205}
+#menuBtn{position:absolute;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:44px;height:44px;font-size:18px;display:none}
+body.touch #menuBtn{display:block}
+#load{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(900px 500px at 50% 30%,#1b2b3a 0,transparent 70%),#05080c;transition:opacity .6s;z-index:5}
+#load h1{margin:0;font-size:clamp(40px,9vw,72px);background:linear-gradient(180deg,#fff1c8,#d9ae55 55%,#8a6420);-webkit-background-clip:text;background-clip:text;color:transparent}
+#bar{width:min(420px,70vw);height:5px;background:#1c2833;border-radius:3px;overflow:hidden}#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#b98a2e,#f3d58c);transition:width .2s}
+#load p{color:var(--mu);margin:0;font-size:13px}
+#start{pointer-events:auto;display:none;padding:14px 44px;border-radius:12px;border:1px solid var(--gd2);background:linear-gradient(180deg,#e7be62,#b98a2e);color:#1a1205;font:700 19px inherit;cursor:pointer}
+#modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(3,6,10,.6);pointer-events:auto;z-index:4}
+#modal .box{width:min(720px,100%);max-height:86vh;overflow:auto;padding:20px 22px;touch-action:pan-y}
+#modal h2{margin:0 0 10px;color:var(--gd2);font-size:22px;border-bottom:1px solid var(--ln);padding-bottom:8px}
+#modal .body{line-height:1.9;font-size:15px}
+#modal table{width:100%;border-collapse:collapse}#modal td{padding:5px 4px;border-bottom:1px solid var(--ln)}#modal td:last-child{color:var(--gd2);text-align:left;direction:ltr}
+#modal .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+#modal button{pointer-events:auto;min-height:44px;padding:8px 18px;border-radius:10px;border:1px solid var(--ln);background:#16222d;color:var(--tx);font:600 15px inherit;cursor:pointer}
+#modal button.primary{background:linear-gradient(180deg,#e7be62,#b98a2e);color:#1a1205;border-color:var(--gd2)}
+#modal button.sel{background:#2f5470;border-color:#5c8cb0}
+#fps{position:absolute;bottom:6px;left:8px;font:11px monospace;color:#6b7d8a;direction:ltr}
+</style>
+</head>
+<body>
+<canvas id="c" tabindex="0"></canvas>
+<div id="ui">
+  <div id="loc" class="panel" style="display:none"><small>الموقع</small><b></b></div>
+  <div id="obj" class="panel" style="display:none"><small>المهمة</small><span></span></div>
+  <div id="prompt" class="panel"><kbd>E</kbd><span></span></div>
+  <div id="hint" class="panel" style="display:none"><b>WASD</b> تحرك · <b>الماوس</b> كاميرا · <b>Shift</b> ركض سريع · <b>Space</b> قفز · <b>E</b> تفاعل · <b>Tab</b> القائمة</div>
+  <div id="stick"><div id="knob"></div></div>
+  <div id="tbtns"><button data-btn="sprint">ركض</button><button data-btn="jump">قفز</button><button data-btn="interact" class="big">تفاعل</button></div>
+  <button id="menuBtn" data-btn="menu" aria-label="القائمة">☰</button>
+  <div id="fps"></div>
+</div>
+<div id="modal"><div class="box panel"><h2></h2><div class="body"></div><div class="row"></div></div></div>
+<div id="load"><h1>الحرب العالمية</h1><div id="bar"><i></i></div><p id="loadTxt">تحميل المقر…</p><button id="start">ادخل المقر</button></div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

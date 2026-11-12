@@ -4,6 +4,15 @@ Turn-based strategy game for a friend group (4 players), played in Chrome. Start
 game (see `docs/original-idea.txt`), redesigned to last 30–60 minutes. The owner speaks Gulf Arabic:
 **reply to the owner in Arabic**, keep the UI in Arabic (RTL).
 
+## Current direction (Nov 2026): 3D game in `game3d/`
+The owner wants a premium third-person 3D game (single-player first, realistic look, human characters). An Unreal
+migration was dropped: the owner's laptop (i5, 16 GB, no dedicated GPU) cannot run it. The 3D game is built with
+**Babylon.js + TypeScript + Vite** in `game3d/` (see `game3d/README.md` for layout, milestones and known defects) and
+will be wrapped as an Android APK later. Libraries are allowed there. The classic game below stays as the rules
+reference; do not break it. Assets come from Poly Haven (CC0, committed) and Ready Player Me (fetched, not committed)
+via `tools/fetch_assets.py`. Verify visuals with headless screenshots before claiming anything about how it looks.
+The owner cares most about: characters that look human and realistic, high visual quality, good controls.
+
 ## Owner's standing rules (important)
 - **Show preview pictures before changing the live game** and wait for an explicit OK. No long code/prompt dumps.
 - Goal for visuals: realistic and attractive. Interiors: "as realistic as possible". The WWII/Cold-War
