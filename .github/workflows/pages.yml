@@ -1,11 +1,12 @@
-# Builds the 3D game (game3d/) and publishes it with GitHub Pages. The classic browser game is kept under /classic/.
-# One-time setup by the repository owner: Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+# Tests and builds the 3D game (game3d/) and publishes it to the gh-pages branch, which GitHub Pages serves.
+# The classic browser game is kept under /classic/.
 name: Deploy game
 on:
   push:
-    paths: ['game3d/**', 'tools/fetch_assets.py', 'dist/**', '.github/workflows/pages.yml']
+    branches-ignore: [gh-pages]
+    paths: ['game3d/**', 'dist/**', '.github/workflows/pages.yml']
   workflow_dispatch:
-permissions: { contents: read, pages: write, id-token: write }
+permissions: { contents: write }
 concurrency: { group: pages, cancel-in-progress: true }
 jobs:
   build:
@@ -20,13 +21,9 @@ jobs:
         working-directory: game3d
       - run: npm run build
         working-directory: game3d
-      - run: mkdir -p game3d/dist/classic && cp dist/index.html game3d/dist/classic/index.html
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: game3d/dist }
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: { name: github-pages, url: '${{ steps.d.outputs.page_url }}' }
-    steps:
-      - id: d
-        uses: actions/deploy-pages@v4
+      - name: Publish to gh-pages
+        run: |
+          mkdir -p game3d/dist/classic && cp dist/index.html game3d/dist/classic/index.html && touch game3d/dist/.nojekyll
+          cd game3d/dist && git init -q -b gh-pages && git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Publish ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
